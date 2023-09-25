@@ -1,6 +1,5 @@
-import React from "react";
 import S from "./Login.styled";
-import LogoImage from "../../../assets/logo/logo.png";
+import LogoImage from "../../assets/logo/logo.png";
 
 function Login() {
   return (
