@@ -6,6 +6,7 @@ import Product from "./pages/Product/Product";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
 import Nav from "./components/Nav/Nav";
+
 function App() {
   return (
     <Router>
