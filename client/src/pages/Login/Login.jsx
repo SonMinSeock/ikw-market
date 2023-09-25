@@ -2,7 +2,7 @@ import * as S from "./Login.style";
 import LogoImage from "../../assets/logo/logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-
+import Logo from "../../components/Logo/Logo";
 function Login() {
   const { naver } = window;
   const navigate = useNavigate();
@@ -64,12 +64,7 @@ function Login() {
 
   return (
     <S.LoginSection>
-      <S.LoginHeader>
-        <S.LoginLogoBox>
-          <img src={LogoImage} alt="로고 이미지" />
-          <h2>경운마켓</h2>
-        </S.LoginLogoBox>
-      </S.LoginHeader>
+      <Logo />
       <S.LoginButtonBox>
         <S.LoginButton id="kakao">카카오 로그인</S.LoginButton>
         <div id="naverIdLogin" />
