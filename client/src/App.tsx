@@ -5,12 +5,12 @@ import Profile from "./pages/Profile/Profile";
 import Product from "./pages/Product/Product";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
-import Nav from "./components/Nav/Nav";
+import Layout from "./components/Layout/Layout";
 function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Nav />}>
+        <Route path="/" element={<Layout />}>
           <Route path="main" element={<Main />} />
           <Route path="profile" element={<Profile />} />
           <Route path="product" element={<Product />} />
