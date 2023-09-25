@@ -1,4 +1,4 @@
-import S from "./Login.styled";
+import * as S from "./Login.style";
 import LogoImage from "../../assets/logo/logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
