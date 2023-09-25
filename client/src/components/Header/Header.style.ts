@@ -13,6 +13,10 @@ export const Header = styled.header`
   max-width: 80rem;
   margin: 0 auto;
   z-index: 999;
+
+  h2 {
+    margin-bottom: 15px;
+  }
 `;
 
 export const Input = styled.input`
