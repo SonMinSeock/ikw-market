@@ -17,6 +17,6 @@ export const MainSection = styled.section`
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;
   justify-content: space-between;
-  width: 800px;
   margin-top: 42px;
+  gap: 25px;
 `;

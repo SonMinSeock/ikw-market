@@ -6,6 +6,9 @@ export const ProductLayout = styled.div`
 export const ProductImg = styled.img`
   width: 220px;
   border-radius: 10px;
+  @media screen and (max-width: 860px) {
+    width: 100px;
+  }
 `;
 export const ProductInfoBox = styled.div`
   display: flex;
