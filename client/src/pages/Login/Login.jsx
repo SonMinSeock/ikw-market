@@ -1,5 +1,4 @@
 import * as S from "./Login.style";
-import LogoImage from "../../assets/logo/logo.png";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/Logo/Logo";
@@ -7,12 +6,9 @@ function Login() {
   const { naver } = window;
   const navigate = useNavigate();
 
-  const NAVER_CLIENT_ID = "pjzQMKEYCIadgjpObQpq"; // 발급 받은 Client ID 입력
-  const NAVER_CALLBACK_URL = "http://localhost:3000/login"; // 작성했던 Callback URL 입력
-
   const naverLogin = new naver.LoginWithNaverId({
-    clientId: NAVER_CLIENT_ID,
-    callbackUrl: NAVER_CALLBACK_URL,
+    clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
+    callbackUrl: process.env.REACT_APP_CALLBACK_URL,
     isPopup: false, // 팝업창으로 로그인을 진행할 것인지?
     loginButton: { color: "green", type: 3, height: 50 }, // 버튼 타입 ( 색상, 타입, 크기 변경 가능 )
   });
