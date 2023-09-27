@@ -30,6 +30,7 @@ export const ToogleBtn = styled.div`
 export const MenuBox = styled.div<{ $isMenu: boolean }>`
   position: absolute;
   right: 0;
+  background-color: #fff;
   margin-top: 10px;
   margin-right: 10px;
   display: ${(prop) => (prop.$isMenu ? "flex" : "none")};
