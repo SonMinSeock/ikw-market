@@ -39,6 +39,12 @@ export const LoginButtonBox = styled.div`
   display: flex;
   flex-direction: column;
   border-radius: 0.5rem;
+  & #kakao {
+    width: 100%;
+    height: 50px;
+    margin-bottom: 0.9rem;
+    cursor: pointer;
+  }
 `;
 
 export const LoginButton = styled.button`
@@ -49,11 +55,7 @@ export const LoginButton = styled.button`
   font-weight: bold;
   padding: 0.3rem;
   cursor: pointer;
-  &#kakao {
-    background-color: #fee501;
-    color: #443f1c;
-    margin-bottom: 0.9rem;
-  }
+
   &#naver {
     background-color: #2db500;
     color: #ffffff;
