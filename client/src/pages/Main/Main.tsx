@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./Main.style";
 
-import Products from "../../components/ProductList/Products";
+import Products from "../../components/ProductList/ProductList";
 
 const Main = () => {
   return (

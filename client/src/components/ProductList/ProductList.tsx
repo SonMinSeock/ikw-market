@@ -1,6 +1,6 @@
 import React from "react";
 import Product from "../atoms/Product/Product";
-import { ProductsLayout } from "./Products.style";
+import { ProductsLayout } from "./ProductList.style";
 interface IProduct {
   img: string;
   name: string;

@@ -5,7 +5,7 @@ import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
 import Layout from "./components/Layout/Layout";
-import Products from "./components/ProductList/Products";
+import Products from "./components/ProductList/ProductList";
 
 function App() {
   return (
