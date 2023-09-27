@@ -16,6 +16,10 @@ export const Header = styled.header`
   background-color: #fff;
   h2 {
     margin-bottom: 15px;
+
+    @media screen and (max-width: 860px) {
+      display: none;
+    }
   }
 `;
 

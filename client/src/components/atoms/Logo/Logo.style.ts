@@ -15,8 +15,5 @@ export const LogoBox = styled.div`
     display: flex;
     align-items: flex-end;
     font-family: "GmarketSansMedium";
-    @media screen and (max-width: 860px) {
-      display: none;
-    }
   }
 `;

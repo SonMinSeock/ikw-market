@@ -1,7 +1,7 @@
 import React from "react";
 import * as S from "./Header.style";
-import Logo from "../Logo/Logo";
-import Nav from "../Nav/Nav";
+import Logo from "../atoms/Logo/Logo";
+import Nav from "../atoms/Nav/Nav";
 const Header = () => {
   return (
     <S.Header>

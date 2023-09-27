@@ -1,7 +1,7 @@
 import * as S from "./Login.style";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Logo from "../../components/Logo/Logo";
+import Logo from "../../components/atoms/Logo/Logo";
 import axios from "axios";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
 
