@@ -1,42 +1,148 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import * as S from "./Upload.style";
 import { BiImageAdd } from "react-icons/bi";
+import { TiDelete } from "react-icons/ti";
+import Resizer from "react-image-file-resizer";
+import { useForm } from "react-hook-form";
+
+interface IForm {
+  name: string;
+  price: number;
+  location: string;
+  description: string;
+}
+
 const Upload = () => {
   const uploadImgInput = useRef() as any;
-  const onClickImgBtn = () => {
-    uploadImgInput.current.click();
+  const { register, watch, handleSubmit, setValue } = useForm<IForm>();
+  const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
+
+  // form submit
+  const onValid = (data: any) => {
+    if (fileList.length === 0) {
+      alert("사진을 등록해주세요");
+      return;
+    }
   };
+
+  // 가격(price) input 콤마 및 최대 길이
+  const onChangePriceInput = (e: any) => {
+    const inputValue = e.target.value;
+    const maxLength = 11; // 원하는 최대 길이로 설정 (예: 8)
+
+    // 길이가 최대 길이를 초과하는 경우, 입력값을 최대 길이로 자름
+    if (inputValue.length > maxLength) {
+      const trimmedValue = inputValue.slice(0, maxLength);
+      setValue("price", trimmedValue); // 최대 길이로 자른 값을 필드에 설정
+    } else {
+      const numericValue = inputValue.replace(/\D/g, ""); // 숫자 외의 문자 제거
+      const formattedValue = Number(numericValue).toLocaleString("ko-KR");
+      setValue("price", formattedValue as any); // 숫자만 입력된 값을 다시 필드에 설정
+    }
+  };
+
+  // 이미지 등록 버튼
+  const onClickImgBtn = () => {
+    if (fileList.length > 2) {
+      alert("사진은 최대 3개까지 첨부할 수 있습니다");
+    } else {
+      uploadImgInput.current.click();
+    }
+  };
+
+  // 이미지 삭제 버튼
+  const onClickDeleteBtn = (idx: number) => {
+    const tmpFileList = [...fileList];
+    tmpFileList.splice(idx, 1);
+    setFileList(tmpFileList);
+  };
+
+  // 이미지 최적화, 미리보기
+  const onChangeImgInput = (e: any) => {
+    e.preventDefault();
+    const files = e.target.files;
+    const newFileList: string[] = [];
+
+    if (files.length > 3) {
+      alert("사진은 최대 3개까지 첨부할 수 있습니다");
+      return;
+    }
+
+    if (files) {
+      for (let i = 0; i < files.length; i++) {
+        Resizer.imageFileResizer(
+          files[i],
+          500, // 원하는 너비 설정
+          500, // 원하는 높이 설정
+          "WEBQ", // 이미지 포맷 (원하는 포맷으로 변경 가능)
+          100, // 이미지 품질 (원하는 품질로 변경 가능)
+          0, // 회전 각도 (회전하지 않으려면 0)
+          (uri) => {
+            newFileList.push(uri as string);
+            if (newFileList.length === files.length) {
+              setFileList([...fileList, ...newFileList]);
+            }
+          },
+          "base64" // 출력 형식
+        );
+      }
+    }
+  };
+
   return (
     <S.UploadLayout>
       <S.UploadTitle>상품 등록</S.UploadTitle>
       <S.UploadImgBox>
         <S.UploadImgList>
-          <S.UploadImgInput ref={uploadImgInput} type="file" accept="image/jpg, image/jpeg, image/png" multiple />
+          <S.UploadImgInput
+            onChange={onChangeImgInput}
+            ref={uploadImgInput}
+            type="file"
+            accept="image/jpg, image/jpeg, image/png"
+            multiple
+          />
           <S.UploadImgBtn onClick={onClickImgBtn}>
             <BiImageAdd size={50} />
             <span>상품 이미지 등록</span>
           </S.UploadImgBtn>
-          <S.UploadImgItem />
-          <S.UploadImgItem />
-          <S.UploadImgItem />
+          {fileList.map((file, idx) => (
+            <S.UploadImgRow key={idx}>
+              <S.UploadImgItem src={file} />
+              <div>
+                <TiDelete onClick={() => onClickDeleteBtn(idx)} fill="fill" size={35} />
+              </div>
+            </S.UploadImgRow>
+          ))}
         </S.UploadImgList>
       </S.UploadImgBox>
-      <S.UploadForm>
+
+      <S.UploadForm onSubmit={handleSubmit(onValid)}>
         <S.UploadInputBox>
-          <label>상품명</label>
-          <S.UploadInput />
+          <label>제목</label>
+          <S.UploadInput
+            {...register("name", { required: true, minLength: 5, maxLength: 15 })}
+            placeholder="최소 5글자"
+          />
         </S.UploadInputBox>
         <S.UploadInputBox>
           <label>가격</label>
-          <S.UploadInput />
+          <S.UploadInput
+            {...register("price", { required: true })}
+            onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러
+            inputMode="numeric" // 숫자 입력 모드 설정
+          />
+          <span>원</span>
         </S.UploadInputBox>
         <S.UploadInputBox>
           <label>거래위치</label>
-          <S.UploadInput />
+          <S.UploadInput {...register("location", { required: true })} placeholder="ex) 2호관, 운동장 .. " />
         </S.UploadInputBox>
         <S.UploadTextAreaBox>
           <label>상품설명</label>
-          <S.UploadTextArea />
+          <S.UploadTextArea
+            {...register("description", { required: true })}
+            placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요."
+          />
         </S.UploadTextAreaBox>
         <S.UploadFormBtn type="submit">등록하기</S.UploadFormBtn>
       </S.UploadForm>

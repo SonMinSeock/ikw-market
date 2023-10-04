@@ -24,7 +24,7 @@ export const UploadImgBox = styled.div`
 export const UploadImgList = styled.div`
   display: flex;
   flex-wrap: no-wrap;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   gap: 20px;
   @media screen and (max-width: 500px) {
@@ -45,8 +45,18 @@ export const UploadImgBtn = styled.div`
   height: 200px;
   flex: 0 0 auto;
 `;
+export const UploadImgRow = styled.div`
+  display: flex;
+  position: relative;
+  div {
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+  }
+`;
 export const UploadImgItem = styled.img`
   flex: 0 0 auto;
+  border-radius: 10px;
   width: 200px;
   height: 200px;
 `;
@@ -55,7 +65,7 @@ export const UploadImgInput = styled.input`
   display: none;
 `;
 
-export const UploadForm = styled.div`
+export const UploadForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
@@ -63,12 +73,18 @@ export const UploadForm = styled.div`
 `;
 export const UploadInputBox = styled.div`
   display: flex;
+  position: relative;
   align-items: center;
   height: 56px;
 
   label {
     display: flex;
     width: 100px;
+  }
+  span {
+    position: absolute;
+    right: 0;
+    margin-right: 10px;
   }
 `;
 export const UploadInput = styled.input`
