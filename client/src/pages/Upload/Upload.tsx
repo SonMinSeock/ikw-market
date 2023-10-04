@@ -4,6 +4,7 @@ import { BiImageAdd } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
 import Resizer from "react-image-file-resizer";
 import { useForm } from "react-hook-form";
+import axios from "axios";
 
 interface IForm {
   name: string;
@@ -18,12 +19,23 @@ const Upload = () => {
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
 
   // form submit
-  const onValid = (data: any) => {
+  const onValid = async (data: IForm) => {
     if (fileList.length === 0) {
       alert("사진을 등록해주세요");
       return;
     }
-    console.log(data);
+    const formData = await axios
+      .post("http://localhost:3002/", {
+        product_name: data.name,
+        product_images: fileList,
+        product_price: data.price,
+        location: data.location,
+        description: data.description,
+        // seller_info:
+      })
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+    return formData;
   };
 
   // 가격(price) input 콤마 및 최대 길이
