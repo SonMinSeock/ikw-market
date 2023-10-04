@@ -59,6 +59,7 @@ export const UploadImgItem = styled.img`
   border-radius: 10px;
   width: 200px;
   height: 200px;
+  object-fit: cover;
 `;
 
 export const UploadImgInput = styled.input`

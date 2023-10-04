@@ -14,7 +14,7 @@ interface IForm {
 
 const Upload = () => {
   const uploadImgInput = useRef() as any;
-  const { register, watch, handleSubmit, setValue } = useForm<IForm>();
+  const { register, handleSubmit, setValue } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
 
   // form submit
@@ -23,6 +23,7 @@ const Upload = () => {
       alert("사진을 등록해주세요");
       return;
     }
+    console.log(data);
   };
 
   // 가격(price) input 콤마 및 최대 길이
@@ -74,7 +75,7 @@ const Upload = () => {
           files[i],
           500, // 원하는 너비 설정
           500, // 원하는 높이 설정
-          "WEBQ", // 이미지 포맷 (원하는 포맷으로 변경 가능)
+          "WEBP", // 이미지 포맷 (원하는 포맷으로 변경 가능)
           100, // 이미지 품질 (원하는 품질로 변경 가능)
           0, // 회전 각도 (회전하지 않으려면 0)
           (uri) => {
