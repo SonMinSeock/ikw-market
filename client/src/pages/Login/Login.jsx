@@ -29,6 +29,7 @@ function Login() {
 
   const initializeNaverLogin = () => {
     naverLogin.getLoginStatus(async function (status) {
+      //console.log("status : ", status);
       if (status) {
         //console.log(`user : `, naverLogin.user);
 
@@ -63,8 +64,8 @@ function Login() {
               "Content-Type": "application/json",
             },
           });
-          console.log("네이버 로그인 유저 정보 : ", userInfo);
-          navigate("/", { state: { user: { ...naverLogin.user } } });
+          //console.log("네이버 로그인 유저 정보 : ", userInfo);
+          navigate("/", { user: userInfo });
         }
       }
     });
@@ -72,7 +73,7 @@ function Login() {
 
   useEffect(() => {
     naverLogin.init();
-    // initializeNaverLogin();
+    initializeNaverLogin();
   }, []);
 
   // kakao api
@@ -119,9 +120,10 @@ function Login() {
                 },
               }
             )
-            .then((res) => {
-              console.log("카카오 유저 데이터 : ", res.data);
-              axios.post(
+            .then(async (res) => {
+              const userInfo = res.data;
+              //console.log("카카오 유저 데이터 : ", res.data);
+              await axios.post(
                 "http://localhost:3002/login",
                 {
                   social_id: { value: res.data.id, social_name: "카카오 로그인" },
@@ -135,6 +137,7 @@ function Login() {
                   },
                 }
               );
+              navigate("/", { user: userInfo });
             });
         });
     }

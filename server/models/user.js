@@ -8,7 +8,6 @@ const userSchema = new Schema({
   },
   nickname: {
     type: String,
-    required: true,
   },
   profile_image: {
     type: String,
