@@ -1,14 +1,26 @@
 import styled from "styled-components";
 
-export const ModalLayout = styled.div`
+export const ImgWrap = styled.div`
+  width: 100%;
+  height: 100%;
+
   img {
-    opacity: 1;
+    display: block;
+    object-fit: contain;
     width: 100%;
+    height: 100%;
   }
-  svg {
-    position: absolute;
-    top: 0;
+  button {
+    background: none;
+    border: none;
     right: 0;
-    cursor: pointer;
+    top: 0;
+    position: absolute;
   }
+`;
+export const Button = styled.button`
+  position: absolute;
+  bottom: 0;
+  background: none;
+  border: none;
 `;

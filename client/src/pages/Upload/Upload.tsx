@@ -6,6 +6,7 @@ import Resizer from "react-image-file-resizer";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
+import AWS from "aws-sdk";
 
 interface IForm {
   name: string;
@@ -20,12 +21,30 @@ const Upload = () => {
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
+
+  AWS.config.update({
+    region: "ap-northeast-2",
+    accessKeyId: "AKIAZKEBHNCZB2DDYUJJ",
+    secretAccessKey: "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",
+  });
+
   // form submit
   const onValid = async (data: IForm) => {
     if (fileList.length === 0) {
       alert("사진을 등록해주세요");
       return;
     }
+
+    const upload = new AWS.S3.ManagedUpload({
+      params: {
+        Bucket: "ikw-market",
+        Key: `upload1`,
+        Body: fileList[0],
+      },
+    });
+
+    upload.promise();
+
     const formData = await axios
       .post("http://localhost:3002/", {
         product_name: data.name,
@@ -100,8 +119,8 @@ const Upload = () => {
       for (let i = 0; i < files.length; i++) {
         Resizer.imageFileResizer(
           files[i],
-          500, // 원하는 너비 설정
-          500, // 원하는 높이 설정
+          1024, // 원하는 너비 설정
+          1024, // 원하는 높이 설정
           "WEBP", // 이미지 포맷 (원하는 포맷으로 변경 가능)
           100, // 이미지 품질 (원하는 품질로 변경 가능)
           0, // 회전 각도 (회전하지 않으려면 0)

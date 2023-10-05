@@ -22,19 +22,23 @@ const Modal = ({ isOpen, onRequestClose, selectImg }: any) => {
         },
         content: {
           display: "flex",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          border: "1px solid #ccc",
           background: "black",
-          overflow: "auto",
           borderRadius: "4px",
+          border: "none",
+          overflow: "hidden",
+          padding: 0,
         },
       }}
       shouldCloseOnOverlayClick={true}>
-      <S.ModalLayout>
-        <img src={selectImg} alt="사진" />
+      <S.Button>
         <TiDelete onClick={onRequestClose} color="#fff" size={40} />
-      </S.ModalLayout>
+      </S.Button>
+      <S.ImgWrap>
+        <img src={selectImg} alt="사진" />
+      </S.ImgWrap>
     </ReactModal>,
     document.body // 모달을 document의 body 아래에 렌더링
   );
