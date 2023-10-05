@@ -28,9 +28,7 @@ function Login() {
   };
 
   const initializeNaverLogin = () => {
-    naverLogin.init();
-
-    naverLogin.getLoginStatus(function (status) {
+    naverLogin.getLoginStatus(async function (status) {
       if (status) {
         //console.log(`user : `, naverLogin.user);
 
@@ -53,6 +51,19 @@ function Login() {
           return;
         } else {
           // 홈으로 리다이렉트
+          const userInfo = {
+            email: naverLogin.user.email,
+            social_id: { value: naverLogin.user.id, social_name: "네이버 로그인" },
+            nickname: naverLogin.user.nickname,
+            profile_image: naverLogin.user.profile_image,
+          };
+
+          await axios.post("http://localhost:3002/login", userInfo, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+          console.log("네이버 로그인 유저 정보 : ", userInfo);
           navigate("/", { state: { user: { ...naverLogin.user } } });
         }
       }
@@ -60,7 +71,8 @@ function Login() {
   };
 
   useEffect(() => {
-    initializeNaverLogin();
+    naverLogin.init();
+    // initializeNaverLogin();
   }, []);
 
   // kakao api
@@ -109,6 +121,20 @@ function Login() {
             )
             .then((res) => {
               console.log("카카오 유저 데이터 : ", res.data);
+              axios.post(
+                "http://localhost:3002/login",
+                {
+                  social_id: { value: res.data.id, social_name: "카카오 로그인" },
+                  email: res.data["kakao_account"].email,
+                  nickname: res.data["kakao_account"].profile.nickname,
+                  profile_image: res.data["kakao_account"].profile["profile_image_url"],
+                },
+                {
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                }
+              );
             });
         });
     }
@@ -122,7 +148,7 @@ function Login() {
         {/* <S.LoginButton id="kakao" onClick={kakaoBtnOnClick}>
           카카오 로그인
         </S.LoginButton> */}
-        <div id="naverIdLogin" />
+        <div id="naverIdLogin" onClick={initializeNaverLogin} />
         {/* <S.LoginButton id="naver">네이버 로그인</S.LoginButton> */}
       </S.LoginButtonBox>
     </S.LoginSection>
