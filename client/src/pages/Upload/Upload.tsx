@@ -5,6 +5,7 @@ import { TiDelete } from "react-icons/ti";
 import Resizer from "react-image-file-resizer";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import Modal from "../../components/Modal/Modal";
 
 interface IForm {
   name: string;
@@ -17,7 +18,8 @@ const Upload = () => {
   const uploadImgInput = useRef() as any;
   const { register, handleSubmit, setValue } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
-
+  const [onModal, setOnModal] = useState(false);
+  const [selectImg, setSelectImg] = useState<string>();
   // form submit
   const onValid = async (data: IForm) => {
     if (fileList.length === 0) {
@@ -61,6 +63,19 @@ const Upload = () => {
     } else {
       uploadImgInput.current.click();
     }
+  };
+
+  // 이미지 클릭시 모달창 보여주기
+  const onClickModalOpen = (idx: number) => {
+    setOnModal((prev) => !prev);
+    setSelectImg(fileList[idx]);
+    document.body.style.overflow = "hidden";
+  };
+
+  // 모달닫기
+  const closeModal = () => {
+    setOnModal(false);
+    document.body.style.overflow = "auto";
   };
 
   // 이미지 삭제 버튼
@@ -120,7 +135,7 @@ const Upload = () => {
           </S.UploadImgBtn>
           {fileList.map((file, idx) => (
             <S.UploadImgRow key={idx}>
-              <S.UploadImgItem src={file} />
+              <S.UploadImgItem onClick={() => onClickModalOpen(idx)} src={file} />
               <div>
                 <TiDelete onClick={() => onClickDeleteBtn(idx)} fill="fill" size={35} />
               </div>
@@ -128,7 +143,6 @@ const Upload = () => {
           ))}
         </S.UploadImgList>
       </S.UploadImgBox>
-
       <S.UploadForm onSubmit={handleSubmit(onValid)}>
         <S.UploadInputBox>
           <label>제목</label>
@@ -159,6 +173,9 @@ const Upload = () => {
         </S.UploadTextAreaBox>
         <S.UploadFormBtn type="submit">등록하기</S.UploadFormBtn>
       </S.UploadForm>
+
+      {/* 모달창 */}
+      <Modal isOpen={onModal} onRequestClose={closeModal} selectImg={selectImg} />
     </S.UploadLayout>
   );
 };
