@@ -52,26 +52,35 @@ function Login() {
           return;
         } else {
           // 홈으로 리다이렉트
-          const userInfo = {
+          const user = {
             email: naverLogin.user.email,
             social_id: { value: naverLogin.user.id, social_name: "네이버 로그인" },
             nickname: naverLogin.user.nickname,
             profile_image: naverLogin.user.profile_image,
           };
 
-          await axios.post("http://localhost:3002/login", userInfo, {
+          await axios.post("http://localhost:3002/login", user, {
             headers: {
               "Content-Type": "application/json",
             },
           });
-          //console.log("네이버 로그인 유저 정보 : ", userInfo);
-          navigate("/", { user: userInfo });
+
+          navigate("/", { state: { user } });
         }
       }
     });
   };
 
+  const getAxiosLogin = async () => {
+    const res = await (await axios.get("http://localhost:3002/login", { withCredentials: true })).data;
+
+    if (res.state) {
+      navigate("/", { state: { user: res.user } });
+    }
+  };
+
   useEffect(() => {
+    getAxiosLogin();
     naverLogin.init();
     initializeNaverLogin();
   }, []);
@@ -121,7 +130,7 @@ function Login() {
               }
             )
             .then(async (res) => {
-              const userInfo = res.data;
+              const user = res.data;
               //console.log("카카오 유저 데이터 : ", res.data);
               await axios.post(
                 "http://localhost:3002/login",
@@ -135,9 +144,11 @@ function Login() {
                   headers: {
                     "Content-Type": "application/json",
                   },
+                  withCredentials: true,
                 }
               );
-              navigate("/", { user: userInfo });
+
+              navigate("/", { state: { user } });
             });
         });
     }

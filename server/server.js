@@ -2,19 +2,31 @@ import express from "express";
 import connectMongoDB from "./db/config/index.js";
 import router from "./Router/root.js";
 import bodyParser from "body-parser";
+import session from "express-session";
+import cors from "cors";
 
 const app = express();
 connectMongoDB();
+
+// 세션 설정
+app.use(
+  session({
+    secret: "ikwmarket123zy$ued5i7$bt3j2op24t4%3=tc+00^t^7jl+qbmpjn=7kcnsq@",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // body-parser 미들웨어 사용
 app.use(bodyParser.json());
 
 // CORS 설정
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*"); // 모든 도메인에서 접근 허용
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors({ origin: true, credentials: true }));
+// app.use((req, res, next) => {
+//   res.header("Access-Control-Allow-Origin", "*"); // 모든 도메인에서 접근 허용
+//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
 
 app.use(express.urlencoded({ extended: true }));
 
