@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import axios from "axios";
 const Nav = () => {
   const [toogle, isToogle] = useState(false);
   const [user, setUser] = useState() as any;
@@ -14,9 +15,19 @@ const Nav = () => {
 
   console.log(location);
 
+  const getUserAPI = async () => {
+    const res = await (await axios.get("http://localhost:3002/login", { withCredentials: true })).data;
+    //console.log("get user api : ", res.user);
+    setUser(res.user);
+  };
+
+  useEffect(() => {
+    getUserAPI();
+  }, []);
+
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {
-    if (!location.state?.user) {
+    if (!user) {
       return "/login";
     } else {
       return "/upload";
@@ -25,7 +36,7 @@ const Nav = () => {
 
   // 내 프로필 페이지 리다이렉트
   const myProfileNavigate = () => {
-    if (!location.state?.user) {
+    if (!user) {
       return "/login";
     } else {
       return "/profile";
@@ -34,7 +45,7 @@ const Nav = () => {
 
   // 내 물건 팔기 페이지 리다이랙트
   const chatRoomNavigate = () => {
-    if (!location.state?.user) {
+    if (!user) {
       return "/login";
     } else {
       return "/chat";
@@ -77,9 +88,7 @@ const Nav = () => {
             <span>채팅</span>
           </S.NavItem>
         </Link>
-        <S.NavItem>
-          {location.state?.user ? <span>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
-        </S.NavItem>
+        <S.NavItem>{user ? <span>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}</S.NavItem>
       </S.NavList>
       {/* 모바일 버전 */}
       <S.ToogleBtn onClick={onToogleBtnClick}>
@@ -87,7 +96,7 @@ const Nav = () => {
       </S.ToogleBtn>
       <S.MenuBox $isMenu={toogle}>
         <S.MenuList>
-          <Link to={"/upload"}>
+          <Link to={myProductNavigate()}>
             <S.MenuItem>
               <svg xmlns="http://www.w3.org/2000/svg" width="31" height="32" viewBox="0 0 31 32" fill="none">
                 <path
@@ -98,7 +107,7 @@ const Nav = () => {
               <span>내 물건 팔기</span>
             </S.MenuItem>
           </Link>
-          <Link to={"/profile"}>
+          <Link to={myProfileNavigate()}>
             <S.MenuItem>
               <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
                 <path
@@ -109,7 +118,7 @@ const Nav = () => {
               <span>내 정보</span>
             </S.MenuItem>
           </Link>
-          <Link to={"/chat"}>
+          <Link to={chatRoomNavigate()}>
             <S.MenuItem>
               <svg xmlns="http://www.w3.org/2000/svg" width="33" height="32" viewBox="0 0 33 32" fill="none">
                 <path
@@ -120,7 +129,9 @@ const Nav = () => {
               <span>채팅</span>
             </S.MenuItem>
           </Link>
-          <S.MenuItem>로그아웃</S.MenuItem>
+          <S.MenuItem>
+            {user ? <span>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
+          </S.MenuItem>
         </S.MenuList>
       </S.MenuBox>
     </S.Nav>
