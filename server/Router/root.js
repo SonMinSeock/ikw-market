@@ -5,14 +5,22 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   console.log(req.body);
 
+  req.session.user = req.body;
   const isUser = await User.findOne({ social_id: req.body["social_id"] });
 
-  console.log("find query isUser : ", isUser);
   if (!isUser) {
     const user = new User(req.body);
     await user.save();
   }
   res.end();
+});
+
+router.get("/login", async (req, res) => {
+  if (req.session.user) {
+    res.json({ state: true, user: req.session.user });
+  } else {
+    res.json({ state: false });
+  }
 });
 
 export default router;
