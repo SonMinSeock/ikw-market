@@ -3,6 +3,8 @@ import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
+import ReactModal from "react-modal";
+
 const GlobalStyle = createGlobalStyle`
 
 html, body, div, span, applet, object, iframe,
@@ -73,6 +75,7 @@ a {
   font-style: normal;
 }
 `;
+ReactModal.setAppElement("#root");
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>

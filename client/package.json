@@ -10,10 +10,14 @@
     "@types/node": "^16.18.54",
     "@types/react": "^18.2.22",
     "@types/react-dom": "^18.2.7",
+    "aws-sdk": "^2.1470.0",
     "axios": "^1.5.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-hook-form": "^7.47.0",
     "react-icons": "^4.11.0",
+    "react-image-file-resizer": "^0.4.8",
+    "react-modal": "^3.16.1",
     "react-router-dom": "^6.16.0",
     "react-scripts": "5.0.1",
     "styled-components": "^6.0.8",
@@ -44,5 +48,6 @@
       "last 1 safari version"
     ]
   },
+
   "proxy": "http://127.0.0.1:3002/"
 }
