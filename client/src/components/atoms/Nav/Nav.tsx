@@ -13,11 +13,11 @@ const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  console.log(location);
+  //console.log(location);
 
   const getUserAPI = async () => {
-    const res = await (await axios.get("http://localhost:3002/login", { withCredentials: true })).data;
-    //console.log("get user api : ", res.user);
+    const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
+    //console.log("get user api : ", res);
     setUser(res.user);
   };
 

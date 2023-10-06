@@ -21,4 +21,12 @@ router.get("/login", async (req, res) => {
   }
 });
 
+router.get("/getUser", async (req, res) => {
+  if (req.session.user) {
+    res.json({ state: true, user: req.session.user });
+  } else {
+    res.json({ state: false });
+  }
+});
+
 export default router;
