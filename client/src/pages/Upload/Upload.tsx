@@ -38,7 +38,7 @@ const Upload = () => {
     const upload = new AWS.S3.ManagedUpload({
       params: {
         Bucket: "ikw-market",
-        Key: `upload1`,
+        Key: `upload2.webp`,
         Body: fileList[0],
       },
     });
@@ -105,7 +105,7 @@ const Upload = () => {
   };
 
   // 이미지 최적화, 미리보기
-  const onChangeImgInput = (e: any) => {
+  const onChangeImgInput = async (e: any) => {
     e.preventDefault();
     const files = e.target.files;
     const newFileList: string[] = [];
@@ -115,26 +115,32 @@ const Upload = () => {
       return;
     }
 
-    if (files) {
-      for (let i = 0; i < files.length; i++) {
-        Resizer.imageFileResizer(
-          files[i],
-          1024, // 원하는 너비 설정
-          1024, // 원하는 높이 설정
-          "WEBP", // 이미지 포맷 (원하는 포맷으로 변경 가능)
-          100, // 이미지 품질 (원하는 품질로 변경 가능)
-          0, // 회전 각도 (회전하지 않으려면 0)
-          (uri) => {
-            newFileList.push(uri as string);
-            if (newFileList.length === files.length) {
-              setFileList([...fileList, ...newFileList]);
-            }
-          },
-          "base64" // 출력 형식
-        );
-      }
+    for (let i = 0; i < files.length; i++) {
+      const resizedImage = await resizeImage(files[i]);
+      newFileList.push(resizedImage as any);
     }
+
+    setFileList([...fileList, ...newFileList]);
   };
+
+  const resizeImage = (file: any) => {
+    return new Promise((resolve, reject) => {
+      Resizer.imageFileResizer(
+        file,
+        1024, // 원하는 너비 설정
+        1024, // 원하는 높이 설정
+        "WEBP", // 이미지 포맷 (원하는 포맷으로 변경 가능)
+        100, // 이미지 품질 (원하는 품질로 변경 가능)
+        0, // 회전 각도 (회전하지 않으려면 0)
+        (uri) => {
+          resolve(uri as string);
+        },
+        "blob" // 출력 형식
+      );
+    });
+  };
+
+  console.log(fileList);
 
   return (
     <S.UploadLayout>
@@ -154,7 +160,7 @@ const Upload = () => {
           </S.UploadImgBtn>
           {fileList.map((file, idx) => (
             <S.UploadImgRow key={idx}>
-              <S.UploadImgItem onClick={() => onClickModalOpen(idx)} src={file} />
+              <S.UploadImgItem onClick={() => onClickModalOpen(idx)} src={URL.createObjectURL(file as any)} />
               <div>
                 <TiDelete onClick={() => onClickDeleteBtn(idx)} fill="fill" size={35} />
               </div>
