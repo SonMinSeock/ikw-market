@@ -48,8 +48,6 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {
-    "@types/react-modal": "^3.16.1"
-  },
+
   "proxy": "http://127.0.0.1:3002/"
 }

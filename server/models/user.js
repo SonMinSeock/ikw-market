@@ -2,9 +2,12 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
+  social_id: {
+    value: Schema.Types.Mixed,
+    social_name: { type: String },
+  },
   nickname: {
     type: String,
-    required: true,
   },
   profile_image: {
     type: String,
