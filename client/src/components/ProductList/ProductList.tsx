@@ -1,6 +1,7 @@
 import React from "react";
 import Product from "../atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
+
 interface IProduct {
   img: string;
   name: string;
@@ -52,10 +53,11 @@ const Products = () => {
       location: "2호관",
     },
   ];
+
   return (
     <ProductsLayout>
       {products.map((product, idx) => {
-        return <Product key={idx} {...product} />;
+        return <Product key={idx} {...product} index={idx} />;
       })}
     </ProductsLayout>
   );

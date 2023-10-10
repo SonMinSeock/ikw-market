@@ -119,13 +119,13 @@ export const UploadTextArea = styled.textarea`
 export const UploadFormBtn = styled.button`
   cursor: pointer;
   display: flex;
-  width: 220px;
-  height: 60px;
+  width: 150px;
+  height: 50px;
   justify-content: center;
   align-items: center;
   background-color: #ffc901;
   border: none;
   color: #fff;
-  font-size: 30px;
+  font-size: 22px;
   margin: 0 auto;
 `;
