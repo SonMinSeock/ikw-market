@@ -5,7 +5,6 @@ import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
 import Layout from "./components/Layout/Layout";
-import ProductList from "./components/ProductList/ProductList";
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Main />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="productList" element={<ProductList />} />
           <Route path="chat" element={<Chat />} />
           <Route path="upload" element={<Upload />} />
         </Route>
