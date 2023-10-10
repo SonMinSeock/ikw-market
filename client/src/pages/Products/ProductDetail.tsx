@@ -1,23 +1,19 @@
-import React from "react";
 import * as S from "./ProductDetail.style";
-import { ProductImg } from "../../components/atoms/Product/Product.style";
 import { useLocation, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
-import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
+import Slider from "../../components/Animation/Slider/Slider";
+
 const ProductDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
   const onRedirect = () => navigate("/chat");
+
   return (
     <S.ProductDetailBox>
       <S.ProductDetailLayout>
-        <S.AlbumSlideBox>
-          <AiOutlineLeft size={18} />
-          <S.ProductDetailImg src={location.state.img} />
-          <AiOutlineRight size={18} />
-        </S.AlbumSlideBox>
+        <Slider />
         <S.ProductDetailProfileBox>
           <CgProfile size={28} />
           <S.ProductDetailText>닉네임123</S.ProductDetailText>
