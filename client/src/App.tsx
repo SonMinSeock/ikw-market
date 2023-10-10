@@ -5,8 +5,7 @@ import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
 import Layout from "./components/Layout/Layout";
-import Products from "./components/ProductList/ProductList";
-import ProductDetail from "./pages/Products/\bProductDetail";
+import ProductDetail from "./pages/ProductDetail/ProductDetail";
 
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
         <Route path="/" element={<Layout />}>
           <Route path="" element={<Main />} />
           <Route path="profile" element={<Profile />} />
-          <Route path="Products" element={<Products />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="chat" element={<Chat />} />
           <Route path="upload" element={<Upload />} />
