@@ -60,7 +60,8 @@ export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
 export const ProductDetailBtn = styled.button`
   cursor: pointer;
   display: flex;
-  width: 150px;
+  /* width: 150px; */
+  width: 100%;
   height: 50px;
   justify-content: center;
   align-items: center;

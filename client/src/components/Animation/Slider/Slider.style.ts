@@ -18,8 +18,10 @@ export const SlideBox = styled.div`
 
 export const ProductDetailImg = styled(motion.img)`
   width: 100%;
+  height: 300px;
   border-radius: 10px;
   @media screen and (max-width: 860px) {
     width: 290px;
+    height: 230px;
   }
 `;
