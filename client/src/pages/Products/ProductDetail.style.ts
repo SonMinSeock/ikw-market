@@ -1,20 +1,5 @@
 import styled from "styled-components";
 
-export const AlbumSlideBox = styled.div`
-  position: relative;
-  & svg {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-  }
-  & svg:first-child {
-    left: -25px;
-  }
-  & svg:last-child {
-    right: -25px;
-  }
-`;
-
 export const ProductDetailBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -28,14 +13,6 @@ export const ProductDetailLayout = styled.div`
   max-width: 420px;
   @media screen and (max-width: 860px) {
     max-width: 290px;
-  }
-`;
-
-export const ProductDetailImg = styled.img`
-  width: 100%;
-  border-radius: 10px;
-  @media screen and (max-width: 860px) {
-    width: 290px;
   }
 `;
 
