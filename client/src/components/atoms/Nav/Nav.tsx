@@ -6,6 +6,9 @@ import axios from "axios";
 const Nav = () => {
   const [toogle, isToogle] = useState(false);
   const [user, setUser] = useState() as any;
+
+  const NAVER_LOGIN = "네이버 로그인";
+
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };
@@ -13,12 +16,18 @@ const Nav = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  //console.log(location);
+  console.log(location);
 
   const getUserAPI = async () => {
     const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
     //console.log("get user api : ", res);
     setUser(res.user);
+  };
+
+  const logOutAPI = async () => {
+    const res = await (await axios.get("http://localhost:3002/logout", { withCredentials: true })).data;
+    setUser(res.user);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -52,6 +61,32 @@ const Nav = () => {
     }
   };
 
+  // 로그아웃
+  const onLogOut = async () => {
+    if (user["social_id"]["social_name"] === NAVER_LOGIN) {
+      localStorage.removeItem("com.naver.nid.oauth.state_token");
+      console.log(localStorage.removeItem("com.naver.nid.oauth.state_token"));
+      await logOutAPI();
+    } else {
+      try {
+        await axios({
+          method: "POST",
+          url: "https://kapi.kakao.com/v1/user/logout",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `Bearer ${location.state["kakao_access_token"]}`,
+          },
+        });
+        await logOutAPI();
+        window.location.href = "/";
+      } catch (error: any) {
+        // 이미 만료된 토큰일 경우
+        if (error.response.data.code === -401) {
+          window.location.href = "/";
+        }
+      }
+    }
+  };
   return (
     <S.Nav>
       <S.NavList>
@@ -88,7 +123,9 @@ const Nav = () => {
             <span>채팅</span>
           </S.NavItem>
         </Link>
-        <S.NavItem>{user ? <span>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}</S.NavItem>
+        <S.NavItem>
+          {user ? <span onClick={onLogOut}>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
+        </S.NavItem>
       </S.NavList>
       {/* 모바일 버전 */}
       <S.ToogleBtn onClick={onToogleBtnClick}>
