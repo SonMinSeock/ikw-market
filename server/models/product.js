@@ -13,7 +13,7 @@ const productSchema = new Schema({
     type: [String],
   },
   product_price: {
-    type: Number,
+    type: String,
     required: true,
   },
   // 상품 상태 -> 판매 상태 값 즉 판매 했으면 true 값이고 안했으면 false이다.
