@@ -29,4 +29,11 @@ router.get("/getUser", async (req, res) => {
   }
 });
 
+router.get("/logout", async (req, res) => {
+  if (req.session.user) {
+    req.session.user = null;
+    res.json({ state: true, user: req.session.user });
+  }
+});
+
 export default router;

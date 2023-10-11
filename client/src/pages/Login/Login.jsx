@@ -149,7 +149,7 @@ function Login() {
                 }
               );
 
-              navigate("/", { state: { user } });
+              navigate("/", { state: { user, kakao_access_token: access_token } });
             });
         });
     }
