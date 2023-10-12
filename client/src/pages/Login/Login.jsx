@@ -4,12 +4,20 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../components/atoms/Logo/Logo";
 import axios from "axios";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
+import { useRecoilState } from "recoil";
+import { accessTokenAtom, isLoginAtom, userAtom } from "../../recoil/login/atoms";
 
 function Login() {
+  // recoil
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const [user, setUser] = useRecoilState(userAtom);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+
   // naver api
   const { naver } = window;
   const navigate = useNavigate();
   const REDIRECT_URI = process.env.REACT_APP_CALLBACK_URL;
+  const [naverToken, setNaverToken] = useState();
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
@@ -24,16 +32,16 @@ function Login() {
 
   const getToken = () => {
     const token = window.location.href.split("=")[1].split("&")[0];
-    //console.log(token);
+    setNaverToken(token);
+    console.log(token);
   };
 
   const initializeNaverLogin = () => {
     naverLogin.getLoginStatus(async function (status) {
       //console.log("status : ", status);
+
       if (status) {
         //console.log(`user : `, naverLogin.user);
-
-        userAccessToken();
         const nickName = naverLogin.user.getNickName();
         const name = naverLogin.user.getName();
         const email = naverLogin.user.getEmail();
@@ -66,24 +74,20 @@ function Login() {
             withCredentials: true,
           });
 
-          navigate("/", { state: { user } });
+          setIsLogin(true);
+          navigate("/");
         }
+      } else {
+        userAccessToken();
       }
     });
   };
 
-  const getAxiosLogin = async () => {
-    const res = await (await axios.get("http://localhost:3002/login", { withCredentials: true })).data;
-
-    if (res.state) {
-      navigate("/", { state: { user: res.user } });
-    }
-  };
-
   useEffect(() => {
-    getAxiosLogin();
     naverLogin.init();
-    initializeNaverLogin();
+    if (window.location.href.includes("access_token")) {
+      initializeNaverLogin();
+    }
   }, []);
 
   // kakao api
@@ -140,6 +144,7 @@ function Login() {
                   email: res.data["kakao_account"].email,
                   nickname: res.data["kakao_account"].profile.nickname,
                   profile_image: res.data["kakao_account"].profile["profile_image_url"],
+                  access_token,
                 },
                 {
                   headers: {
@@ -149,7 +154,9 @@ function Login() {
                 }
               );
 
-              navigate("/", { state: { user, kakao_access_token: access_token } });
+              setAccessToken(access_token);
+              setIsLogin(true);
+              navigate("/");
             });
         });
     }

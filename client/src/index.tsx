@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import ReactModal from "react-modal";
+import { RecoilRoot } from "recoil";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -80,6 +81,8 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <React.StrictMode>
     <GlobalStyle />
-    <App />
+    <RecoilRoot>
+      <App />
+    </RecoilRoot>
   </React.StrictMode>
 );
