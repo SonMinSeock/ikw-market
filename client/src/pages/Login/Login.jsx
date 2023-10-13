@@ -6,6 +6,7 @@ import axios from "axios";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
 import { useRecoilState } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import { loginAxiosObj } from "../../controller/login";
 
 function Login() {
   // recoil
@@ -67,12 +68,8 @@ function Login() {
             profile_image: naverLogin.user.profile_image,
           };
 
-          await axios.post("http://localhost:3002/login", user, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          });
+          // Naver Login POST Request
+          await loginAxiosObj.naverLoginPostAxios(user);
 
           setIsLogin(true);
           navigate("/");
@@ -93,7 +90,7 @@ function Login() {
   // kakao api
   const [code, setCode] = useState();
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `${process.env.REACT_APP_KAKAO_REST_API_URL}?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   // kakao 버튼 클릭 핸들러
   const kakaoBtnOnClick = () => {
@@ -136,23 +133,10 @@ function Login() {
             )
             .then(async (res) => {
               const user = res.data;
-              //console.log("카카오 유저 데이터 : ", res.data);
-              await axios.post(
-                "http://localhost:3002/login",
-                {
-                  social_id: { value: res.data.id, social_name: "카카오 로그인" },
-                  email: res.data["kakao_account"].email,
-                  nickname: res.data["kakao_account"].profile.nickname,
-                  profile_image: res.data["kakao_account"].profile["profile_image_url"],
-                  access_token,
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  withCredentials: true,
-                }
-              );
+              //console.log("카카오 유저 데이터 : ", user);
+
+              // kakao login POST request
+              await loginAxiosObj.kakaoLoginPostAxios(user, access_token);
 
               setAccessToken(access_token);
               setIsLogin(true);
