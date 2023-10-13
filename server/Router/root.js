@@ -22,18 +22,26 @@ router.get("/login", async (req, res) => {
 });
 
 router.get("/getUser", async (req, res) => {
+  const sessionUser = req.session.user;
+
   if (req.session.user) {
-    res.json({ state: true, user: req.session.user });
+    const user = await User.findOne({ social_id: sessionUser["social_id"] });
+    if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
+      res.json({ state: true, user, accessToken: sessionUser["access_token"] });
+    } else {
+      res.json({ state: true, user });
+    }
   } else {
     res.json({ state: false });
   }
 });
 
 router.get("/logout", async (req, res) => {
-  if (req.session.user) {
-    req.session.user = null;
-    res.json({ state: true, user: req.session.user });
+  let session = req.session;
+  if (session.user) {
+    session.destroy();
   }
+  res.end();
 });
 
 export default router;

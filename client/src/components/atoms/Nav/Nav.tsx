@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
 const Nav = () => {
+  // recoil
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const [user, setUser] = useRecoilState<any>(userAtom);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+
   const [toogle, isToogle] = useState(false);
-  const [user, setUser] = useState() as any;
 
   const NAVER_LOGIN = "네이버 로그인";
 
@@ -14,20 +20,20 @@ const Nav = () => {
   };
 
   const navigate = useNavigate();
-  const location = useLocation();
-
-  console.log(location);
 
   const getUserAPI = async () => {
     const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
-    //console.log("get user api : ", res);
-    setUser(res.user);
+    if (res.state) {
+      setAccessToken(res.accessToken);
+      setUser(res.user);
+      setIsLogin(true);
+    }
   };
 
   const logOutAPI = async () => {
-    const res = await (await axios.get("http://localhost:3002/logout", { withCredentials: true })).data;
-    setUser(res.user);
-    window.location.reload();
+    await axios.get("http://localhost:3002/logout", { withCredentials: true });
+    setUser({});
+    setIsLogin(false);
   };
 
   useEffect(() => {
@@ -36,7 +42,7 @@ const Nav = () => {
 
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {
-    if (!user) {
+    if (!isLogin) {
       return "/login";
     } else {
       return "/upload";
@@ -45,7 +51,7 @@ const Nav = () => {
 
   // 내 프로필 페이지 리다이렉트
   const myProfileNavigate = () => {
-    if (!user) {
+    if (!isLogin) {
       return "/login";
     } else {
       return "/profile";
@@ -54,7 +60,7 @@ const Nav = () => {
 
   // 내 물건 팔기 페이지 리다이랙트
   const chatRoomNavigate = () => {
-    if (!user) {
+    if (!isLogin) {
       return "/login";
     } else {
       return "/chat";
@@ -66,6 +72,7 @@ const Nav = () => {
     if (user["social_id"]["social_name"] === NAVER_LOGIN) {
       localStorage.removeItem("com.naver.nid.oauth.state_token");
       await logOutAPI();
+      window.location.href = "/";
     } else {
       try {
         await axios({
@@ -73,16 +80,16 @@ const Nav = () => {
           url: "https://kapi.kakao.com/v1/user/logout",
           headers: {
             "Content-Type": "application/x-www-form-urlencoded",
-            Authorization: `Bearer ${location.state["kakao_access_token"]}`,
+            Authorization: `Bearer ${accessToken}`,
           },
         });
         await logOutAPI();
+
         window.location.href = "/";
       } catch (error: any) {
         // 이미 만료된 토큰일 경우
-        if (error.response.data.code === -401) {
-          window.location.href = "/";
-        }
+
+        window.location.href = "/";
       }
     }
   };
@@ -123,7 +130,7 @@ const Nav = () => {
           </S.NavItem>
         </Link>
         <S.NavItem>
-          {user ? <span onClick={onLogOut}>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
+          {isLogin ? <span onClick={onLogOut}>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
         </S.NavItem>
       </S.NavList>
       {/* 모바일 버전 */}
@@ -166,7 +173,11 @@ const Nav = () => {
             </S.MenuItem>
           </Link>
           <S.MenuItem>
-            {user ? <span>로그아웃</span> : <span onClick={() => navigate("/login")}>로그인</span>}
+            {isLogin ? (
+              <span onClick={onLogOut}>로그아웃</span>
+            ) : (
+              <span onClick={() => navigate("/login")}>로그인</span>
+            )}
           </S.MenuItem>
         </S.MenuList>
       </S.MenuBox>

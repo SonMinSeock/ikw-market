@@ -4,12 +4,21 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../components/atoms/Logo/Logo";
 import axios from "axios";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
+import { useRecoilState } from "recoil";
+import { accessTokenAtom, isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import { loginAxiosObj } from "../../controller/login";
 
 function Login() {
+  // recoil
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+  const [user, setUser] = useRecoilState(userAtom);
+  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+
   // naver api
   const { naver } = window;
   const navigate = useNavigate();
   const REDIRECT_URI = process.env.REACT_APP_CALLBACK_URL;
+  const [naverToken, setNaverToken] = useState();
 
   const naverLogin = new naver.LoginWithNaverId({
     clientId: process.env.REACT_APP_NAVER_CLIENT_ID,
@@ -24,16 +33,16 @@ function Login() {
 
   const getToken = () => {
     const token = window.location.href.split("=")[1].split("&")[0];
-    //console.log(token);
+    setNaverToken(token);
+    console.log(token);
   };
 
   const initializeNaverLogin = () => {
     naverLogin.getLoginStatus(async function (status) {
       //console.log("status : ", status);
+
       if (status) {
         //console.log(`user : `, naverLogin.user);
-
-        userAccessToken();
         const nickName = naverLogin.user.getNickName();
         const name = naverLogin.user.getName();
         const email = naverLogin.user.getEmail();
@@ -59,37 +68,29 @@ function Login() {
             profile_image: naverLogin.user.profile_image,
           };
 
-          await axios.post("http://localhost:3002/login", user, {
-            headers: {
-              "Content-Type": "application/json",
-            },
-            withCredentials: true,
-          });
+          // Naver Login POST Request
+          await loginAxiosObj.naverLoginPostAxios(user);
 
-          navigate("/", { state: { user } });
+          setIsLogin(true);
+          navigate("/");
         }
+      } else {
+        userAccessToken();
       }
     });
   };
 
-  const getAxiosLogin = async () => {
-    const res = await (await axios.get("http://localhost:3002/login", { withCredentials: true })).data;
-
-    if (res.state) {
-      navigate("/", { state: { user: res.user } });
-    }
-  };
-
   useEffect(() => {
-    getAxiosLogin();
     naverLogin.init();
-    initializeNaverLogin();
+    if (window.location.href.includes("access_token")) {
+      initializeNaverLogin();
+    }
   }, []);
 
   // kakao api
   const [code, setCode] = useState();
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `${process.env.REACT_APP_KAKAO_REST_API_URL}?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   // kakao 버튼 클릭 핸들러
   const kakaoBtnOnClick = () => {
@@ -107,51 +108,8 @@ function Login() {
 
     if (code) {
       let kakaoURL = `https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`;
-      axios
-        .post(
-          kakaoURL,
-          {},
-          {
-            headers: {
-              "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-            },
-          }
-        )
-        .then((res) => {
-          const { access_token } = res.data;
-          axios
-            .post(
-              `https://kapi.kakao.com/v2/user/me`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${access_token}`,
-                  "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-                },
-              }
-            )
-            .then(async (res) => {
-              const user = res.data;
-              //console.log("카카오 유저 데이터 : ", res.data);
-              await axios.post(
-                "http://localhost:3002/login",
-                {
-                  social_id: { value: res.data.id, social_name: "카카오 로그인" },
-                  email: res.data["kakao_account"].email,
-                  nickname: res.data["kakao_account"].profile.nickname,
-                  profile_image: res.data["kakao_account"].profile["profile_image_url"],
-                },
-                {
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  withCredentials: true,
-                }
-              );
-
-              navigate("/", { state: { user, kakao_access_token: access_token } });
-            });
-        });
+      // kakao login POST Request
+      loginAxiosObj.kakaoLoginPostAxios(kakaoURL, setAccessToken, setIsLogin, navigate);
     }
   }, [code]);
 
