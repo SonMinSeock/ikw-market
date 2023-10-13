@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
+import { useNavigate } from "react-router-dom";
 
 interface IForm {
   name: string;
@@ -23,10 +24,12 @@ const Upload = () => {
   const [selectImg, setSelectImg] = useState<string>();
 
   AWS.config.update({
-    region: process.env.NEXT_PUBLIC_REGION,
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY,
+    region: process.env.REACT_APP_REGION,
+    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
   });
+
+  const navigate = useNavigate();
 
   // form submit
   const onValid = async (data: IForm) => {
@@ -50,14 +53,18 @@ const Upload = () => {
     const imageUrls = uploadResults.map((result) => result.Location);
 
     const formData = await axios
-      .post("http://localhost:3002/", {
-        product_name: data.name,
-        product_images: imageUrls,
-        product_price: data.price,
-        location: data.location,
-        description: data.description,
-      })
-      .then((res) => console.log(res.data))
+      .post(
+        "http://localhost:3002/product/upload",
+        {
+          product_name: data.name,
+          product_images: imageUrls,
+          product_price: data.price,
+          location: data.location,
+          description: data.description,
+        },
+        { withCredentials: true }
+      )
+      .then((res) => (res.data.state ? navigate("/") : null))
       .catch((err) => console.log(err));
     return formData;
   };

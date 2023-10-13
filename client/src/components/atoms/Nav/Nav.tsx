@@ -65,7 +65,6 @@ const Nav = () => {
   const onLogOut = async () => {
     if (user["social_id"]["social_name"] === NAVER_LOGIN) {
       localStorage.removeItem("com.naver.nid.oauth.state_token");
-      console.log(localStorage.removeItem("com.naver.nid.oauth.state_token"));
       await logOutAPI();
     } else {
       try {
