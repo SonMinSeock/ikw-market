@@ -108,41 +108,8 @@ function Login() {
 
     if (code) {
       let kakaoURL = `https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`;
-      axios
-        .post(
-          kakaoURL,
-          {},
-          {
-            headers: {
-              "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-            },
-          }
-        )
-        .then((res) => {
-          const { access_token } = res.data;
-          axios
-            .post(
-              `https://kapi.kakao.com/v2/user/me`,
-              {},
-              {
-                headers: {
-                  Authorization: `Bearer ${access_token}`,
-                  "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-                },
-              }
-            )
-            .then(async (res) => {
-              const user = res.data;
-              //console.log("카카오 유저 데이터 : ", user);
-
-              // kakao login POST request
-              await loginAxiosObj.kakaoLoginPostAxios(user, access_token);
-
-              setAccessToken(access_token);
-              setIsLogin(true);
-              navigate("/");
-            });
-        });
+      // kakao login POST Request
+      loginAxiosObj.kakaoLoginPostAxios(kakaoURL, setAccessToken, setIsLogin, navigate);
     }
   }, [code]);
 
