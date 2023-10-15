@@ -107,7 +107,7 @@ const Nav = () => {
             <span>내 물건 팔기</span>
           </S.NavItem>
         </Link>
-        <Link to={myProfileNavigate()}>
+        <Link to={""}>
           <S.NavItem>
             <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
               <path
