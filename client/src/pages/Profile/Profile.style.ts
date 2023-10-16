@@ -5,7 +5,7 @@ export const ProfileLayout = styled.div`
   flex-direction: column;
   padding-top: 64px;
   padding-bottom: 40px;
-  width: 680px;
+  width: 780px;
   margin: 0 auto;
   gap: 10px;
   @media screen and (max-width: 860px) {
@@ -17,6 +17,7 @@ export const ProfileLayout = styled.div`
 export const UserHeader = styled.header`
   display: flex;
   justify-content: space-between;
+  margin-top: 40px;
 
   @media screen and (max-width: 860px) {
   }
@@ -53,5 +54,15 @@ export const UserUpdateBtn = styled.button`
 export const UserProductList = styled.div`
   //background-color: red;
   border-top: 0.3px solid #2f2f2f;
+  display: flex;
+  flex-direction: column;
+  padding-left: 11px;
+  margin-top: 23px;
 `;
-export const UserProductTitle = styled.h3``;
+export const UserProductTitle = styled.h3`
+  display: flex;
+  width: 100%;
+  margin-top: 24px;
+  font-size: 16px;
+  font-family: "GmarketSansMedium";
+`;

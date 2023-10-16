@@ -69,7 +69,9 @@ const Profile = () => {
         </S.UserInfoBox>
       </S.UserHeader>
       <S.UserProductList>
-        <S.UserProductTitle>내가 올린 물건</S.UserProductTitle>
+        <S.UserProductTitle>
+          <span>내가 올린 물건</span>
+        </S.UserProductTitle>
         <ProductsLayout>
           {products.map((product, idx) => {
             return <Product key={idx} {...product} index={idx} />;
