@@ -6,6 +6,7 @@ import * as S from "./Slider.style";
 export default function Slider() {
   const [visible, setVisible] = useState<number>(0);
   const [back, setBack] = useState<boolean>(false);
+  const arrowIconSize = 23;
 
   const images = [
     "https://t4.ftcdn.net/jpg/06/34/00/69/240_F_634006945_eGQCGQrinCG5nVmhUtZ0LumH9EoGFoDt.jpg",
@@ -13,10 +14,9 @@ export default function Slider() {
     "https://t3.ftcdn.net/jpg/04/31/72/70/240_F_431727023_tgAI6ORGvruHGQmP1sXnHkAHR1fwb7cK.jpg",
   ];
   const boxVairants = {
-    entry: (isBack: boolean) => ({
-      x: isBack ? -500 : 500,
+    entry: () => ({
+      x: 0,
       opacity: 0,
-      scale: 0,
     }),
     center: {
       x: 0,
@@ -27,9 +27,8 @@ export default function Slider() {
       },
     },
     exit: (isBack: boolean) => ({
-      x: isBack ? 500 : -500,
       opacity: 0,
-      scale: 0,
+
       transition: {
         duration: 0.5,
       },
@@ -53,7 +52,7 @@ export default function Slider() {
 
   return (
     <S.SlideBox>
-      <AiOutlineLeft size={18} onClick={previousPlease} />
+      {visible > 0 ? <AiOutlineLeft size={arrowIconSize} onClick={previousPlease} /> : null}
       <AnimatePresence mode="wait" custom={back}>
         {images.map((image, idx) =>
           idx === visible ? (
@@ -82,8 +81,7 @@ export default function Slider() {
           ) : null
         )}
       </AnimatePresence>
-
-      <AiOutlineRight size={18} onClick={nextPlease} />
+      {visible !== images.length - 1 ? <AiOutlineRight size={arrowIconSize} onClick={nextPlease} /> : null}
     </S.SlideBox>
   );
 }
