@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Product from "../atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
+import axios from "axios";
 
 interface IProduct {
   img: string;
@@ -9,55 +10,74 @@ interface IProduct {
   location: string;
 }
 const Products = () => {
-  const products: IProduct[] = [
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-  ];
+  const [products, setProducts] = useState([]);
+
+  // const products: IProduct[] = [
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  //   {
+  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
+  //     name: "의자팝니다",
+  //     price: 100000,
+  //     location: "2호관",
+  //   },
+  // ];
+
+  const getProductsAPI = async () => {
+    let { products } = await (await axios.get("http://localhost:3002/product", { withCredentials: true })).data;
+
+    products = products.map((product: any) => {
+      return {
+        ...product,
+        name: product["product_name"],
+        img: product["product_images"][0],
+        price: product["product_price"],
+      };
+    });
+    setProducts(products);
+  };
+  useEffect(() => {
+    getProductsAPI();
+  }, []);
 
   return (
     <ProductsLayout>
       {products.map((product, idx) => {
-        return <Product key={idx} {...product} index={idx} />;
+        return <Product key={idx} product={product} index={idx} />;
       })}
     </ProductsLayout>
   );
