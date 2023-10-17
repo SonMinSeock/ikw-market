@@ -27,8 +27,8 @@ export default function Slider() {
       },
     },
     exit: (isBack: boolean) => ({
+      x: isBack ? 500 : -500,
       opacity: 0,
-
       transition: {
         duration: 0.5,
       },
@@ -51,37 +51,49 @@ export default function Slider() {
   };
 
   return (
-    <S.SlideBox>
-      {visible > 0 ? <AiOutlineLeft size={arrowIconSize} onClick={previousPlease} /> : null}
-      <AnimatePresence mode="wait" custom={back}>
-        {images.map((image, idx) =>
-          idx === visible ? (
-            <S.ProductDetailImg
-              src={image}
-              key={idx}
-              custom={back}
-              variants={boxVairants}
-              initial="entry"
-              animate="center"
-              exit="exit"
-              drag="x"
-              dragConstraints={{ left: 0, right: 0 }}
-              dragElastic={1}
-              onDragEnd={(e: any, { offset, velocity }: any) => {
-                const swipe = swipePower(offset.x, velocity.x);
-                if (swipe < -swipeConfidenceThreshold) {
-                  setBack(false);
-                  setVisible((prev) => (prev === images.length - 1 ? images.length - 1 : prev + 1));
-                } else if (swipe > swipeConfidenceThreshold) {
-                  setBack(true);
-                  setVisible((prev) => (prev === 0 ? 0 : prev - 1));
-                }
-              }}
-            />
-          ) : null
-        )}
-      </AnimatePresence>
-      {visible !== images.length - 1 ? <AiOutlineRight size={arrowIconSize} onClick={nextPlease} /> : null}
-    </S.SlideBox>
+    <>
+      <S.SliderArrowBox>
+        {visible > 0 ? (
+          <S.ArrowBox>
+            <AiOutlineLeft size={arrowIconSize} onClick={previousPlease} id="left-arrow" />
+          </S.ArrowBox>
+        ) : null}
+        <S.SlideBox>
+          <AnimatePresence mode="wait" custom={back}>
+            {images.map((image, idx) =>
+              idx === visible ? (
+                <S.ProductDetailImg
+                  src={image}
+                  key={idx}
+                  custom={back}
+                  variants={boxVairants}
+                  initial="entry"
+                  animate="center"
+                  exit="exit"
+                  drag="x"
+                  dragConstraints={{ left: 0, right: 0 }}
+                  dragElastic={1}
+                  onDragEnd={(e: any, { offset, velocity }: any) => {
+                    const swipe = swipePower(offset.x, velocity.x);
+                    if (swipe < -swipeConfidenceThreshold) {
+                      setBack(false);
+                      setVisible((prev) => (prev === images.length - 1 ? images.length - 1 : prev + 1));
+                    } else if (swipe > swipeConfidenceThreshold) {
+                      setBack(true);
+                      setVisible((prev) => (prev === 0 ? 0 : prev - 1));
+                    }
+                  }}
+                />
+              ) : null
+            )}
+          </AnimatePresence>
+        </S.SlideBox>
+        {visible !== images.length - 1 ? (
+          <S.ArrowBox>
+            <AiOutlineRight size={arrowIconSize} onClick={nextPlease} id="right-arrow" />{" "}
+          </S.ArrowBox>
+        ) : null}
+      </S.SliderArrowBox>
+    </>
   );
 }

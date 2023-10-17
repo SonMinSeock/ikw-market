@@ -15,11 +15,11 @@ const Product = (product: IProduct) => {
   };
   return (
     <S.ProductLayout onClick={() => onRedirect(`/product/${product.index}`)}>
-      <S.ProductImg src={product.img} type="thumbnail" />
+      <S.ProductImg src={product?.img} type="thumbnail" />
       <S.ProductInfoBox>
-        <S.ProductTitle>{product.name}</S.ProductTitle>
-        <S.ProductPriceSpan>{product.price}원</S.ProductPriceSpan>
-        <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
+        <S.ProductTitle>{product?.name}</S.ProductTitle>
+        <S.ProductPriceSpan>{product?.price}원</S.ProductPriceSpan>
+        <S.ProductLocationSpan>{product?.location}</S.ProductLocationSpan>
       </S.ProductInfoBox>
     </S.ProductLayout>
   );
