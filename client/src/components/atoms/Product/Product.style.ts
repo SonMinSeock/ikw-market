@@ -6,8 +6,11 @@ export const ProductLayout = styled.div`
 export const ProductImg = styled.img<{ type?: string }>`
   width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
   border-radius: 10px;
+  height: 220px;
+  object-fit: cover;
   @media screen and (max-width: 860px) {
     width: ${(props) => (props.type === "thumbnail" ? "100px" : "200px")};
+    height: 100px;
   }
 `;
 export const ProductInfoBox = styled.div`

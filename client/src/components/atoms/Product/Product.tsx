@@ -14,12 +14,12 @@ const Product = ({ product }: any) => {
     return navigagte(url, { state: { ...product } });
   };
   return (
-    <S.ProductLayout onClick={() => onRedirect(`/product/${product.index}`)}>
-      <S.ProductImg src={product.img} type="thumbnail" />
+    <S.ProductLayout onClick={() => onRedirect(`/product/${product?._id}`)}>
+      <S.ProductImg src={product?.img} type="thumbnail" />
       <S.ProductInfoBox>
-        <S.ProductTitle>{product.name}</S.ProductTitle>
-        <S.ProductPriceSpan>{product.price}원</S.ProductPriceSpan>
-        <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
+        <S.ProductTitle>{product?.name}</S.ProductTitle>
+        <S.ProductPriceSpan>{product?.price}원</S.ProductPriceSpan>
+        <S.ProductLocationSpan>{product?.location}</S.ProductLocationSpan>
       </S.ProductInfoBox>
     </S.ProductLayout>
   );
