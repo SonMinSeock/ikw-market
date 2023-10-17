@@ -10,7 +10,7 @@ export const ProductDetailBox = styled.div`
 `;
 
 export const ProductDetailLayout = styled.div`
-  max-width: 420px;
+  max-width: 680px;
   @media screen and (max-width: 860px) {
     max-width: 290px;
   }
@@ -60,8 +60,8 @@ export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
 export const ProductDetailBtn = styled.button`
   cursor: pointer;
   display: flex;
-  /* width: 150px; */
-  width: 100%;
+  width: 150px;
+  /* width: 100%; */
   height: 50px;
   justify-content: center;
   align-items: center;
