@@ -7,7 +7,7 @@ interface IProduct {
   location: string;
   index: number;
 }
-const Product = (product: IProduct) => {
+const Product = ({ product }: any) => {
   const navigagte = useNavigate();
 
   const onRedirect = (url = "") => {
