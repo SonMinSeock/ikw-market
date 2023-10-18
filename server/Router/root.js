@@ -5,7 +5,6 @@ const router = express.Router();
 router.post("/login", async (req, res) => {
   req.session.user = req.body;
   const isUser = await User.findOne({ social_id: req.body["social_id"] });
-
   if (!isUser) {
     const user = new User(req.body);
     await user.save();
@@ -25,7 +24,7 @@ router.get("/getUser", async (req, res) => {
   const sessionUser = req.session.user;
 
   if (req.session.user) {
-    const user = await User.findOne({ social_id: sessionUser["social_id"] });
+    const user = await User.findOne({ social_id: sessionUser["social_id"] }).populate("products_on_sale");
     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
       res.json({ state: true, user, accessToken: sessionUser["access_token"] });
     } else {

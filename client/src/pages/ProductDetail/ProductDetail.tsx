@@ -13,7 +13,7 @@ interface IProduct {
   product_images: [];
   product_name: string;
   product_price: string;
-  seller_info: string;
+  seller_info: any;
   __v: number;
   _id: object;
 }
@@ -23,6 +23,7 @@ const ProductDetail = () => {
   const navigate = useNavigate();
 
   const onRedirect = () => navigate("/chat");
+  console.log(product);
 
   return (
     <S.ProductDetailBox>
@@ -30,7 +31,7 @@ const ProductDetail = () => {
         <Slider images={product.product_images} />
         <S.ProductDetailProfileBox>
           <CgProfile size={28} />
-          <S.ProductDetailText>이름</S.ProductDetailText>
+          <S.ProductDetailText>{product.seller_info.nickname}</S.ProductDetailText>
         </S.ProductDetailProfileBox>
         <S.ProductDetailInfoBox>
           <S.ProductDetailInfoParagraph>{product.name}</S.ProductDetailInfoParagraph>

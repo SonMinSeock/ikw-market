@@ -15,6 +15,7 @@ const Nav = () => {
 
   const NAVER_LOGIN = "네이버 로그인";
 
+  console.log(user);
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };

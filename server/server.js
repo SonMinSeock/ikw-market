@@ -23,11 +23,6 @@ app.use(bodyParser.json());
 
 // CORS 설정
 app.use(cors({ origin: true, credentials: true }));
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*"); // 모든 도메인에서 접근 허용
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//   next();
-// });
 
 app.use(express.urlencoded({ extended: true }));
 

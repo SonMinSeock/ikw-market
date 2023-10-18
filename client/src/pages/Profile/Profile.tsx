@@ -10,56 +10,15 @@ interface IProduct {
   name: string;
   price: number;
   location: string;
+  products_on_sale: any;
 }
 
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
 
-  const products: IProduct[] = [
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-    {
-      img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-      name: "의자팝니다",
-      price: 100000,
-      location: "2호관",
-    },
-  ];
+  const products: IProduct[] = userInfo.products_on_sale;
 
+  console.log("profile : ", products);
   return (
     <S.ProfileLayout>
       <S.UserHeader>

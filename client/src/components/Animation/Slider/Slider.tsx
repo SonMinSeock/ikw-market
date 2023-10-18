@@ -55,7 +55,7 @@ export default function Slider(img: any) {
         ) : null}
         <S.SlideBox>
           <AnimatePresence mode="wait" custom={back}>
-            {images.map((image, idx) =>
+            {images.map((image: any, idx: any) =>
               idx === visible ? (
                 <S.ProductDetailImg
                   src={image}
