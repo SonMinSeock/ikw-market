@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Product from "../atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { searchTextAtom } from "../../recoil/login/atoms";
+import { searchObj } from "../../controller/search";
 
 interface IProduct {
   img: string;
@@ -11,7 +14,7 @@ interface IProduct {
 }
 const Products = () => {
   const [products, setProducts] = useState([]);
-
+  const searchText = useRecoilValue(searchTextAtom);
   // const products: IProduct[] = [
   //   {
   //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
@@ -73,6 +76,10 @@ const Products = () => {
   useEffect(() => {
     getProductsAPI();
   }, []);
+
+  useEffect(() => {
+    searchObj.products(searchText, getProductsAPI, products, setProducts);
+  }, [products]);
 
   return (
     <ProductsLayout>

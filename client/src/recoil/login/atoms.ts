@@ -32,3 +32,8 @@ export const accessTokenAtom = atom({
   key: "kakaoToken",
   default: "",
 });
+
+export const searchTextAtom = atom({
+  key: "searchText",
+  default: "",
+});
