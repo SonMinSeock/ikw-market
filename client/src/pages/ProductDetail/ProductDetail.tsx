@@ -19,8 +19,8 @@ interface IProduct {
 }
 const ProductDetail = () => {
   const location = useLocation();
-  const product: IProduct = location.state;
   const navigate = useNavigate();
+  const product: IProduct = location.state;
 
   const onRedirect = () => navigate("/chat");
   console.log(product);
@@ -34,11 +34,11 @@ const ProductDetail = () => {
           <S.ProductDetailText>{product.seller_info.nickname}</S.ProductDetailText>
         </S.ProductDetailProfileBox>
         <S.ProductDetailInfoBox>
-          <S.ProductDetailInfoParagraph>{product.name}</S.ProductDetailInfoParagraph>
-          <S.ProductDetailInfoText type="bold">{product.price}</S.ProductDetailInfoText>
+          <S.ProductDetailInfoParagraph>{product.product_name}</S.ProductDetailInfoParagraph>
+          <S.ProductDetailInfoText type="bold">{product.product_price}원</S.ProductDetailInfoText>
           <S.ProductDetailLocationBox>
             <CiLocationOn size={23} />
-            <S.ProductDetailText>{product.location}</S.ProductDetailText>
+            <S.ProductDetailText>{product.product_price}</S.ProductDetailText>
           </S.ProductDetailLocationBox>
           <S.ProductDetailInfoParagraph>{product.description}</S.ProductDetailInfoParagraph>
           <S.ProductDetailViewBox>

@@ -5,20 +5,23 @@ import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import { ProductsLayout } from "../../components/ProductList/ProductList.style";
 
-interface IProduct {
-  img: string;
-  name: string;
-  price: number;
-  location: string;
-  products_on_sale: any;
-}
+// interface IProduct {
+//   description: string;
+//   location: string;
+//   product_images: any;
+//   product_name: string;
+//   product_price: string;
+//   seller_info: any;
+//   __v: number;
+//   _id: string;
+// }
 
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
 
-  const products: IProduct[] = userInfo.products_on_sale;
+  const products = userInfo.products_on_sale;
+  console.log(userInfo);
 
-  console.log("profile : ", products);
   return (
     <S.ProfileLayout>
       <S.UserHeader>
@@ -34,7 +37,7 @@ const Profile = () => {
         </S.UserProductTitle>
         <ProductsLayout>
           {products.map((product, idx) => {
-            return <Product key={idx} {...product} index={idx} />;
+            return <Product key={idx} product={product} />;
           })}
         </ProductsLayout>
       </S.UserProductList>
