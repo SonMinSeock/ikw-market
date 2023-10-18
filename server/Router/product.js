@@ -4,6 +4,15 @@ import { User } from "../models/user";
 
 const router = express.Router();
 
+router.get("/", async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json({ state: true, products: products });
+  } catch (error) {
+    console.log("Get Products Error : ", error);
+  }
+});
+
 router.post("/upload", async (req, res) => {
   const user = await User.findOne({ social_id: req.session.user["social_id"] });
 

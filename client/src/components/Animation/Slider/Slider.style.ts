@@ -40,6 +40,10 @@ export const ProductDetailImg = styled(motion.img)`
   height: 450px;
   border-radius: 10px;
 
+
+
+  object-fit: cover;
+
   @media screen and (max-width: 860px) {
     width: 290px;
     height: 230px;

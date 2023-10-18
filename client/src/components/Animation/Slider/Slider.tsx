@@ -3,16 +3,11 @@ import { useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import * as S from "./Slider.style";
 
-export default function Slider() {
+export default function Slider(img: any) {
   const [visible, setVisible] = useState<number>(0);
   const [back, setBack] = useState<boolean>(false);
   const arrowIconSize = 23;
-
-  const images = [
-    "https://t4.ftcdn.net/jpg/06/34/00/69/240_F_634006945_eGQCGQrinCG5nVmhUtZ0LumH9EoGFoDt.jpg",
-    "https://t3.ftcdn.net/jpg/01/23/17/82/240_F_123178240_ZIZQmUuo84kWqB2ZD2quaKVbFSo7Uq7t.jpg",
-    "https://t3.ftcdn.net/jpg/04/31/72/70/240_F_431727023_tgAI6ORGvruHGQmP1sXnHkAHR1fwb7cK.jpg",
-  ];
+  const images = img.images;
   const boxVairants = {
     entry: () => ({
       x: 0,

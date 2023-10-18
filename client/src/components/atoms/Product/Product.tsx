@@ -7,14 +7,14 @@ interface IProduct {
   location: string;
   index: number;
 }
-const Product = (product: IProduct) => {
+const Product = ({ product }: any) => {
   const navigagte = useNavigate();
 
   const onRedirect = (url = "") => {
     return navigagte(url, { state: { ...product } });
   };
   return (
-    <S.ProductLayout onClick={() => onRedirect(`/product/${product.index}`)}>
+    <S.ProductLayout onClick={() => onRedirect(`/product/${product?._id}`)}>
       <S.ProductImg src={product?.img} type="thumbnail" />
       <S.ProductInfoBox>
         <S.ProductTitle>{product?.name}</S.ProductTitle>
