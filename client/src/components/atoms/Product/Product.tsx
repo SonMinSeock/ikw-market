@@ -13,7 +13,7 @@ const Product = ({ product }: any) => {
   const onRedirect = (url = "") => {
     return navigagte(url, { state: { ...product } });
   };
-  console.log("Product : ", product);
+  console.log("Product : ");
   return (
     <S.ProductLayout onClick={() => onRedirect(`/product/${product?._id}`)}>
       <S.ProductImg src={product?.img} type="thumbnail" />
