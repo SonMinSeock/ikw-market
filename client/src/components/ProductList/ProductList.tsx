@@ -14,8 +14,9 @@ interface IProduct {
   _id: string;
 }
 const ProductList = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
-
+  const [products, setProducts] = useState([]);
+  // 밑에처럼 수정해야함
+//const [products, setProducts] = useState<IProduct[]>([]);
   // const products: IProduct[] = [
   //   {
   //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
