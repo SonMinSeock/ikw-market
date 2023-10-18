@@ -4,13 +4,17 @@ import { ProductsLayout } from "./ProductList.style";
 import axios from "axios";
 
 interface IProduct {
-  img: string;
-  name: string;
-  price: number;
+  description: string;
   location: string;
+  product_images: any;
+  product_name: string;
+  product_price: string;
+  seller_info: any;
+  __v: number;
+  _id: string;
 }
-const Products = () => {
-  const [products, setProducts] = useState([]);
+const ProductList = () => {
+  const [products, setProducts] = useState<IProduct[]>([]);
 
   // const products: IProduct[] = [
   //   {
@@ -63,13 +67,11 @@ const Products = () => {
     products = products.map((product: any) => {
       return {
         ...product,
-        name: product["product_name"],
-        img: product["product_images"][0],
-        price: product["product_price"],
       };
     });
     setProducts(products);
   };
+
   useEffect(() => {
     getProductsAPI();
   }, []);
@@ -77,10 +79,10 @@ const Products = () => {
   return (
     <ProductsLayout>
       {products.map((product, idx) => {
-        return <Product key={idx} product={product} index={idx} />;
+        return <Product key={idx} product={product} />;
       })}
     </ProductsLayout>
   );
 };
 
-export default Products;
+export default ProductList;
