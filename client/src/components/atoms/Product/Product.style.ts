@@ -20,11 +20,19 @@ export const ProductInfoBox = styled.div`
   margin-top: 10px;
 `;
 
-export const ProductTitle = styled.h2``;
+export const ProductTitle = styled.h2`
+  @media screen and (max-width: 860px) {
+    font-size: 0.7rem;
+  }
+`;
 export const ProductPriceSpan = styled.span`
   font-weight: 700;
+  @media screen and (max-width: 860px) {
+    font-size: 0.7rem;
+  }
 `;
 export const ProductLocationSpan = styled.span`
   font-weight: 200;
   font-size: 13px;
+  word-break: break-all;
 `;

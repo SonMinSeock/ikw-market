@@ -11,6 +11,7 @@ export const ProductDetailBox = styled.div`
 
 export const ProductDetailLayout = styled.div`
   max-width: 680px;
+  padding-top: 1rem;
   @media screen and (max-width: 860px) {
     max-width: 290px;
   }
@@ -28,7 +29,6 @@ export const ProductDetailProfileBox = styled.div`
 
 export const ProductDetailText = styled.span`
   margin-right: 0.5rem;
-
   &:last-child {
     margin-right: 0px;
   }
@@ -39,6 +39,7 @@ export const ProductDetailInfoBox = styled.div``;
 export const ProductDetailInfoParagraph = styled.p`
   display: flex;
   padding: 1.6rem 0rem;
+  word-break: break-all;
 `;
 
 export const ProductDetailInfoText = styled.span<{ type?: string }>`
