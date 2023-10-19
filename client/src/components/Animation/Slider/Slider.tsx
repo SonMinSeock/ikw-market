@@ -2,6 +2,7 @@ import { AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 import * as S from "./Slider.style";
+import Modal from "../../Modal/Modal";
 
 export default function Slider(img: any) {
   const [visible, setVisible] = useState<number>(0);
@@ -45,6 +46,22 @@ export default function Slider(img: any) {
     return Math.abs(offset) * velocity;
   };
 
+  const [onModal, setOnModal] = useState(false);
+  const [selectImg, setSelectImg] = useState<string>();
+
+  // 이미지 클릭시 모달창 보여주기
+  const onClickModalOpen = (image: string) => {
+    setOnModal((prev) => !prev);
+    setSelectImg(image);
+    document.body.style.overflow = "hidden";
+  };
+
+  // 모달닫기
+  const closeModal = () => {
+    setOnModal(false);
+    document.body.style.overflow = "auto";
+  };
+
   return (
     <>
       <S.SliderArrowBox>
@@ -58,6 +75,7 @@ export default function Slider(img: any) {
             {images.map((image: any, idx: any) =>
               idx === visible ? (
                 <S.ProductDetailImg
+                  onClick={() => onClickModalOpen(image)}
                   src={image}
                   key={idx}
                   custom={back}
@@ -89,6 +107,7 @@ export default function Slider(img: any) {
           </S.ArrowBox>
         ) : null}
       </S.SliderArrowBox>
+      <Modal isOpen={onModal} onRequestClose={closeModal} selectImg={selectImg} />
     </>
   );
 }

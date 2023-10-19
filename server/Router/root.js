@@ -24,7 +24,10 @@ router.get("/getUser", async (req, res) => {
   const sessionUser = req.session.user;
 
   if (req.session.user) {
-    const user = await User.findOne({ social_id: sessionUser["social_id"] }).populate("products_on_sale");
+    const user = await User.findOne({ social_id: sessionUser["social_id"] }).populate({
+      path: "products_on_sale",
+      populate: { path: "seller_info" },
+    });
     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
       res.json({ state: true, user, accessToken: sessionUser["access_token"] });
     } else {

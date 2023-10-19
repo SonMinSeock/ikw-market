@@ -7,14 +7,24 @@ import { searchTextAtom } from "../../recoil/login/atoms";
 import { searchObj } from "../../controller/search";
 
 interface IProduct {
-  img: string;
-  name: string;
-  price: number;
+  description: string;
   location: string;
+  product_images: any;
+  product_name: string;
+  product_price: string;
+  seller_info: any;
+  __v: number;
+  _id: string;
 }
+// <<<<<<< feat/product-detail-modal
+// const ProductList = () => {
+//   const [products, setProducts] = useState<IProduct[]>([]);
+
+
 const Products = () => {
   const [products, setProducts] = useState([]);
   const searchText = useRecoilValue(searchTextAtom);
+
   // const products: IProduct[] = [
   //   {
   //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
@@ -66,13 +76,11 @@ const Products = () => {
     products = products.map((product: any) => {
       return {
         ...product,
-        name: product["product_name"],
-        img: product["product_images"][0],
-        price: product["product_price"],
       };
     });
     setProducts(products);
   };
+
   useEffect(() => {
     getProductsAPI();
   }, []);
@@ -84,10 +92,10 @@ const Products = () => {
   return (
     <ProductsLayout>
       {products.map((product, idx) => {
-        return <Product key={idx} product={product} index={idx} />;
+        return <Product key={idx} product={product} />;
       })}
     </ProductsLayout>
   );
 };
 
-export default Products;
+export default ProductList;
