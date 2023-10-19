@@ -20,8 +20,7 @@ interface IProduct {
 // const ProductList = () => {
 //   const [products, setProducts] = useState<IProduct[]>([]);
 
-
-const Products = () => {
+const ProductList = () => {
   const [products, setProducts] = useState([]);
   const searchText = useRecoilValue(searchTextAtom);
 
@@ -87,7 +86,7 @@ const Products = () => {
 
   useEffect(() => {
     searchObj.products(searchText, getProductsAPI, products, setProducts);
-  }, [products]);
+  }, []);
 
   return (
     <ProductsLayout>
