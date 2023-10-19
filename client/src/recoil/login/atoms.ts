@@ -37,3 +37,8 @@ export const searchTextAtom = atom({
   key: "searchText",
   default: "",
 });
+
+export const searchProductsAtom = atom({
+  key: "searchProducts",
+  default: [],
+});
