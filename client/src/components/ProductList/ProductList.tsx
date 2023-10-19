@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import Product from "../atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
+import { searchTextAtom } from "../../recoil/login/atoms";
+import { searchObj } from "../../controller/search";
 
 interface IProduct {
   description: string;
@@ -13,8 +16,14 @@ interface IProduct {
   __v: number;
   _id: string;
 }
-const ProductList = () => {
-  const [products, setProducts] = useState<IProduct[]>([]);
+// <<<<<<< feat/product-detail-modal
+// const ProductList = () => {
+//   const [products, setProducts] = useState<IProduct[]>([]);
+
+
+const Products = () => {
+  const [products, setProducts] = useState([]);
+  const searchText = useRecoilValue(searchTextAtom);
 
   // const products: IProduct[] = [
   //   {
@@ -75,6 +84,10 @@ const ProductList = () => {
   useEffect(() => {
     getProductsAPI();
   }, []);
+
+  useEffect(() => {
+    searchObj.products(searchText, getProductsAPI, products, setProducts);
+  }, [products]);
 
   return (
     <ProductsLayout>
