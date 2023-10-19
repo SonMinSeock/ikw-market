@@ -52,8 +52,9 @@ const ProductDetail = () => {
         </S.ProductDetailInfoBox>
         {userId === productSellerId ? (
           <S.ButtonRow>
-            <S.ProductDetailBtn onClick={onRedirect}>수정하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn onClick={onRedirect}>삭제하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn>수정하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn>삭제하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn>판매완료</S.ProductDetailBtn>
           </S.ButtonRow>
         ) : (
           <S.ButtonRow>

@@ -75,5 +75,5 @@ export const ProductDetailBtn = styled.button`
   background-color: #ffc901;
   border: none;
   color: #fff;
-  font-size: 22px;
+  font-size: 20px;
 `;
