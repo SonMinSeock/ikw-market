@@ -24,7 +24,10 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const product: IProduct = location.state;
 
-  const onRedirect = () => navigate("/chat");
+  const onRedirectChat = () => navigate("/chat");
+  const onRedirectProductEdit = (product: IProduct) => {
+    return navigate("edit", { state: product });
+  };
   const userInfo = useRecoilValue(userAtom);
   const userId = userInfo._id;
   const productSellerId = product.seller_info._id;
@@ -52,13 +55,13 @@ const ProductDetail = () => {
         </S.ProductDetailInfoBox>
         {userId === productSellerId ? (
           <S.ButtonRow>
-            <S.ProductDetailBtn>수정하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
             <S.ProductDetailBtn>삭제하기</S.ProductDetailBtn>
             <S.ProductDetailBtn>판매완료</S.ProductDetailBtn>
           </S.ButtonRow>
         ) : (
           <S.ButtonRow>
-            <S.ProductDetailBtn onClick={onRedirect}>채팅하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={onRedirectChat}>채팅하기</S.ProductDetailBtn>
           </S.ButtonRow>
         )}
       </S.ProductDetailLayout>
