@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { Button } from "../../components/Modal/Modal.style";
 
 export const ProductDetailBox = styled.div`
   display: flex;
@@ -57,7 +58,12 @@ export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
   font-size: 0.8rem;
   color: gray;
 `;
-
+export const ButtonRow = styled.div`
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 45px;
+`;
 export const ProductDetailBtn = styled.button`
   cursor: pointer;
   display: flex;
@@ -70,5 +76,4 @@ export const ProductDetailBtn = styled.button`
   border: none;
   color: #fff;
   font-size: 22px;
-  margin: 0 auto;
 `;
