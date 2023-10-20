@@ -34,7 +34,7 @@ const Modal = ({ isOpen, onRequestClose, selectImg }: any) => {
       }}
       shouldCloseOnOverlayClick={true}>
       <S.Button>
-        <TiDelete onClick={onRequestClose} color="#fff" size={40} />
+        <TiDelete onClick={onRequestClose} color="#ffc901" size={40} />
       </S.Button>
       <S.ImgWrap>
         <img src={selectImg} alt="사진" />

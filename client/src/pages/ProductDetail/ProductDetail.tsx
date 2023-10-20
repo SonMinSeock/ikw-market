@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
+import { useRecoilValue } from "recoil";
+import { userAtom } from "../../recoil/login/atoms";
 
 interface IProduct {
   description: string;
@@ -22,8 +24,13 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const product: IProduct = location.state;
 
-  const onRedirect = () => navigate("/chat");
-  console.log(product);
+  const onRedirectChat = () => navigate("/chat");
+  const onRedirectProductEdit = (product: IProduct) => {
+    return navigate("edit", { state: product });
+  };
+  const userInfo = useRecoilValue(userAtom);
+  const userId = userInfo._id;
+  const productSellerId = product.seller_info._id;
 
   return (
     <S.ProductDetailBox>
@@ -46,7 +53,17 @@ const ProductDetail = () => {
             <S.ProductDetailText>123123</S.ProductDetailText>
           </S.ProductDetailViewBox>
         </S.ProductDetailInfoBox>
-        <S.ProductDetailBtn onClick={onRedirect}>채팅하기</S.ProductDetailBtn>
+        {userId === productSellerId ? (
+          <S.ButtonRow>
+            <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn>삭제하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn>판매완료</S.ProductDetailBtn>
+          </S.ButtonRow>
+        ) : (
+          <S.ButtonRow>
+            <S.ProductDetailBtn onClick={onRedirectChat}>채팅하기</S.ProductDetailBtn>
+          </S.ButtonRow>
+        )}
       </S.ProductDetailLayout>
     </S.ProductDetailBox>
   );

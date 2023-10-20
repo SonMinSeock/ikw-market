@@ -6,6 +6,7 @@ import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
 import Layout from "./components/Layout/Layout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
+import ProductEdit from "./pages/ProductEdit/ProductEdit";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="chat" element={<Chat />} />
           <Route path="upload" element={<Upload />} />
+          <Route path="product/:id/edit" element={<ProductEdit />} />
         </Route>
         <Route path="/login" element={<Login />} />
       </Routes>
