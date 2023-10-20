@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Product from "../atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
 import axios from "axios";
-import { useRecoilValue } from "recoil";
-import { searchTextAtom } from "../../recoil/login/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { searchProductsAtom, searchTextAtom } from "../../recoil/login/atoms";
 import { searchObj } from "../../controller/search";
 
 interface IProduct {
@@ -16,14 +16,11 @@ interface IProduct {
   __v: number;
   _id: string;
 }
-// <<<<<<< feat/product-detail-modal
-// const ProductList = () => {
-//   const [products, setProducts] = useState<IProduct[]>([]);
 
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const searchText = useRecoilValue(searchTextAtom);
-
+  const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
   // const products: IProduct[] = [
   //   {
   //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
@@ -85,16 +82,21 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    searchObj.products(searchText, getProductsAPI, products, setProducts);
-  }, []);
+    searchObj.products(searchText, getProductsAPI, products, setSearchProducts);
+  }, [searchText]);
 
-  return (
-    <ProductsLayout>
-      {products.map((product, idx) => {
+  const showProducts = () => {
+    if (searchProducts.length !== 0) {
+      return searchProducts.map((product, idx) => {
         return <Product key={idx} product={product} />;
-      })}
-    </ProductsLayout>
-  );
+      });
+    } else {
+      return products.map((product, idx) => {
+        return <Product key={idx} product={product} />;
+      });
+    }
+  };
+  return <ProductsLayout>{showProducts()}</ProductsLayout>;
 };
 
 export default ProductList;
