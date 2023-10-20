@@ -23,6 +23,16 @@ router.post("/upload", async (req, res) => {
   res.json({ state: true });
 });
 
+router.get("/:id", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  const product = await Product.findById(id);
+
+  res.json({ state: true, product });
+});
+
 router.post("/:id/upload", async (req, res) => {
   const {
     params: { id },
