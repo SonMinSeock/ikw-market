@@ -23,4 +23,14 @@ router.post("/upload", async (req, res) => {
   res.json({ state: true });
 });
 
+router.post("/:id/upload", async (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
+  await Product.findByIdAndUpdate(id, { ...req.body });
+
+  res.json({ state: true });
+});
+
 export default router;

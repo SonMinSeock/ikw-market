@@ -75,7 +75,7 @@ const ProductEdit = () => {
 
     const formData = await axios
       .post(
-        "http://localhost:3002/product/upload",
+        `http://localhost:3002/product/${productInfo._id}/upload`,
         {
           product_name: data.name,
           product_images: imageUrls,
@@ -146,9 +146,10 @@ const ProductEdit = () => {
       return;
     }
 
+    // 미리보기 할때 보임. 일단 주석.
     for (let i = 0; i < files.length; i++) {
       const resizedImage = await resizeImage(files[i]);
-      newFileList.push(URL.createObjectURL(resizedImage as Blob));
+      newFileList.push(resizedImage as any);
     }
 
     setFileList([...fileList, ...newFileList]);
