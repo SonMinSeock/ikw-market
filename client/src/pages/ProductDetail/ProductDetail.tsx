@@ -5,6 +5,7 @@ import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
+import axios from "axios";
 
 interface IProduct {
   description: string;
@@ -32,6 +33,13 @@ const ProductDetail = () => {
   const userId = userInfo._id;
   const productSellerId = product.seller_info._id;
 
+  const deleteProductAPI = async (id: any) => {
+    const { state } = await (
+      await axios.delete(`http://localhost:3002/product/${id}/delete`, { withCredentials: true })
+    ).data;
+
+    if (state) navigate("/");
+  };
   return (
     <S.ProductDetailBox>
       <S.ProductDetailLayout>
@@ -56,7 +64,7 @@ const ProductDetail = () => {
         {userId === productSellerId ? (
           <S.ButtonRow>
             <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn>삭제하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={() => deleteProductAPI(product._id)}>삭제하기</S.ProductDetailBtn>
             <S.ProductDetailBtn>판매완료</S.ProductDetailBtn>
           </S.ButtonRow>
         ) : (

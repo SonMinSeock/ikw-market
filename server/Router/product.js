@@ -43,4 +43,23 @@ router.post("/:id/upload", async (req, res) => {
   res.json({ state: true });
 });
 
+router.delete("/:id/delete", async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+
+    const deleteProduct = await Product.findByIdAndDelete(id);
+    //console.log("해당 상품 삭제 완료");
+    // 유저가 등록한 상품리스트를 삭제해준다.
+    //
+    await User.findByIdAndUpdate(deleteProduct.seller_info._id, { $pull: { products_on_sale: { $in: [id] } } });
+
+    // User.findByIdAndUpdate(deleteProduct.seller_info)
+    res.json({ state: true });
+  } catch (error) {
+    console.log("Delete Product Error : ", error);
+  }
+});
+
 export default router;
