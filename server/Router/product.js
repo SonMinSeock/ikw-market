@@ -53,10 +53,16 @@ router.delete("/:id/delete", async (req, res) => {
     const deleteProduct = await Product.findByIdAndDelete(id);
 
     // 유저가 등록한 상품리스트를 삭제해준다.
-    await User.findByIdAndUpdate(deleteProduct.seller_info._id, { $pull: { products_on_sale: { $in: [id] } } });
+    const updateUser = await User.findByIdAndUpdate(
+      deleteProduct.seller_info._id,
+      {
+        $pull: { products_on_sale: { $in: [id] } },
+      },
+      { new: true }
+    );
 
     // User.findByIdAndUpdate(deleteProduct.seller_info)
-    res.json({ state: true });
+    res.json({ state: true, updateUser });
   } catch (error) {
     console.log("Delete Product Error : ", error);
   }

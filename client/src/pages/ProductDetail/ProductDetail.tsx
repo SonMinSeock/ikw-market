@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
 
@@ -30,16 +30,21 @@ const ProductDetail = () => {
   const onRedirectProductEdit = (product: IProduct) => {
     return navigate("edit", { state: product });
   };
-  const userInfo = useRecoilValue(userAtom);
+  const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const userId = userInfo._id;
   const productSellerId = product.seller_info._id;
 
   const deleteProductAPI = async (id: any) => {
-    const { state } = await (
+    const { state, updateUser } = await (
       await axios.delete(`http://localhost:3002/product/${id}/delete`, { withCredentials: true })
     ).data;
 
-    if (state) navigate("/");
+    console.log("delete product update user : ", updateUser);
+
+    if (state) {
+      setUserInfo(updateUser);
+      navigate("/");
+    }
   };
 
   const updateProductAPI = async (id: any) => {
