@@ -115,7 +115,7 @@ const ProductEdit = () => {
 
     const formData = await axios
       .post(
-        `http://localhost:3002/product/${id}/upload`,
+        `http://localhost:3002/product/${id}/update`,
         {
           product_name: data.name,
           product_images: imageUrls,

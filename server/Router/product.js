@@ -33,7 +33,8 @@ router.get("/:id", async (req, res) => {
   res.json({ state: true, product });
 });
 
-router.post("/:id/upload", async (req, res) => {
+// 해당 상품 수정해주는 API
+router.post("/:id/update", async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -50,9 +51,8 @@ router.delete("/:id/delete", async (req, res) => {
     } = req;
 
     const deleteProduct = await Product.findByIdAndDelete(id);
-    //console.log("해당 상품 삭제 완료");
+
     // 유저가 등록한 상품리스트를 삭제해준다.
-    //
     await User.findByIdAndUpdate(deleteProduct.seller_info._id, { $pull: { products_on_sale: { $in: [id] } } });
 
     // User.findByIdAndUpdate(deleteProduct.seller_info)

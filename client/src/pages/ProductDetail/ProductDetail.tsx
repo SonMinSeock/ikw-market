@@ -16,6 +16,7 @@ interface IProduct {
   product_images: [];
   product_name: string;
   product_price: string;
+  product_state: boolean;
   seller_info: any;
   __v: number;
   _id: object;
@@ -36,6 +37,14 @@ const ProductDetail = () => {
   const deleteProductAPI = async (id: any) => {
     const { state } = await (
       await axios.delete(`http://localhost:3002/product/${id}/delete`, { withCredentials: true })
+    ).data;
+
+    if (state) navigate("/");
+  };
+
+  const updateProductAPI = async (id: any) => {
+    const { state } = await (
+      await axios.post(`http://localhost:3002/product/${id}/update`, { product_state: true }, { withCredentials: true })
     ).data;
 
     if (state) navigate("/");
@@ -65,7 +74,7 @@ const ProductDetail = () => {
           <S.ButtonRow>
             <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
             <S.ProductDetailBtn onClick={() => deleteProductAPI(product._id)}>삭제하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn>판매완료</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={() => updateProductAPI(product._id)}>판매완료</S.ProductDetailBtn>
           </S.ButtonRow>
         ) : (
           <S.ButtonRow>

@@ -61,6 +61,7 @@ const Upload = () => {
           product_price: data.price,
           location: data.location,
           description: data.description,
+          product_state: false,
         },
         { withCredentials: true }
       )
