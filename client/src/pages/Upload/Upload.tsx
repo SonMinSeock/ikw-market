@@ -23,10 +23,14 @@ const Upload = () => {
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
 
+  const region = process.env.REACT_APP_REGION;
+  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
   AWS.config.update({
-    region: process.env.REACT_APP_REGION,
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    region: region,
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
   });
 
   const navigate = useNavigate();
@@ -98,7 +102,7 @@ const Upload = () => {
   // 이미지 클릭시 모달창 보여주기
   const onClickModalOpen = (idx: number) => {
     setOnModal((prev) => !prev);
-    setSelectImg(URL.createObjectURL(fileList[idx] as any));
+    setSelectImg(fileList[idx] as any);
     document.body.style.overflow = "hidden";
   };
 
@@ -109,10 +113,28 @@ const Upload = () => {
   };
 
   // 이미지 삭제 버튼
-  const onClickDeleteBtn = (idx: number) => {
+  const onClickDeleteBtn = async (idx: number) => {
     const tmpFileList = [...fileList];
-    tmpFileList.splice(idx, 1);
-    setFileList(tmpFileList);
+
+    // AWS S3에서 이미지 삭제
+    const deleteImageFromS3 = async (key: string) => {
+      const params = {
+        Bucket: "ikw-market",
+        Key: key,
+      };
+      const s3 = new AWS.S3();
+      await s3.deleteObject(params).promise();
+    };
+
+    // 이미지 삭제 후 file list에서도 삭제
+    try {
+      await deleteImageFromS3(fileList[idx].split("/")[3]);
+      tmpFileList.splice(idx, 1);
+      setFileList(tmpFileList);
+    } catch (error) {
+      console.error("AWS S3 이미지 삭제 오류:", error);
+      // 에러 처리 - 이미지 삭제 실패
+    }
   };
 
   // 이미지 최적화, 미리보기
@@ -128,12 +150,23 @@ const Upload = () => {
 
     for (let i = 0; i < files.length; i++) {
       const resizedImage = await resizeImage(files[i]);
-      newFileList.push(resizedImage as any);
-    }
+      const params = {
+        Bucket: "ikw-market",
+        Key: `${Date.now()}.${i}.webp`,
+        Body: resizedImage,
+      };
 
+      await new AWS.S3().upload(params as any).promise();
+
+      // AWS S3 서버에 이미지를 업로드합니다.
+      const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
+      newFileList.push(awsImageUrl);
+    }
+    e.target.value = "";
     setFileList([...fileList, ...newFileList]);
   };
 
+  console.log(fileList);
   const resizeImage = (file: any) => {
     return new Promise((resolve, reject) => {
       Resizer.imageFileResizer(
@@ -169,7 +202,7 @@ const Upload = () => {
           </S.UploadImgBtn>
           {fileList.map((file, idx) => (
             <S.UploadImgRow key={idx}>
-              <S.UploadImgItem onClick={() => onClickModalOpen(idx)} src={URL.createObjectURL(file as any)} />
+              <S.UploadImgItem onClick={() => onClickModalOpen(idx)} src={file} />
               <div>
                 <TiDelete onClick={() => onClickDeleteBtn(idx)} fill="fill" size={35} />
               </div>
