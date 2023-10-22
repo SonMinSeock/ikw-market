@@ -51,14 +51,14 @@ const ProductEdit = () => {
     }
   };
 
-  console.log("product 확인 : ", product?.product_name);
+  // console.log("product 확인 : ", product?.product_name);
 
   useEffect(() => {
     if (isLogin) {
       getProductAPI(id);
       setLoading(false);
     } else {
-      navigate("/");
+      //  navigate("/");
     }
   }, []);
 
@@ -72,7 +72,7 @@ const ProductEdit = () => {
               pass = true;
             }
           });
-          if (!pass) navigate("/");
+          //if (!pass) navigate("/");
         }
       }
     }
@@ -86,10 +86,15 @@ const ProductEdit = () => {
 
     // 기존 이미지가 있을 때 기본 이미지 렌더링 로직
   }, [product?.product_images]);
+
+  const region = process.env.REACT_APP_REGION;
+  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
   AWS.config.update({
-    region: process.env.REACT_APP_REGION,
-    accessKeyId: process.env.REACT_APP_AWS_ACCESS_KEY,
-    secretAccessKey: process.env.REACT_APP_AWS_SECRET_ACCESS_KEY,
+    region: region,
+    accessKeyId: accessKeyId,
+    secretAccessKey: secretAccessKey,
   });
 
   // form submit
@@ -99,26 +104,12 @@ const ProductEdit = () => {
       return;
     }
 
-    // aws s3 서버 이미지 저장
-    const upload = fileList.map((file, idx) => {
-      const params = {
-        Bucket: "ikw-market",
-        Key: `${Date.now()}.${idx}.webp`,
-        Body: file,
-      };
-      return new AWS.S3().upload(params).promise();
-    });
-
-    // 비동기로 upload 함수 실행 후 aws s3 이미지 링크 저장
-    const uploadResults = await Promise.all(upload);
-    const imageUrls = uploadResults.map((result) => result.Location);
-
     const formData = await axios
       .post(
         `http://localhost:3002/product/${id}/update`,
         {
           product_name: data.name,
-          product_images: imageUrls,
+          product_images: fileList,
           product_price: data.price,
           location: data.location,
           description: data.description,
@@ -169,7 +160,7 @@ const ProductEdit = () => {
   };
 
   // 이미지 삭제 버튼
-  const onClickDeleteBtn = (idx: number) => {
+  const onClickDeleteBtn = async (idx: number) => {
     const tmpFileList = [...fileList];
     tmpFileList.splice(idx, 1);
     setFileList(tmpFileList);
@@ -186,12 +177,21 @@ const ProductEdit = () => {
       return;
     }
 
-    // 미리보기 할때 보임. 일단 주석.
     for (let i = 0; i < files.length; i++) {
       const resizedImage = await resizeImage(files[i]);
-      newFileList.push(resizedImage as any);
-    }
+      const params = {
+        Bucket: "ikw-market",
+        Key: `${Date.now()}.${i}.webp`,
+        Body: resizedImage,
+      };
 
+      await new AWS.S3().upload(params as any).promise();
+
+      // AWS S3 서버에 이미지를 업로드합니다.
+      const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
+      newFileList.push(awsImageUrl);
+    }
+    e.target.value = "";
     setFileList([...fileList, ...newFileList]);
   };
 
