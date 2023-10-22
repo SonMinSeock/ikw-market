@@ -43,25 +43,25 @@ const Upload = () => {
     }
 
     // aws s3 서버 이미지 저장
-    const upload = fileList.map((file, idx) => {
-      const params = {
-        Bucket: "ikw-market",
-        Key: `${Date.now()}.${idx}.webp`,
-        Body: file,
-      };
-      return new AWS.S3().upload(params).promise();
-    });
+    // const upload = fileList.map((file, idx) => {
+    //   const params = {
+    //     Bucket: "ikw-market",
+    //     Key: `${Date.now()}.${idx}.webp`,
+    //     Body: file,
+    //   };
+    //   return new AWS.S3().upload(params).promise();
+    // });
 
-    // 비동기로 upload 함수 실행 후 aws s3 이미지 링크 저장
-    const uploadResults = await Promise.all(upload);
-    const imageUrls = uploadResults.map((result) => result.Location);
+    // // 비동기로 upload 함수 실행 후 aws s3 이미지 링크 저장
+    // const uploadResults = await Promise.all(upload);
+    // const imageUrls = uploadResults.map((result) => result.Location);
 
     const formData = await axios
       .post(
         "http://localhost:3002/product/upload",
         {
           product_name: data.name,
-          product_images: imageUrls,
+          product_images: fileList,
           product_price: data.price,
           location: data.location,
           description: data.description,
