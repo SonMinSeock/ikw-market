@@ -17,6 +17,9 @@ export const ProductDetailLayout = styled.div`
     max-width: 290px;
   }
 `;
+export const ProductDetailImgbox = styled.div`
+  position: relative;
+`;
 
 export const ProductDetailProfileBox = styled.div`
   display: flex;

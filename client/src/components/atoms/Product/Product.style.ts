@@ -3,6 +3,11 @@ import styled from "styled-components";
 export const ProductLayout = styled.div`
   margin-bottom: 50px;
 `;
+
+export const ProductImgBox = styled.div`
+  position: relative;
+`;
+
 export const ProductImg = styled.img<{ type?: string }>`
   width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
   border-radius: 10px;
