@@ -22,8 +22,8 @@ const Product = ({ product }: { product: IProduct }) => {
   // console.log("Product : ");
 
   return (
-    <S.ProductLayout onClick={() => onRedirect(`/product/${product?._id}`)}>
-      <S.ProductImgBox>
+    <S.ProductLayout>
+      <S.ProductImgBox onClick={() => onRedirect(`/product/${product?._id}`)}>
         <S.ProductImg src={product.product_images[0]} type="thumbnail" />
         {product.product_state && <Sold />}
       </S.ProductImgBox>
