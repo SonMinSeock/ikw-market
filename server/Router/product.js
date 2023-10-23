@@ -20,6 +20,7 @@ router.post("/upload", async (req, res) => {
   user["products_on_sale"].push(product);
   await product.save();
   await user.save();
+
   res.json({ state: true });
 });
 
