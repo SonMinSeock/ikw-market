@@ -19,7 +19,6 @@ import { ProductsLayout } from "../../components/ProductList/ProductList.style";
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
 
-  console.log("profile userinfo : ", userInfo);
   const products = userInfo?.products_on_sale;
 
   return (
@@ -27,7 +26,7 @@ const Profile = () => {
       <S.UserHeader>
         <S.UserImg src="https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png" />
         <S.UserInfoBox>
-          <S.UserNameSpan>{userInfo.nickname}</S.UserNameSpan>
+          <S.UserNameSpan>{userInfo?.nickname}</S.UserNameSpan>
           <S.UserUpdateBtn>프로필 수정</S.UserUpdateBtn>
         </S.UserInfoBox>
       </S.UserHeader>

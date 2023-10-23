@@ -1,5 +1,5 @@
 import * as S from "./ProductDetail.style";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
@@ -31,6 +31,7 @@ const ProductDetail = () => {
   const onRedirectProductEdit = (product: IProduct) => {
     return navigate("edit", { state: product });
   };
+
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
   const userId = userInfo._id;
   const productSellerId = product.seller_info._id;
@@ -39,8 +40,6 @@ const ProductDetail = () => {
     const { state, updateUser } = await (
       await axios.delete(`http://localhost:3002/product/${id}/delete`, { withCredentials: true })
     ).data;
-
-    console.log("delete product update user : ", updateUser);
 
     if (state) {
       setUserInfo(updateUser);
@@ -64,16 +63,16 @@ const ProductDetail = () => {
         </S.ProductDetailImgbox>
         <S.ProductDetailProfileBox>
           <CgProfile size={28} />
-          <S.ProductDetailText>{product.seller_info.nickname}</S.ProductDetailText>
+          <S.ProductDetailText>{product?.seller_info.nickname}</S.ProductDetailText>
         </S.ProductDetailProfileBox>
         <S.ProductDetailInfoBox>
-          <S.ProductDetailInfoParagraph>{product.product_name}</S.ProductDetailInfoParagraph>
-          <S.ProductDetailInfoText type="bold">{product.product_price}원</S.ProductDetailInfoText>
+          <S.ProductDetailInfoParagraph>{product?.product_name}</S.ProductDetailInfoParagraph>
+          <S.ProductDetailInfoText type="bold">{product?.product_price}원</S.ProductDetailInfoText>
           <S.ProductDetailLocationBox>
             <CiLocationOn size={23} />
-            <S.ProductDetailText>{product.product_price}</S.ProductDetailText>
+            <S.ProductDetailText>{product?.product_price}</S.ProductDetailText>
           </S.ProductDetailLocationBox>
-          <S.ProductDetailInfoParagraph>{product.description}</S.ProductDetailInfoParagraph>
+          <S.ProductDetailInfoParagraph>{product?.description}</S.ProductDetailInfoParagraph>
           <S.ProductDetailViewBox>
             <S.ProductDetailText>조회수</S.ProductDetailText>
             <S.ProductDetailText>123123</S.ProductDetailText>
