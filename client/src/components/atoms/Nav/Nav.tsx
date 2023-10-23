@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
@@ -14,6 +14,8 @@ const Nav = () => {
   const [toogle, isToogle] = useState(false);
 
   const NAVER_LOGIN = "네이버 로그인";
+
+  const location = useLocation();
 
   console.log(user);
   const onToogleBtnClick = () => {
@@ -33,13 +35,14 @@ const Nav = () => {
 
   const logOutAPI = async () => {
     await axios.get("http://localhost:3002/logout", { withCredentials: true });
+    localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);
   };
 
   useEffect(() => {
     getUserAPI();
-  }, []);
+  }, [location]);
 
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {
