@@ -17,6 +17,18 @@ export const ProductDetailLayout = styled.div`
     max-width: 290px;
   }
 `;
+export const ProductDetailImgbox = styled.div`
+  position: relative;
+  width: 680px;
+  height: 450px;
+  border-radius: 10px;
+  object-fit: cover;
+
+  @media screen and (max-width: 860px) {
+    width: 290px;
+    height: 230px;
+  }
+`;
 
 export const ProductDetailProfileBox = styled.div`
   display: flex;

@@ -3,10 +3,21 @@ import styled from "styled-components";
 export const ProductLayout = styled.div`
   margin-bottom: 50px;
 `;
+
+export const ProductImgBox = styled.div`
+  position: relative;
+  display: flex;
+  height: 220px;
+  width: 220px;
+  @media screen and (max-width: 860px) {
+    height: 100px;
+    width: 100px;
+  }
+`;
+
 export const ProductImg = styled.img<{ type?: string }>`
   width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
   border-radius: 10px;
-  height: 220px;
   object-fit: cover;
   @media screen and (max-width: 860px) {
     width: ${(props) => (props.type === "thumbnail" ? "100px" : "200px")};

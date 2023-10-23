@@ -6,6 +6,7 @@ import Slider from "../../components/Animation/Slider/Slider";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
+import Sold from "../../components/atoms/Sold/Sold";
 
 interface IProduct {
   description: string;
@@ -56,7 +57,10 @@ const ProductDetail = () => {
   return (
     <S.ProductDetailBox>
       <S.ProductDetailLayout>
-        <Slider images={product?.product_images} />
+        <S.ProductDetailImgbox>
+          <Slider images={product.product_images} />
+          {product.product_state && <Sold />}
+        </S.ProductDetailImgbox>
         <S.ProductDetailProfileBox>
           <CgProfile size={28} />
           <S.ProductDetailText>{product?.seller_info.nickname}</S.ProductDetailText>
