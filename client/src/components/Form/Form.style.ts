@@ -41,10 +41,12 @@ export const UploadInput = styled.input`
 export const CharacterLength = styled.div`
   position: absolute;
   right: 0;
+  margin-right: 10px;
 `;
 export const UploadTextAreaBox = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
   gap: 20px;
 `;
 export const UploadTextArea = styled.textarea`

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as S from "./Form.style";
 import { useForm } from "react-hook-form";
+
 interface IForm {
   name: string;
   price: number;
@@ -23,7 +24,14 @@ interface IProduct {
 }
 
 const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
+  const [nameLength, setNameLength] = useState(0);
+  const [locationLength, setLocationLength] = useState(0);
+  const [descriptionLength, setDescriptionLength] = useState(0);
+  // 부모로 데이터 전달
+  const handleFormSubmit = (data: IForm) => {
+    onSubmit(data);
+  };
 
   // 가격(price) input 콤마 및 최대 길이
   const onChangePriceInput = (e: any) => {
@@ -41,10 +49,43 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
     }
   };
 
-  // 부모로 데이터 전달
-  const handleFormSubmit = (data: IForm) => {
-    onSubmit(data); //
+  // 입력한 글 길이 출력 함수
+  const onChangeNameInput = (e: any) => {
+    const value = e.target.value;
+    const name = e.target.name;
+
+    if (name === "location") {
+      if (value.length > 10) {
+        setValue(name, value.slice(0, 10));
+        return;
+      }
+      setLocationLength(value.length);
+    }
+    if (name === "name") {
+      if (value.length > 20) {
+        setValue(name, value.slice(0, 20));
+        return;
+      }
+      setNameLength(value.length);
+    }
+    if (name === "description") {
+      if (value.length > 300) {
+        setValue(name, value.slice(0, 300));
+        return;
+      }
+      setDescriptionLength(value.length);
+    }
   };
+
+  useEffect(() => {
+    // onChangeNameInput 함수를 호출하여 상품 정보가 변경될 때도 작동
+    if (product) {
+      onChangeNameInput({ target: { value: product.product_name, name: "name" } });
+      onChangeNameInput({ target: { value: product.location, name: "location" } });
+      onChangeNameInput({ target: { value: product.description, name: "description" } });
+    }
+  }, []);
+
   return (
     <S.UploadForm onSubmit={handleSubmit(handleFormSubmit)}>
       <S.UploadInputBox>
@@ -55,9 +96,10 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
             required: true,
             maxLength: 20,
           })}
+          onChange={(e) => onChangeNameInput(e)}
           placeholder="상품명을 입력해주세요. 20자 이내"
         />
-        <S.CharacterLength></S.CharacterLength>
+        <S.CharacterLength>{nameLength}/20</S.CharacterLength>
       </S.UploadInputBox>
       <S.UploadInputBox>
         <label>가격</label>
@@ -78,8 +120,10 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
             required: true,
             value: product?.location,
           })}
-          placeholder="ex) 2호관, 운동장, 도서관... 원하는 거래장소를 입력해주세요."
+          onChange={(e) => onChangeNameInput(e)}
+          placeholder="거래장소를 입력해주세요. ex) 운동장.."
         />
+        <S.CharacterLength>{locationLength}/10</S.CharacterLength>
       </S.UploadInputBox>
       <S.UploadTextAreaBox>
         <label>상품설명</label>
@@ -88,8 +132,10 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
             required: true,
             value: product?.description,
           })}
-          placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요."
+          onChange={(e) => onChangeNameInput(e)}
+          placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요. 10자 이상 300자 내"
         />
+        <S.CharacterLength>{descriptionLength}/300</S.CharacterLength>
       </S.UploadTextAreaBox>
       <S.UploadFormBtn type="submit">등록하기</S.UploadFormBtn>
     </S.UploadForm>
