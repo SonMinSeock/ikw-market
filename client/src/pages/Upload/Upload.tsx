@@ -195,7 +195,7 @@ const Upload = () => {
           ))}
         </S.UploadImgList>
       </S.UploadImgBox>
-      <Form onSubmit={onValid} />
+      <Form onSubmit={onValid} product={null} />
 
       {/* 모달창 */}
       <Modal isOpen={onModal} onRequestClose={closeModal} selectImg={selectImg} />

@@ -9,9 +9,20 @@ interface IForm {
 }
 interface FormComponentProps {
   onSubmit: (data: any) => void;
+  product: IProduct | null;
+}
+interface IProduct {
+  description: string;
+  location: string;
+  product_images: any;
+  product_name: string;
+  product_price: number;
+  seller_info: any;
+  __v: number;
+  _id: object;
 }
 
-const Form: React.FC<FormComponentProps> = ({ onSubmit }) => {
+const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   const { register, handleSubmit, setValue } = useForm<IForm>();
 
   // 가격(price) input 콤마 및 최대 길이
@@ -29,8 +40,10 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit }) => {
       setValue("price", formattedValue as any); // 숫자만 입력된 값을 다시 필드에 설정
     }
   };
+
+  // 부모로 데이터 전달
   const handleFormSubmit = (data: IForm) => {
-    onSubmit(data); // 부모 컴포넌트에서 전달한 onSubmit 함수 호출
+    onSubmit(data); //
   };
   return (
     <S.UploadForm onSubmit={handleSubmit(handleFormSubmit)}>
@@ -38,6 +51,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit }) => {
         <label>제목</label>
         <S.UploadInput
           {...register("name", {
+            value: product?.product_name,
             required: true,
             maxLength: 20,
           })}
@@ -48,7 +62,10 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit }) => {
       <S.UploadInputBox>
         <label>가격</label>
         <S.UploadInput
-          {...register("price", { required: true })}
+          {...register("price", {
+            value: product?.product_price,
+            required: true,
+          })}
           onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러
           inputMode="numeric" // 숫자 입력 모드 설정
         />
@@ -57,14 +74,20 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit }) => {
       <S.UploadInputBox>
         <label>거래위치</label>
         <S.UploadInput
-          {...register("location", { required: true })}
+          {...register("location", {
+            required: true,
+            value: product?.location,
+          })}
           placeholder="ex) 2호관, 운동장, 도서관... 원하는 거래장소를 입력해주세요."
         />
       </S.UploadInputBox>
       <S.UploadTextAreaBox>
         <label>상품설명</label>
         <S.UploadTextArea
-          {...register("description", { required: true })}
+          {...register("description", {
+            required: true,
+            value: product?.description,
+          })}
           placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요."
         />
       </S.UploadTextAreaBox>

@@ -10,6 +10,7 @@ import AWS from "aws-sdk";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import Form from "../../components/Form/Form";
 
 interface IForm {
   name: string;
@@ -240,39 +241,7 @@ const ProductEdit = () => {
               ))}
             </S.ProductEditImgList>
           </S.ProductEditImgBox>
-          <S.ProductEditForm onSubmit={handleSubmit(onValid)}>
-            <S.ProductEditInputBox>
-              <label>제목</label>
-              <S.ProductEditInput
-                {...register("name", { value: product?.product_name, required: true, minLength: 5, maxLength: 15 })}
-                placeholder="최소 5글자"
-              />
-            </S.ProductEditInputBox>
-            <S.ProductEditInputBox>
-              <label>가격</label>
-              <S.ProductEditInput
-                {...register("price", { value: product?.product_price, required: true })}
-                onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러
-                inputMode="numeric" // 숫자 입력 모드 설정
-              />
-              <span>원</span>
-            </S.ProductEditInputBox>
-            <S.ProductEditInputBox>
-              <label>거래위치</label>
-              <S.ProductEditInput
-                {...register("location", { value: product?.location, required: true })}
-                placeholder="ex) 2호관, 운동장 .. "
-              />
-            </S.ProductEditInputBox>
-            <S.ProductEditTextAreaBox>
-              <label>상품설명</label>
-              <S.ProductEditTextArea
-                {...register("description", { value: product?.description, required: true })}
-                placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요."
-              />
-            </S.ProductEditTextAreaBox>
-            <S.ProductEditFormBtn type="submit">등록하기</S.ProductEditFormBtn>
-          </S.ProductEditForm>
+          <Form onSubmit={onValid} product={product} />
 
           {/* 모달창 */}
           <Modal isOpen={onModal} onRequestClose={closeModal} selectImg={selectImg} />
