@@ -17,7 +17,7 @@ const Nav = () => {
 
   const location = useLocation();
 
-  console.log(user);
+  // console.log(user);
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };
@@ -178,9 +178,13 @@ const Nav = () => {
           </Link>
           <S.MenuItem>
             {isLogin ? (
-              <span onClick={onLogOut}>로그아웃</span>
+              <span className="login" onClick={onLogOut}>
+                로그아웃
+              </span>
             ) : (
-              <span onClick={() => navigate("/login")}>로그인</span>
+              <span className="login" onClick={() => navigate("/login")}>
+                로그인
+              </span>
             )}
           </S.MenuItem>
         </S.MenuList>
