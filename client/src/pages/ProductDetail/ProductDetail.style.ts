@@ -31,38 +31,57 @@ export const ProductDetailImgbox = styled.div`
 `;
 
 export const ProductDetailProfileBox = styled.div`
+  text-decoration: none;
   display: flex;
+  margin-top: 25px;
+  padding-bottom: 23px;
+  position: relative;
+  border-bottom: 1px solid #e9ecef;
   align-items: center;
-  border-bottom: 1px solid black;
-  padding: 1rem 0rem;
   & svg {
     margin-right: 0.5rem;
   }
 `;
-
+export const ProductDetailName = styled.span`
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.5;
+  letter-spacing: -0.6px;
+`;
 export const ProductDetailText = styled.span`
-  margin-right: 0.5rem;
+  font-size: 17px;
+  line-height: 1.6;
+  letter-spacing: -0.6px;
   &:last-child {
     margin-right: 0px;
   }
 `;
 
-export const ProductDetailInfoBox = styled.div``;
+export const ProductDetailInfoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+`;
 
 export const ProductDetailInfoParagraph = styled.p`
   display: flex;
-  padding: 1.6rem 0rem;
   word-break: break-all;
+  font-size: 17px;
 `;
 
-export const ProductDetailInfoText = styled.span<{ type?: string }>`
+export const ProductDetailInfoText = styled.span`
   display: flex;
-  font-weight: ${(props) => (props.type === "bold" ? props.type : "600")};
+  font-size: 18px;
+  font-weight: bold;
 `;
 
 export const ProductDetailLocationBox = styled(ProductDetailProfileBox)`
+  display: flex;
+  align-items: center;
   border: none;
   font-size: 0.8rem;
+  opacity: 0.65;
 `;
 
 export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
@@ -78,14 +97,15 @@ export const ButtonRow = styled.div`
 `;
 export const ProductDetailBtn = styled.button`
   cursor: pointer;
-  display: flex;
   width: 150px;
-  /* width: 100%; */
   height: 50px;
-  justify-content: center;
-  align-items: center;
-  background-color: #ffc901;
-  border: none;
-  color: #fff;
-  font-size: 20px;
+  background-color: #ffaa22;
+  border-radius: 14px;
+  border: 1px solid #ffaa22;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 16px;
+  font-family: GmarketSansMedium;
+  text-decoration: none;
 `;

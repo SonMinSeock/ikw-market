@@ -66,16 +66,16 @@ const ProductDetail = () => {
           <S.ProductDetailText>{product?.seller_info.nickname}</S.ProductDetailText>
         </S.ProductDetailProfileBox>
         <S.ProductDetailInfoBox>
-          <S.ProductDetailInfoParagraph>{product?.product_name}</S.ProductDetailInfoParagraph>
-          <S.ProductDetailInfoText type="bold">{product?.product_price}원</S.ProductDetailInfoText>
+          <S.ProductDetailName>{product?.product_name}</S.ProductDetailName>
+          <S.ProductDetailInfoText>{product?.product_price}원</S.ProductDetailInfoText>
           <S.ProductDetailLocationBox>
-            <CiLocationOn size={23} />
-            <S.ProductDetailText>{product?.product_price}</S.ProductDetailText>
+            <CiLocationOn size={20} />
+            <S.ProductDetailText>{product?.location}</S.ProductDetailText>
           </S.ProductDetailLocationBox>
           <S.ProductDetailInfoParagraph>{product?.description}</S.ProductDetailInfoParagraph>
           <S.ProductDetailViewBox>
-            <S.ProductDetailText>조회수</S.ProductDetailText>
-            <S.ProductDetailText>123123</S.ProductDetailText>
+            {/* <S.ProductDetailText>조회수</S.ProductDetailText>
+            <S.ProductDetailText>123123</S.ProductDetailText> */}
           </S.ProductDetailViewBox>
         </S.ProductDetailInfoBox>
         {userId === productSellerId ? (
