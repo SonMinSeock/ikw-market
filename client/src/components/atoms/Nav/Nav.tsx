@@ -33,6 +33,7 @@ const Nav = () => {
 
   const logOutAPI = async () => {
     await axios.get("http://localhost:3002/logout", { withCredentials: true });
+    localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);
   };
