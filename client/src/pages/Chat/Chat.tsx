@@ -1,53 +1,62 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
-import { isLoginAtom } from "../../recoil/login/atoms";
 import { useNavigate } from "react-router-dom";
-import { io, Socket } from "socket.io-client"; // Socket 타입 추가
+import { io, Socket } from "socket.io-client";
+import { isLoginAtom } from "../../recoil/login/atoms";
 import * as S from "./Chat.style";
 
+interface ChatMessage {
+  name: string;
+  message: string;
+}
+
 const Chat = () => {
-  const [socket, setSocket] = useState<Socket | null>(null); // Socket 상태 추가
   const isLogin = useRecoilValue(isLoginAtom);
   const navigate = useNavigate();
 
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [state, setState] = useState({ message: "", name: "" });
-  const [chat, setChat] = useState<any[]>([]);
+  const [chat, setChat] = useState<ChatMessage[]>([]);
 
-  useEffect(() => {
-    if (isLogin === false) navigate("/login");
+  // 소켓 연결 함수
+  const connectSocket = () => {
+    const socketServer = io("http://localhost:3002");
+    setSocket(socketServer);
 
-    // 컴포넌트가 마운트될 때 소켓 연결을 설정
-    const newSocket = io("http://localhost:3002");
-    setSocket(newSocket);
-
-    // 연결 해제 함수를 반환하여 컴포넌트가 언마운트될 때 연결을 해제
+    // 컴포넌트 언마운트 시 실행되는 클린업 함수
     return () => {
-      if (newSocket) {
-        newSocket.disconnect();
+      if (socketServer) {
+        socketServer.disconnect();
       }
     };
+  };
+
+  // 로그인 유무 체크, 소켓 연결 호출
+  useEffect(() => {
+    if (!isLogin) {
+      navigate("/login");
+    } else {
+      return connectSocket();
+    }
   }, [navigate, isLogin]);
 
+  // socket연결 시 이벤트 리스너 등록
   useEffect(() => {
-    // Socket 연결이 설정되었을 때만 메시지 이벤트를 처리
-    if (socket) {
-      socket.on("message", ({ name, message }) => {
-        setChat([...chat, { name, message }]);
-      });
-    }
-  }, [socket, chat]);
+    socket?.on("message", ({ name, message }) => {
+      setChat((prevChat) => [...prevChat, { name, message }]);
+    });
+  }, [socket]);
 
   const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setState({ ...state, [name]: value });
+    setState((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const onMessageSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const { name, message } = state;
-    if (socket) {
-      socket.emit("message", { name, message });
-    }
+
+    socket?.emit("message", { name, message });
     setState({ message: "", name });
   };
 
