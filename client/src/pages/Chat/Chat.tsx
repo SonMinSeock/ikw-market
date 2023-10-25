@@ -20,7 +20,11 @@ const Chat = () => {
 
   // 소켓 연결 함수
   const connectSocket = () => {
-    const socketServer = io("http://localhost:3002");
+    const socketServer = io("http://localhost:3002/chat");
+
+    // 채팅방 입장하면 채팅방 id로 보내 해당 채팅방 id 접속한 유저와 채팅한다.
+    socketServer.emit("enter_room", { roomId: 123 });
+
     setSocket(socketServer);
 
     // 컴포넌트 언마운트 시 실행되는 클린업 함수
@@ -56,7 +60,7 @@ const Chat = () => {
     e.preventDefault();
     const { name, message } = state;
 
-    socket?.emit("message", { name, message });
+    socket?.emit("message", { name, message, roomId: 123 });
     setState({ message: "", name });
   };
 
