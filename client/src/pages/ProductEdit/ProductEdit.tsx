@@ -59,7 +59,7 @@ const ProductEdit = () => {
       getProductAPI(id);
       setLoading(false);
     } else {
-      //  navigate("/");
+      navigate("/");
     }
   }, []);
 
@@ -73,7 +73,7 @@ const ProductEdit = () => {
               pass = true;
             }
           });
-          //if (!pass) navigate("/");
+          if (!pass) navigate("/");
         }
       }
     }

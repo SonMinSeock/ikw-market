@@ -30,7 +30,7 @@ export const userAtom = atom<IUserAtom>({
     __v: 0,
     _id: "",
   },
-  effects_UNSTABLE: [persistAtom],
+  effects_UNSTABLE: [],
 });
 
 export const accessTokenAtom = atom({

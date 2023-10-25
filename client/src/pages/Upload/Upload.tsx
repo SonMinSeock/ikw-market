@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import * as S from "./Upload.style";
 import { BiImageAdd } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
@@ -9,6 +9,9 @@ import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
 import { useNavigate } from "react-router-dom";
 import Form from "../../components/Form/Form";
+import { useRecoilValue } from "recoil";
+import { isLoginAtom } from "../../recoil/login/atoms";
+
 
 interface IForm {
   name: string;
@@ -23,11 +26,16 @@ const Upload = () => {
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
+  const isLogin = useRecoilValue(isLoginAtom);
 
   const [productNameLength, setProductNameLength] = useState();
   const region = process.env.REACT_APP_REGION;
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
   const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
+  useEffect(() => {
+    if (isLogin === false) navigate("/login");
+  }, []);
 
   AWS.config.update({
     region: region,

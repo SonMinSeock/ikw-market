@@ -5,6 +5,7 @@ import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchProductsAtom, searchTextAtom } from "../../recoil/login/atoms";
 import { searchObj } from "../../controller/search";
+import { sortProducts } from "../../controller/sort";
 
 interface IProduct {
   description: string;
@@ -74,7 +75,8 @@ const ProductList = () => {
         ...product,
       };
     });
-    setProducts(products);
+
+    setProducts(sortProducts(products.reverse()));
   };
 
   useEffect(() => {
