@@ -14,7 +14,7 @@ const server = http.createServer(app);
 const io = socketIO(server, {
   cors: {
     origin: "*",
-    mathods: ["GET", "POST"],
+    methods: ["GET", "POST"],
   },
 });
 
@@ -40,10 +40,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", RootRouter);
 app.use("/product", ProductRouter);
 
-const port = 3002; //node 서버가 사용할 포트 번호, 리액트의 포트번호(3000)와 충돌하지 않게 다른 번호로 할당
+const port = 3002; // Node 서버가 사용할 포트 번호
 
 io.on("connection", (socket) => {
-  console.log("socket connet!");
+  console.log("Socket connected!");
+
+  // 클라이언트에서 연결 해제 이벤트를 처리
+  socket.on("disconnect", () => {
+    console.log("Socket disconnected!");
+  });
+
   socket.on("message", ({ name, message }) => {
     io.emit("message", { name, message });
   });
