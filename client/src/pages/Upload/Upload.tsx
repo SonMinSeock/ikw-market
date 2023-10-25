@@ -8,8 +8,10 @@ import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
 import { useNavigate } from "react-router-dom";
+import Form from "../../components/Form/Form";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../recoil/login/atoms";
+
 
 interface IForm {
   name: string;
@@ -20,12 +22,13 @@ interface IForm {
 
 const Upload = () => {
   const uploadImgInput = useRef() as any;
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
   const isLogin = useRecoilValue(isLoginAtom);
 
+  const [productNameLength, setProductNameLength] = useState();
   const region = process.env.REACT_APP_REGION;
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
   const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
@@ -79,22 +82,6 @@ const Upload = () => {
       .then((res) => (res.data.state ? navigate("/") : null))
       .catch((err) => console.log(err));
     return formData;
-  };
-
-  // 가격(price) input 콤마 및 최대 길이
-  const onChangePriceInput = (e: any) => {
-    const inputValue = e.target.value;
-    const maxLength = 11; // 원하는 최대 길이로 설정
-
-    // 길이가 최대 길이를 초과하는 경우, 입력값을 최대 길이로 자름
-    if (inputValue.length > maxLength) {
-      const trimmedValue = inputValue.slice(0, maxLength);
-      setValue("price", trimmedValue); // 최대 길이로 자른 값을 필드에 설정
-    } else {
-      const numericValue = inputValue.replace(/\D/g, ""); // 숫자 외의 문자 제거
-      const formattedValue = Number(numericValue).toLocaleString("ko-KR");
-      setValue("price", formattedValue as any); // 숫자만 입력된 값을 다시 필드에 설정
-    }
   };
 
   // 이미지 등록 버튼
@@ -173,7 +160,6 @@ const Upload = () => {
     setFileList([...fileList, ...newFileList]);
   };
 
-  console.log(fileList);
   const resizeImage = (file: any) => {
     return new Promise((resolve, reject) => {
       Resizer.imageFileResizer(
@@ -217,36 +203,7 @@ const Upload = () => {
           ))}
         </S.UploadImgList>
       </S.UploadImgBox>
-      <S.UploadForm onSubmit={handleSubmit(onValid)}>
-        <S.UploadInputBox>
-          <label>제목</label>
-          <S.UploadInput
-            {...register("name", { required: true, minLength: 5, maxLength: 15 })}
-            placeholder="최소 5글자"
-          />
-        </S.UploadInputBox>
-        <S.UploadInputBox>
-          <label>가격</label>
-          <S.UploadInput
-            {...register("price", { required: true })}
-            onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러
-            inputMode="numeric" // 숫자 입력 모드 설정
-          />
-          <span>원</span>
-        </S.UploadInputBox>
-        <S.UploadInputBox>
-          <label>거래위치</label>
-          <S.UploadInput {...register("location", { required: true })} placeholder="ex) 2호관, 운동장 .. " />
-        </S.UploadInputBox>
-        <S.UploadTextAreaBox>
-          <label>상품설명</label>
-          <S.UploadTextArea
-            {...register("description", { required: true })}
-            placeholder="구매시기, 제품상태 , 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요."
-          />
-        </S.UploadTextAreaBox>
-        <S.UploadFormBtn type="submit">등록하기</S.UploadFormBtn>
-      </S.UploadForm>
+      <Form onSubmit={onValid} product={null} />
 
       {/* 모달창 */}
       <Modal isOpen={onModal} onRequestClose={closeModal} selectImg={selectImg} />

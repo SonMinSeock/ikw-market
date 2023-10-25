@@ -7,6 +7,7 @@ export const NavList = styled.ul`
   align-items: center;
   align-self: stretch;
   justify-content: space-between;
+  font-weight: 500;
   @media screen and (max-width: 860px) {
     display: none;
   }
@@ -31,8 +32,8 @@ export const MenuBox = styled.div<{ $isMenu: boolean }>`
   position: absolute;
   right: 0;
   background-color: #fff;
+  opacity: 0.9;
   margin-top: 10px;
-  margin-right: 10px;
   display: ${(prop) => (prop.$isMenu ? "flex" : "none")};
   @media screen and (min-width: 860px) {
     display: none;
@@ -48,6 +49,10 @@ export const MenuItem = styled.li`
   border-bottom: 1px solid #c6c6c6;
   cursor: pointer;
   span {
-    width: 80px;
+    width: 100px;
+  }
+  .login {
+    display: flex;
+    justify-content: center;
   }
 `;
