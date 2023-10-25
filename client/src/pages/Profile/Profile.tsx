@@ -1,9 +1,10 @@
-import React, { useId } from "react";
+import React, { useEffect, useId } from "react";
 import * as S from "./Profile.style";
 import Product from "../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
-import { userAtom } from "../../recoil/login/atoms";
+import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { ProductsLayout } from "../../components/ProductList/ProductList.style";
+import { useNavigate } from "react-router-dom";
 
 // interface IProduct {
 //   description: string;
@@ -18,6 +19,12 @@ import { ProductsLayout } from "../../components/ProductList/ProductList.style";
 
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
+  const isLogin = useRecoilValue(isLoginAtom);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLogin === false) navigate("/login");
+  }, []);
 
   const products = userInfo?.products_on_sale;
 
