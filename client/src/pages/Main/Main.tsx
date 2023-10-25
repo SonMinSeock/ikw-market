@@ -5,7 +5,7 @@ import ProductList from "../../components/ProductList/ProductList";
 
 const Main = () => {
   useEffect(() => {
-    localStorage.clear();
+    // localStorage.clear();
   }, []);
   return (
     <S.MainLayout>
