@@ -9,7 +9,7 @@ export const ChatListLayout = styled.div`
   margin: 0 auto;
   gap: 10px;
   @media screen and (max-width: 860px) {
-    width: 100vw;
+    width: 100%;
     padding-left: 10px;
     padding-right: 10px;
   }

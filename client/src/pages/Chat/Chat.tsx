@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { isLoginAtom } from "../../recoil/login/atoms";
+import { BsArrowRightCircle } from "react-icons/bs";
 import * as S from "./Chat.style";
+import Message from "../../components/atoms/Message/Message";
 
 interface ChatMessage {
   name: string;
@@ -11,13 +13,15 @@ interface ChatMessage {
 }
 
 const Chat = () => {
+  const inputRef = useRef(null);
   const isLogin = useRecoilValue(isLoginAtom);
   const navigate = useNavigate();
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [state, setState] = useState({ message: "", name: "" });
   const [chat, setChat] = useState<ChatMessage[]>([]);
-
+  const [messageInput, setMessageInput] = useState<string>("");
+  const [connected, setConnected] = useState<Boolean>(false);
   // 소켓 연결 함수
   const connectSocket = () => {
     const socketServer = io("http://localhost:3002/chat");
@@ -38,7 +42,7 @@ const Chat = () => {
   // 로그인 유무 체크, 소켓 연결 호출
   useEffect(() => {
     if (!isLogin) {
-      navigate("/login");
+      // navigate("/login");
     } else {
       return connectSocket();
     }
@@ -64,33 +68,40 @@ const Chat = () => {
     setState({ message: "", name });
   };
 
-  const renderChat = () => {
-    return chat.map(({ name, message }, index) => (
-      <div key={index}>
-        <h3>
-          {name}:<span>{message}</span>
-        </h3>
-      </div>
-    ));
-  };
-
   return (
-    <S.FormBox>
-      <form onSubmit={onMessageSubmit}>
-        <h1>Message</h1>
-        <div>
-          <input placeholder="name" name="name" onChange={onTextChange} value={state.name} />
-        </div>
-        <div>
-          <input placeholder="message" name="message" onChange={onTextChange} value={state.message} />
-        </div>
-        <button>Send Message</button>
-      </form>
-      <div className="render-chat">
-        <h1>Chat log</h1>
-        {renderChat()}
-      </div>
-    </S.FormBox>
+    <S.ChatLayout>
+      <S.ChatHeaderBox>
+        <span>손민석</span>
+      </S.ChatHeaderBox>
+      <S.ChatContentBox>
+        <S.ChatLogBox>
+          <Message />
+        </S.ChatLogBox>
+        <S.InputBox>
+          <S.Input
+            placeholder=" 메시지를 입력하세요"
+            ref={inputRef}
+            type="text"
+            value={messageInput}
+            disabled={!connected}
+            onChange={(e) => {
+              setMessageInput(e.target.value);
+              (inputRef.current as any).focus();
+            }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                // sendMessage();
+              }
+            }}
+          />
+          <S.Button
+          // disabled={messageInput ? false : true} onClick={(e) => sendMessage()}
+          >
+            <BsArrowRightCircle fontWeight={20} size={22} />
+          </S.Button>
+        </S.InputBox>
+      </S.ChatContentBox>
+    </S.ChatLayout>
   );
 };
 
