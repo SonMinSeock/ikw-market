@@ -67,7 +67,7 @@ const Nav = () => {
     if (!isLogin) {
       return "/login";
     } else {
-      return "/chat";
+      return "/chatlist";
     }
   };
 

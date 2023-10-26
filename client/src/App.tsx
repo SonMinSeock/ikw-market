@@ -7,6 +7,7 @@ import Upload from "./pages/Upload/Upload";
 import Layout from "./components/Layout/Layout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProductEdit from "./pages/ProductEdit/ProductEdit";
+import ChatList from "./pages/ChatList/ChatList";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
           <Route path="" element={<Main />} />
           <Route path="profile" element={<Profile />} />
           <Route path="product/:id" element={<ProductDetail />} />
+          <Route path="chatlist" element={<ChatList />} />
           <Route path="chat" element={<Chat />} />
           <Route path="upload" element={<Upload />} />
           <Route path="product/:id/edit" element={<ProductEdit />} />
