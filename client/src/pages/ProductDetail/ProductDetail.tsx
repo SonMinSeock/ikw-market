@@ -32,6 +32,10 @@ const ProductDetail = () => {
       await axios.post(`http://localhost:3002/chats/${product._id}`, {}, { withCredentials: true })
     ).data;
     console.log("해당 채팅방 만들기 state : ", state);
+
+    if (!state) {
+      navigate("/login");
+    }
   };
   const onRedirectChat = async () => {
     await createdChatAPI();
