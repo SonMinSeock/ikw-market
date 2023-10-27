@@ -34,6 +34,7 @@ router.post("/:productId", async (req, res) => {
       const createdChatRoom = new Chat({
         title: chatRoom.title,
         message_log: [],
+        seller_user: sellerUser,
         product,
         created_at: chatRoom.created_at,
       });

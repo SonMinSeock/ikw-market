@@ -25,6 +25,12 @@ const chatSchema = new Schema({
       },
     },
   ],
+  // 판매자 정보. 호스트라고 생각하면됨.
+  seller_user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
+
   product: {
     type: Schema.Types.ObjectId,
     ref: "Product",
