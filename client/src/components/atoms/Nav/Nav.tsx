@@ -30,6 +30,10 @@ const Nav = () => {
       setAccessToken(res.accessToken);
       setUser(res.user);
       setIsLogin(true);
+    } else {
+      setAccessToken("");
+      setUser({});
+      setIsLogin(false);
     }
   };
 

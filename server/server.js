@@ -7,6 +7,7 @@ import session from "express-session";
 import cors from "cors";
 import socketIO from "socket.io";
 import http from "http";
+import ChatRouter from "./Router/chats.js";
 
 const app = express();
 const server = http.createServer(app);
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", RootRouter);
 app.use("/product", ProductRouter);
+app.use("/chats", ChatRouter);
 
 const port = 3002; // Node 서버가 사용할 포트 번호
 

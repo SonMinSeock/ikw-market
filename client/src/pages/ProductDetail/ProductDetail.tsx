@@ -27,7 +27,16 @@ const ProductDetail = () => {
   const navigate = useNavigate();
   const product: IProduct = location.state;
 
-  const onRedirectChat = () => navigate("/chat");
+  const createdChatAPI = async () => {
+    const { state } = await (
+      await axios.post(`http://localhost:3002/chats/${product._id}`, {}, { withCredentials: true })
+    ).data;
+    console.log("해당 채팅방 만들기 state : ", state);
+  };
+  const onRedirectChat = async () => {
+    await createdChatAPI();
+    await navigate("/chat");
+  };
   const onRedirectProductEdit = (product: IProduct) => {
     return navigate("edit", { state: product });
   };

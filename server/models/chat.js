@@ -25,9 +25,13 @@ const chatSchema = new Schema({
       },
     },
   ],
+  product: {
+    type: Schema.Types.ObjectId,
+    ref: "Product",
+  },
   // 채팅방 만든 날짜.
   created_at: {
-    type: Date,
+    type: String,
   },
 });
 
