@@ -8,8 +8,17 @@ import Layout from "./components/Layout/Layout";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProductEdit from "./pages/ProductEdit/ProductEdit";
 import ChatList from "./pages/ChatList/ChatList";
+import { useEffect } from "react";
 
 function App() {
+  // 모바일ver. 채팅페이지에서 스크롤 막기
+  function setScreenSize() {
+    let vh = window.innerHeight * 0.01;
+    document.documentElement.style.setProperty("--vh", `${vh}px`);
+  }
+  useEffect(() => {
+    setScreenSize();
+  });
   return (
     <Router>
       <Routes>

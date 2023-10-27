@@ -2,6 +2,7 @@ import styled from "styled-components";
 
 export const ChatLayout = styled.div`
   display: flex;
+  border: 1px solid #dfe1e2;
   position: relative;
   flex-direction: column;
   padding-top: 64px;
@@ -11,13 +12,22 @@ export const ChatLayout = styled.div`
   width: 100%;
   max-width: 680px;
   height: 100vh;
-  /* overflow-y: hidden;
-  overflow-x: auto; */
+  height: calc(var(--vh, 1vh) * 100);
   @media screen and (max-width: 860px) {
     width: 100%;
   }
 `;
-export const ChatHeaderBox = styled.div``;
+export const ChatHeaderBox = styled.div`
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dfe1e2;
+  /* color: #fff; */
+  height: 42px;
+  h3 {
+    margin-left: 10px;
+    font-weight: bold;
+  }
+`;
 export const ChatContentBox = styled.div`
   display: flex;
   flex-direction: column;
@@ -36,19 +46,19 @@ export const ChatLogBox = styled.div`
 `;
 export const InputBox = styled.div`
   position: relative;
-  min-height: 50px;
-  padding: 7px 55px 7px 16px;
-  box-sizing: border-box;
-  background-color: #fff;
-  width: 100%;
+  border-top: 1px solid rgb(246, 246, 246);
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  align-items: center;
+  padding: 12px 10px;
 `;
 export const Input = styled.input`
   position: relative;
   overflow-y: auto;
   width: 100%;
-  max-height: 57px;
+  max-height: 120px;
   border: 0 none;
-  font-size: 10px;
+  font-size: 13px;
   line-height: 1.33em;
   background-color: #f5f6f8;
   font-family: Apple SD Gothic Neo, 맑은 고딕, Malgun Gothic, 돋움, dotum, sans-serif;
@@ -57,20 +67,15 @@ export const Input = styled.input`
   color: #000;
   vertical-align: top;
   border-radius: 20px;
-  padding: 9px 70px 7px 10px;
+  padding: 15px 70px 13px 10px;
   box-sizing: border-box;
   background-color: #f5f6f8;
 `;
 export const Button = styled.button`
-  position: absolute;
-  overflow: hidden;
-  height: 36px;
-  padding: 0 5px;
-  bottom: 10px;
-  right: 0;
-  margin-right: 12px;
   background-color: #fff;
   border: none;
-  color: ${(props) => (props.disabled ? "#797575" : "#4E6AFF")};
+  color: ${(props) => (props.disabled ? "#797575" : "#F79F1F")};
   cursor: ${(props) => (props.disabled ? "" : "pointer")};
+  margin-top: 4px;
+  padding: 0 3px;
 `;

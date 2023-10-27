@@ -73,7 +73,7 @@ const Message = () => {
           <S.Chatting flexdirection="row" key={"_msg" + i}>
             <S.ChatContent>
               <S.ProfileImgBox>
-                <img src={"d"} alt={"사진"} />
+                <img src={""} alt={"사진"} />
               </S.ProfileImgBox>
               <S.MessageInfoBox>
                 <S.NameBox>

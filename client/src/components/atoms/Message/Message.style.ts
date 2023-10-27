@@ -38,12 +38,12 @@ export const NameBox = styled.div`
   max-width: calc(100vw - var(--talk_info-padding));
   top: 2px;
   left: 0;
-  font-size: 11px;
   line-height: 13px;
   vertical-align: top;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  font-size: 14px;
   span {
     font-weight: bold;
   }
@@ -79,6 +79,7 @@ export const MessageBox = styled.div`
   background-color: #f4f4f4;
   vertical-align: bottom;
   padding: 10px 14px;
+  font-size: 15px;
   p {
     white-space: pre-wrap;
     width: fit-content;
