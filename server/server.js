@@ -10,7 +10,7 @@ import http from "http";
 import ChatRouter from "./Router/chats.js";
 
 const app = express();
-const server = http.createServer(app);
+export const server = http.createServer(app);
 
 const io = socketIO(server, {
   cors: {
