@@ -24,16 +24,16 @@ const chatSchema = new Schema({
         type: String,
       },
       // 채팅 메시지 읽음 상태 확인 할 필드.
-      is_read_message: {
-        type: Boolean,
-        default: false,
-      },
+      // is_read_message: {
+      //   type: Boolean,
+      //   default: false,
+      // },
     },
   ],
 
-  // member 필드.
+  // 소비자 필드.
   member: {
-    type: [Schema.Types.ObjectId],
+    type: Schema.Types.ObjectId,
     ref: "User",
   },
 
