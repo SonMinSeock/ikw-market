@@ -32,15 +32,29 @@ const chatSchema = new Schema({
   ],
 
   // 소비자 필드.
-  member: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+  consumer: {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    // 메시지 읽은 상태 확인 하는 필드.
+    message_read_count: {
+      type: Number,
+      default: 0,
+    },
   },
 
   // 판매자 정보. 호스트라고 생각하면됨.
-  seller_user: {
-    type: Schema.Types.ObjectId,
-    ref: "User",
+  seller: {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+    },
+    // 메시지 읽은 상태 확인 하는 필드.
+    message_read_count: {
+      type: Number,
+      default: 1,
+    },
   },
 
   product: {

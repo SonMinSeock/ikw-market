@@ -44,6 +44,9 @@ export const ChatListInfoBox = styled.div`
   width: 100%;
 
   /* ChatListInfoBox의 스타일을 원하는 대로 추가하세요 */
+  @media screen and (max-width: 860px) {
+    width: 50%;
+  }
 `;
 
 export const ChatListUserName = styled.div`
@@ -55,6 +58,13 @@ export const ChatListMessages = styled.div`
   color: rgb(178, 178, 178);
   font-size: 12px;
   /* ChatListMessages의 스타일을 원하는 대로 추가하세요 */
+  overflow: hidden;
+  width: 300px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  @media screen and (max-width: 860px) {
+    width: 135px;
+  }
 `;
 
 export const ChatListTime = styled.div`
