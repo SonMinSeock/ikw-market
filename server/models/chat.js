@@ -23,6 +23,11 @@ const chatSchema = new Schema({
       send_date: {
         type: String,
       },
+      // 채팅 메시지 읽음 상태 확인 할 필드.
+      is_read_message: {
+        type: Boolean,
+        default: false,
+      },
     },
   ],
   // 판매자 정보. 호스트라고 생각하면됨.
