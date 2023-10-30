@@ -6,6 +6,17 @@ import { currentDate } from "../lib/date";
 
 const router = express.Router();
 
+router.get("/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).populate("chat_room");
+    const chatRoom = user.chat_room;
+    return res.json({ state: true, chatRoom });
+  } catch (err) {
+    console.log("Read Chat Room Error : ", err);
+  }
+});
+
 router.post("/:productId", async (req, res) => {
   try {
     const sessionUser = req.session.user;

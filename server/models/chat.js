@@ -30,6 +30,13 @@ const chatSchema = new Schema({
       },
     },
   ],
+
+  // member 필드.
+  member: {
+    type: [Schema.Types.ObjectId],
+    ref: "User",
+  },
+
   // 판매자 정보. 호스트라고 생각하면됨.
   seller_user: {
     type: Schema.Types.ObjectId,
