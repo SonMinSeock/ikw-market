@@ -86,4 +86,23 @@ router.post("/:productId/chat/:chatId", async (req, res) => {
   }
 });
 
+router.post("/write", async (req, res) => {
+  try {
+    const {
+      query: { chatId },
+      body: { message_log },
+    } = req; // message_log 배열 형식.
+
+    const chat = await Chat.findById(chatId);
+
+    chat.message_log.push(...message_log);
+
+    await chat.save();
+
+    res.json({ state: true });
+  } catch (err) {
+    console.log("Error Message Log Push API : ", err);
+  }
+});
+
 export default router;
