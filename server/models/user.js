@@ -15,11 +15,13 @@ const userSchema = new Schema({
   email: {
     type: String,
   },
-  // 판매 중인 상품들
+  // 판매 중인 상품들.
   products_on_sale: {
     type: [Schema.Types.ObjectId],
     ref: "Product",
   },
+  // 채팅방 리스트.
+  // 채팅하기 클릭시, 판매자 유저와  소비자 유저 동시에 채팅방 리스트에서 생성해야 한다.
   chat_room: {
     type: [Schema.Types.ObjectId],
     ref: "Chat",
