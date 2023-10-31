@@ -1,54 +1,74 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
-import { isLoginAtom } from "../../recoil/login/atoms";
+import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
 import Message from "../../components/atoms/Message/Message";
+import axios from "axios";
 
-interface ChatMessage {
-  name: string;
+interface IChatMessage {
+  send_user: any;
   message: string;
+  send_date: string;
 }
 
 const Chat = () => {
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
   const isLogin = useRecoilValue(isLoginAtom);
+  const user = useRecoilValue(userAtom);
   const navigate = useNavigate();
+  const location = useLocation();
+  const chatInfo = location.state;
+  const roomId = chatInfo._id;
 
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [state, setState] = useState({ message: "", name: "" });
-  const [chat, setChat] = useState<ChatMessage[]>([]);
+  const [chat, setChat] = useState<IChatMessage[]>([]);
   const [messageInput, setMessageInput] = useState<string>("");
-  const [connected, setConnected] = useState<Boolean>(false);
-  // 소켓 연결 함수
-  const connectSocket = () => {
-    const socketServer = io("http://localhost:3002/chat");
+  const [connected, setConnected] = useState<boolean>(false);
 
-    //소켓 연결 실패
-    socketServer.on("connect_error", (error) => {
-      console.error("Socket connection failed:", error);
-      setConnected(false);
-    });
-
-    // 채팅방 입장하면 채팅방 id로 보내 해당 채팅방 id 접속한 유저와 채팅한다.
-    socketServer.emit("enter_room", { roomId: 123 });
-    setConnected(true);
-    setSocket(socketServer);
-
-    // 컴포넌트 언마운트 시 실행되는 클린업 함수
-    return () => {
-      if (socketServer) {
-        socketServer.disconnect();
-        setConnected(false);
-      }
-    };
+  // message 기록해주는 함수.
+  const writeMessageLogAPI = async (message: IChatMessage) => {
+    const { state } = await (
+      await axios.post(`http://localhost:3002/chats/chat/${roomId}`, { message }, { withCredentials: true })
+    ).data;
   };
 
-  // 로그인 유무 체크, 소켓 연결 호출
+  const readChatRoomMessageAPI = async () => {
+    const { state, chatRoom } = await (
+      await axios.get(`http://localhost:3002/chats/${roomId}`, { withCredentials: true })
+    ).data;
+
+    setChat([...chatRoom.message_log]);
+  };
+
   useEffect(() => {
+    readChatRoomMessageAPI();
+  }, []);
+  // Socket connection logic
+  useEffect(() => {
+    const connectSocket = () => {
+      const socketServer = io("http://localhost:3002/chat");
+
+      socketServer.on("connect_error", (error) => {
+        console.error("Socket connection failed:", error);
+        setConnected(false);
+      });
+
+      socketServer.emit("enter_room", { roomId });
+      setConnected(true);
+      setSocket(socketServer);
+
+      return () => {
+        if (socketServer) {
+          socketServer.disconnect();
+          setConnected(false);
+        }
+      };
+    };
+
     if (!isLogin) {
       navigate("/login");
     } else {
@@ -57,28 +77,37 @@ const Chat = () => {
   }, [navigate, isLogin]);
 
   useEffect(() => {
-    // socket연결 시 이벤트 리스너 등록
-    socket?.on("message", ({ name, message }) => {
-      setChat((prevChat) => [...prevChat, { name, message }]);
-    });
+    if (socket) {
+      socket?.on("message", (message) => {
+        setChat((prevChat) => [...prevChat, message]);
+      });
+    }
   }, [socket]);
 
-  // 렌더링 될때마다 스크롤 맨 아래로 되게 하기
-  useEffect(() => {
-    (scrollRef.current as any).scrollTop = (scrollRef.current as any).scrollHeight;
-  });
+  useLayoutEffect(() => {
+    if (scrollRef.current) {
+      (scrollRef.current as any).scrollTop = (scrollRef.current as any).scrollHeight;
+    }
+  }, [chat]);
 
-  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const onMessageSubmit = (e: React.FormEvent) => {
+  const onMessageSubmit = (e: any) => {
     e.preventDefault();
-    const { name, message } = state;
+    const createdAt = new Date().toLocaleTimeString("ko-KR", {
+      hour: "numeric",
+      minute: "numeric",
+    });
+    const chatMessage: IChatMessage = {
+      send_user: user,
+      message: messageInput,
+      send_date: createdAt,
+    };
 
-    socket?.emit("message", { name, message, roomId: 123 });
-    setState({ message: "", name });
+    if (socket) {
+      socket.emit("message", chatMessage, { roomId });
+    }
+
+    setMessageInput("");
+    writeMessageLogAPI(chatMessage);
   };
 
   return (
@@ -88,11 +117,11 @@ const Chat = () => {
       </S.ChatHeaderBox>
       <S.ChatContentBox>
         <S.ChatLogBox ref={scrollRef as any}>
-          <Message />
+          <Message chatMessages={chat} />
         </S.ChatLogBox>
         <S.InputBox>
           <S.Input
-            placeholder=" 메시지를 입력하세요"
+            placeholder="메시지를 입력하세요"
             ref={inputRef}
             type="text"
             value={messageInput}
@@ -102,14 +131,12 @@ const Chat = () => {
               (inputRef.current as any).focus();
             }}
             onKeyUp={(e) => {
-              if (e.key === "Enter") {
-                // sendMessage();
+              if (e.key === "Enter" && messageInput) {
+                onMessageSubmit(e);
               }
             }}
           />
-          <S.Button
-          // disabled={messageInput ? false : true} onClick={(e) => sendMessage()}
-          >
+          <S.Button disabled={!messageInput} onClick={onMessageSubmit}>
             <HiArrowCircleUp size={35} />
           </S.Button>
         </S.InputBox>

@@ -17,7 +17,6 @@ const Nav = () => {
 
   const location = useLocation();
 
-  // console.log(user);
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };
@@ -28,6 +27,7 @@ const Nav = () => {
     const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
     if (res.state) {
       setAccessToken(res.accessToken);
+
       setUser(res.user);
       setIsLogin(true);
     } else {

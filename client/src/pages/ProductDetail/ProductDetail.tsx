@@ -3,7 +3,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
 import Sold from "../../components/atoms/Sold/Sold";
@@ -26,13 +26,13 @@ const ProductDetail = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const product: IProduct = location.state;
-
+  const [user, setUser] = useRecoilState(userAtom);
   const createdChatAPI = async () => {
-    const { state } = await (
+    const { state, user } = await (
       await axios.post(`http://localhost:3002/chats/${product._id}`, {}, { withCredentials: true })
     ).data;
-    console.log("해당 채팅방 만들기 state : ", state);
 
+    setUser(user);
     if (!state) {
       navigate("/login");
     }
@@ -46,7 +46,7 @@ const ProductDetail = () => {
   };
 
   const [userInfo, setUserInfo] = useRecoilState(userAtom);
-  const userId = userInfo._id;
+  const userId = userInfo?._id;
   const productSellerId = product.seller_info._id;
 
   const deleteProductAPI = async (id: any) => {
