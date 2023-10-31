@@ -47,7 +47,7 @@ const port = 3002; // Node 서버가 사용할 포트 번호
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "../client/build")));
-app.get("*", function (res, req) {
+app.get("*", function (req, res) {
   req.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
