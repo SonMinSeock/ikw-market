@@ -7,22 +7,8 @@ import { userAtom } from "../../recoil/login/atoms";
 const ChatList = () => {
   const user = useRecoilValue<any>(userAtom);
   const navigate = useNavigate();
-  // const [chatRoom, setChatRoom] = useState([]);
-
-  // const getChatRoomAPI = async () => {
-  //   const { chatRoom } = await (
-  //     await axios.get(`http://localhost:3002/chats/${user._id}`, { withCredentials: true })
-  //   ).data;
-  //   setChatRoom(chatRoom);
-  // };
-  // useEffect(() => {
-  //   getChatRoomAPI();
-  // }, []);
-
-  console.log("Chat List : ", user?.chat_room);
 
   const onRedirectProductEdit = (chat: any) => {
-    console.log(chat);
     return navigate(`../chat/${chat._id}`, { state: chat });
   };
   return (

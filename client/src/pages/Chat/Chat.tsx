@@ -6,13 +6,12 @@ import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
 import Message from "../../components/atoms/Message/Message";
+import axios from "axios";
 
 interface IChatMessage {
-  user: any;
+  send_user: any;
   message: string;
-  createdAt: string;
-  profileImage: any;
-  name: any;
+  send_date: string;
 }
 
 const Chat = () => {
@@ -30,6 +29,24 @@ const Chat = () => {
   const [messageInput, setMessageInput] = useState<string>("");
   const [connected, setConnected] = useState<boolean>(false);
 
+  // message 기록해주는 함수.
+  const writeMessageLogAPI = async (message: IChatMessage) => {
+    const { state } = await (
+      await axios.post(`http://localhost:3002/chats/chat/${roomId}`, { message }, { withCredentials: true })
+    ).data;
+  };
+
+  const readChatRoomMessageAPI = async () => {
+    const { state, chatRoom } = await (
+      await axios.get(`http://localhost:3002/chats/${roomId}`, { withCredentials: true })
+    ).data;
+
+    setChat([...chatRoom.message_log]);
+  };
+
+  useEffect(() => {
+    readChatRoomMessageAPI();
+  }, []);
   // Socket connection logic
   useEffect(() => {
     const connectSocket = () => {
@@ -80,11 +97,9 @@ const Chat = () => {
       minute: "numeric",
     });
     const chatMessage: IChatMessage = {
-      user: user._id,
+      send_user: user,
       message: messageInput,
-      profileImage: user.profile_image,
-      name: user.nickname,
-      createdAt,
+      send_date: createdAt,
     };
 
     if (socket) {
@@ -92,9 +107,9 @@ const Chat = () => {
     }
 
     setMessageInput("");
+    writeMessageLogAPI(chatMessage);
   };
 
-  console.log(chat);
   return (
     <S.ChatLayout>
       <S.ChatHeaderBox>

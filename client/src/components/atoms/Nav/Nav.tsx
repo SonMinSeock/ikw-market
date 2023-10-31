@@ -17,7 +17,6 @@ const Nav = () => {
 
   const location = useLocation();
 
-  // console.log(user);
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };
@@ -28,9 +27,7 @@ const Nav = () => {
     const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
     if (res.state) {
       setAccessToken(res.accessToken);
-      console.log("Nav Get User API chat_room 필드의 message log : ", res.user.chat_room[0]?.message_log[0]);
-      console.log("Nav Get User API chat_room 필드의 판매자 데이터: ", res.user.chat_room[0]?.seller);
-      console.log("Nav Get User API chat_room 필드의 소비자 데이터: ", res.user.chat_room[0]?.consumer);
+
       setUser(res.user);
       setIsLogin(true);
     } else {

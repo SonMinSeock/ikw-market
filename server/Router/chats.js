@@ -6,12 +6,18 @@ import { currentDate } from "../lib/date";
 
 const router = express.Router();
 
-router.get("/:userId", async (req, res) => {
+router.get("/:chatId", async (req, res) => {
   try {
-    const { userId } = req.params;
-    const user = await User.findById(userId).populate("chat_room");
-    const chatRoom = user.chat_room;
-    return res.json({ state: true, chatRoom });
+    const { chatId } = req.params;
+
+    const chat = await Chat.findById(chatId).populate({
+      path: "message_log",
+      populate: {
+        path: "send_user",
+      },
+    });
+
+    return res.json({ state: true, chatRoom: chat });
   } catch (err) {
     console.log("Read Chat Room Error : ", err);
   }
@@ -81,7 +87,6 @@ router.post("/:productId", async (req, res) => {
         sellerUser.chat_room.push(createdChatRoom);
         user.chat_room.push(createdChatRoom);
 
-        console.log("user chat room message log : ", user.chat_room[0].message_log);
         await createdChatRoom.save();
         await sellerUser.save();
         await user.save();
@@ -96,16 +101,16 @@ router.post("/:productId", async (req, res) => {
   }
 });
 
-router.post("/:productId/chat/:chatId", async (req, res) => {
+router.post("/chat/:chatId", async (req, res) => {
   try {
     const {
       params: { productId, chatId },
-      body: { message_log },
-    } = req; // message_log 배열 형식.
+      body: { message },
+    } = req;
 
     const chat = await Chat.findById(chatId);
 
-    chat.message_log.push(...message_log);
+    chat.message_log.push(message);
 
     await chat.save();
 
