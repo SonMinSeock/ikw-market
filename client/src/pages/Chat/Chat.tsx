@@ -65,7 +65,7 @@ const Chat = () => {
         setChat((prevChat) => [...prevChat, message]);
       });
     }
-  }, []);
+  }, [socket]);
 
   useLayoutEffect(() => {
     if (scrollRef.current) {
@@ -92,7 +92,6 @@ const Chat = () => {
     }
 
     setMessageInput("");
-    setChat((prevChat) => [...prevChat, chatMessage]);
   };
 
   console.log(chat);
