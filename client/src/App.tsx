@@ -27,7 +27,7 @@ function App() {
           <Route path="profile" element={<Profile />} />
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="chatlist" element={<ChatList />} />
-          <Route path="chat" element={<Chat />} />
+          <Route path="chat/:id" element={<Chat />} />
           <Route path="upload" element={<Upload />} />
           <Route path="product/:id/edit" element={<ProductEdit />} />
         </Route>

@@ -1,26 +1,35 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
-import { isLoginAtom } from "../../recoil/login/atoms";
+import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
 import Message from "../../components/atoms/Message/Message";
 
-interface ChatMessage {
-  name: string;
-  message: string;
+interface IChatMessage {
+  user: any;
+  message: String;
+  createdAt: String;
+  profileImage: any;
+  name: any;
 }
 
 const Chat = () => {
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
   const isLogin = useRecoilValue(isLoginAtom);
+
+  const user = useRecoilValue(userAtom);
+
   const navigate = useNavigate();
+  const location = useLocation();
+  const chatInfo = location.state;
+  const roomId = chatInfo._id;
+  console.log(chatInfo);
 
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [state, setState] = useState({ message: "", name: "" });
-  const [chat, setChat] = useState<ChatMessage[]>([]);
+  const [chat, setChat] = useState<IChatMessage[]>([]);
   const [messageInput, setMessageInput] = useState<string>("");
   const [connected, setConnected] = useState<Boolean>(false);
   // 소켓 연결 함수
@@ -34,7 +43,7 @@ const Chat = () => {
     });
 
     // 채팅방 입장하면 채팅방 id로 보내 해당 채팅방 id 접속한 유저와 채팅한다.
-    socketServer.emit("enter_room", { roomId: 123 });
+    socketServer.emit("enter_room", { roomId });
     setConnected(true);
     setSocket(socketServer);
 
@@ -58,8 +67,8 @@ const Chat = () => {
 
   useEffect(() => {
     // socket연결 시 이벤트 리스너 등록
-    socket?.on("message", ({ name, message }) => {
-      setChat((prevChat) => [...prevChat, { name, message }]);
+    socket?.on("message", (message) => {
+      setChat((prevChat) => [...prevChat, message]);
     });
   }, [socket]);
 
@@ -68,17 +77,23 @@ const Chat = () => {
     (scrollRef.current as any).scrollTop = (scrollRef.current as any).scrollHeight;
   });
 
-  const onTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setState((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const onMessageSubmit = (e: React.FormEvent) => {
+  const onMessageSubmit = (e: any) => {
     e.preventDefault();
-    const { name, message } = state;
+    const createdAt = new Date().toLocaleTimeString("ko-KR", { hour: "numeric", minute: "numeric" });
+    const chatMessage: IChatMessage = {
+      user: user._id,
+      message: messageInput,
+      profileImage: user.profile_image,
+      name: user.nickname,
+      createdAt,
+    };
 
-    socket?.emit("message", { name, message, roomId: 123 });
-    setState({ message: "", name });
+    if (socket) {
+      socket.emit("message", chatMessage, { roomId });
+    }
+
+    setMessageInput("");
+    setChat((prevChat) => [...prevChat, chatMessage]);
   };
 
   return (
@@ -88,11 +103,11 @@ const Chat = () => {
       </S.ChatHeaderBox>
       <S.ChatContentBox>
         <S.ChatLogBox ref={scrollRef as any}>
-          <Message />
+          <Message chatMessages={chat} />
         </S.ChatLogBox>
         <S.InputBox>
           <S.Input
-            placeholder=" 메시지를 입력하세요"
+            placeholder="메시지를 입력하세요"
             ref={inputRef}
             type="text"
             value={messageInput}
@@ -103,13 +118,11 @@ const Chat = () => {
             }}
             onKeyUp={(e) => {
               if (e.key === "Enter") {
-                // sendMessage();
+                onMessageSubmit(e);
               }
             }}
           />
-          <S.Button
-          // disabled={messageInput ? false : true} onClick={(e) => sendMessage()}
-          >
+          <S.Button disabled={messageInput ? false : true} onClick={(e) => onMessageSubmit(e)}>
             <HiArrowCircleUp size={35} />
           </S.Button>
         </S.InputBox>

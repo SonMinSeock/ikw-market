@@ -57,9 +57,10 @@ const chat = io.of("/chat").on("connection", (socket) => {
     console.log("Socket disconnected!");
   });
 
-  socket.on("message", ({ name, message, roomId }) => {
+  socket.on("message", (message, { roomId }) => {
     //해당 채팅방으로 메시지를 보낸다.
-    chat.to(roomId).emit("message", { name, message });
+    chat.to(roomId).emit("message", message);
+    console.log(message);
     //io.emit("message", { name, message });
   });
 });
