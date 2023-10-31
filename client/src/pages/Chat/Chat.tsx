@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
@@ -9,8 +9,8 @@ import Message from "../../components/atoms/Message/Message";
 
 interface IChatMessage {
   user: any;
-  message: String;
-  createdAt: String;
+  message: string;
+  createdAt: string;
   profileImage: any;
   name: any;
 }
@@ -19,45 +19,39 @@ const Chat = () => {
   const inputRef = useRef(null);
   const scrollRef = useRef(null);
   const isLogin = useRecoilValue(isLoginAtom);
-
   const user = useRecoilValue(userAtom);
-
   const navigate = useNavigate();
   const location = useLocation();
   const chatInfo = location.state;
   const roomId = chatInfo._id;
-  console.log(chatInfo);
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [chat, setChat] = useState<IChatMessage[]>([]);
   const [messageInput, setMessageInput] = useState<string>("");
-  const [connected, setConnected] = useState<Boolean>(false);
-  // 소켓 연결 함수
-  const connectSocket = () => {
-    const socketServer = io("http://localhost:3002/chat");
+  const [connected, setConnected] = useState<boolean>(false);
 
-    //소켓 연결 실패
-    socketServer.on("connect_error", (error) => {
-      console.error("Socket connection failed:", error);
-      setConnected(false);
-    });
-
-    // 채팅방 입장하면 채팅방 id로 보내 해당 채팅방 id 접속한 유저와 채팅한다.
-    socketServer.emit("enter_room", { roomId });
-    setConnected(true);
-    setSocket(socketServer);
-
-    // 컴포넌트 언마운트 시 실행되는 클린업 함수
-    return () => {
-      if (socketServer) {
-        socketServer.disconnect();
-        setConnected(false);
-      }
-    };
-  };
-
-  // 로그인 유무 체크, 소켓 연결 호출
+  // Socket connection logic
   useEffect(() => {
+    const connectSocket = () => {
+      const socketServer = io("http://localhost:3002/chat");
+
+      socketServer.on("connect_error", (error) => {
+        console.error("Socket connection failed:", error);
+        setConnected(false);
+      });
+
+      socketServer.emit("enter_room", { roomId });
+      setConnected(true);
+      setSocket(socketServer);
+
+      return () => {
+        if (socketServer) {
+          socketServer.disconnect();
+          setConnected(false);
+        }
+      };
+    };
+
     if (!isLogin) {
       navigate("/login");
     } else {
@@ -66,20 +60,25 @@ const Chat = () => {
   }, [navigate, isLogin]);
 
   useEffect(() => {
-    // socket연결 시 이벤트 리스너 등록
-    socket?.on("message", (message) => {
-      setChat((prevChat) => [...prevChat, message]);
-    });
-  }, [socket]);
+    if (socket) {
+      socket?.on("message", (message) => {
+        setChat((prevChat) => [...prevChat, message]);
+      });
+    }
+  }, []);
 
-  // 렌더링 될때마다 스크롤 맨 아래로 되게 하기
-  useEffect(() => {
-    (scrollRef.current as any).scrollTop = (scrollRef.current as any).scrollHeight;
-  });
+  useLayoutEffect(() => {
+    if (scrollRef.current) {
+      (scrollRef.current as any).scrollTop = (scrollRef.current as any).scrollHeight;
+    }
+  }, [chat]);
 
   const onMessageSubmit = (e: any) => {
     e.preventDefault();
-    const createdAt = new Date().toLocaleTimeString("ko-KR", { hour: "numeric", minute: "numeric" });
+    const createdAt = new Date().toLocaleTimeString("ko-KR", {
+      hour: "numeric",
+      minute: "numeric",
+    });
     const chatMessage: IChatMessage = {
       user: user._id,
       message: messageInput,
@@ -96,6 +95,7 @@ const Chat = () => {
     setChat((prevChat) => [...prevChat, chatMessage]);
   };
 
+  console.log(chat);
   return (
     <S.ChatLayout>
       <S.ChatHeaderBox>
@@ -117,12 +117,12 @@ const Chat = () => {
               (inputRef.current as any).focus();
             }}
             onKeyUp={(e) => {
-              if (e.key === "Enter") {
+              if (e.key === "Enter" && messageInput) {
                 onMessageSubmit(e);
               }
             }}
           />
-          <S.Button disabled={messageInput ? false : true} onClick={(e) => onMessageSubmit(e)}>
+          <S.Button disabled={!messageInput} onClick={onMessageSubmit}>
             <HiArrowCircleUp size={35} />
           </S.Button>
         </S.InputBox>
