@@ -24,7 +24,7 @@ const Nav = () => {
   const navigate = useNavigate();
 
   const getUserAPI = async () => {
-    const res = await (await axios.get("http://ikw-market.shop/api/getUser", { withCredentials: true })).data;
+    const res = await (await axios.get("https://ikw-market.shop/api/getUser", { withCredentials: true })).data;
     if (res.state) {
       setAccessToken(res.accessToken);
 
@@ -38,7 +38,7 @@ const Nav = () => {
   };
 
   const logOutAPI = async () => {
-    await axios.get("http://ikw-market.shop/api/logout", { withCredentials: true });
+    await axios.get("https://ikw-market.shop/api/logout", { withCredentials: true });
     localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);

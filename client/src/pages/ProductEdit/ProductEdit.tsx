@@ -46,7 +46,7 @@ const ProductEdit = () => {
   const [product, setProduct] = useState<IProduct | any>();
 
   const getProductAPI = async (id: any) => {
-    const res = await (await axios.get(`http://ikw-market.shop/api/product/${id}`, { withCredentials: true })).data;
+    const res = await (await axios.get(`https://ikw-market.shop/api/product/${id}`, { withCredentials: true })).data;
     if (res.state) {
       setProduct(res.product);
     }
@@ -107,7 +107,7 @@ const ProductEdit = () => {
 
     const formData = await axios
       .post(
-        `http://ikw-market.shop/api/product/${id}/update`,
+        `https://ikw-market.shop/api/product/${id}/update`,
         {
           product_name: data.name,
           product_images: fileList,

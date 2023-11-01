@@ -67,7 +67,7 @@ const Upload = () => {
 
     const formData = await axios
       .post(
-        "http://ikw-market.shop/api/product/upload",
+        "https://ikw-market.shop/api/product/upload",
         {
           product_name: data.name,
           product_images: fileList,
