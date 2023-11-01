@@ -32,13 +32,13 @@ const Chat = () => {
   // message 기록해주는 함수.
   const writeMessageLogAPI = async (message: IChatMessage) => {
     const { state } = await (
-      await axios.post(`http://localhost:3002/chats/chat/${roomId}`, { message }, { withCredentials: true })
+      await axios.post(`http://ikw-market.shop/api/chats/chat/${roomId}`, { message }, { withCredentials: true })
     ).data;
   };
 
   const readChatRoomMessageAPI = async () => {
     const { state, chatRoom } = await (
-      await axios.get(`http://localhost:3002/chats/${roomId}`, { withCredentials: true })
+      await axios.get(`http://ikw-market.shop/api/chats/${roomId}`, { withCredentials: true })
     ).data;
 
     setChat([...chatRoom.message_log]);
@@ -50,7 +50,7 @@ const Chat = () => {
   // Socket connection logic
   useEffect(() => {
     const connectSocket = () => {
-      const socketServer = io("http://localhost:3002/chat");
+      const socketServer = io("http://ikw-market.shop/api/chat");
 
       socketServer.on("connect_error", (error) => {
         console.error("Socket connection failed:", error);

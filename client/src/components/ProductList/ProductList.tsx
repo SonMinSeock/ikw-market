@@ -68,7 +68,7 @@ const ProductList = () => {
   // ];
 
   const getProductsAPI = async () => {
-    let { products } = await (await axios.get("http://localhost:3002/product", { withCredentials: true })).data;
+    let { products } = await (await axios.get("http://ikw-market.shop/api/product", { withCredentials: true })).data;
 
     products = products.map((product: any) => {
       return {

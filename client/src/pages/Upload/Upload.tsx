@@ -12,7 +12,6 @@ import Form from "../../components/Form/Form";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../recoil/login/atoms";
 
-
 interface IForm {
   name: string;
   price: number;
@@ -68,7 +67,7 @@ const Upload = () => {
 
     const formData = await axios
       .post(
-        "http://localhost:3002/product/upload",
+        "http://ikw-market.shop/api/product/upload",
         {
           product_name: data.name,
           product_images: fileList,

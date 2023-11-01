@@ -29,7 +29,7 @@ const ProductDetail = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const createdChatAPI = async () => {
     const { state, user } = await (
-      await axios.post(`http://localhost:3002/chats/${product._id}`, {}, { withCredentials: true })
+      await axios.post(`http://ikw-market.shop/api/chats/${product._id}`, {}, { withCredentials: true })
     ).data;
 
     setUser(user);
@@ -51,7 +51,7 @@ const ProductDetail = () => {
 
   const deleteProductAPI = async (id: any) => {
     const { state, updateUser } = await (
-      await axios.delete(`http://localhost:3002/product/${id}/delete`, { withCredentials: true })
+      await axios.delete(`http://ikw-market.shop/api/product/${id}/delete`, { withCredentials: true })
     ).data;
 
     if (state) {
@@ -62,7 +62,11 @@ const ProductDetail = () => {
 
   const updateProductAPI = async (id: any) => {
     const { state } = await (
-      await axios.post(`http://localhost:3002/product/${id}/update`, { product_state: true }, { withCredentials: true })
+      await axios.post(
+        `http://ikw-market.shop/api/product/${id}/update`,
+        { product_state: true },
+        { withCredentials: true }
+      )
     ).data;
 
     if (state) navigate("/");
