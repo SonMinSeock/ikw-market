@@ -9,23 +9,11 @@ import { sortProducts } from "../../controller/sort";
 import { getProducts } from "../../api/api";
 import { useQuery } from "react-query";
 
-interface IProduct {
-  description: string;
-  location: string;
-  product_images: any;
-  product_name: string;
-  product_price: string;
-  seller_info: any;
-  __v: number;
-  _id: string;
-}
-
 const ProductList = () => {
-  const [products, setProducts] = useState([]);
   const searchText = useRecoilValue(searchTextAtom);
   const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
-
   const { isLoading, data } = useQuery(["Products"], getProducts);
+  const products = data || [];
 
   // const getProductsAPI = async () => {
   //   let { products } = await (await axios.get("https://ikw-market.shop/api/product", { withCredentials: true })).data;

@@ -1,25 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import * as S from "./Product.style";
 import Sold from "../Sold/Sold";
-
-interface IProduct {
-  _id: string;
-  product_name: string;
-  product_images: [string];
-  product_price: string;
-  product_state: false;
-  location: string;
-  description: string;
-  seller_info: object;
-  __v: 0;
-}
+import { IProduct } from "../../../api/type";
 
 const Product = ({ product }: { product: IProduct }) => {
   const navigagte = useNavigate();
   const onRedirect = (url = "") => {
     return navigagte(url, { state: { ...product } });
   };
-  // console.log("Product : ");
 
   return (
     <S.ProductLayout>
