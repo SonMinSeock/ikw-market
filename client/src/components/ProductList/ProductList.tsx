@@ -6,6 +6,8 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { searchProductsAtom, searchTextAtom } from "../../recoil/login/atoms";
 import { searchObj } from "../../controller/search";
 import { sortProducts } from "../../controller/sort";
+import { getProducts } from "../../api/api";
+import { useQuery } from "react-query";
 
 interface IProduct {
   description: string;
@@ -22,70 +24,28 @@ const ProductList = () => {
   const [products, setProducts] = useState([]);
   const searchText = useRecoilValue(searchTextAtom);
   const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
-  // const products: IProduct[] = [
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  //   {
-  //     img: "https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png",
-  //     name: "의자팝니다",
-  //     price: 100000,
-  //     location: "2호관",
-  //   },
-  // ];
 
-  const getProductsAPI = async () => {
-    let { products } = await (await axios.get("https://ikw-market.shop/api/product", { withCredentials: true })).data;
+  const { isLoading, data } = useQuery(["Products"], getProducts);
 
-    products = products.map((product: any) => {
-      return {
-        ...product,
-      };
-    });
+  // const getProductsAPI = async () => {
+  //   let { products } = await (await axios.get("https://ikw-market.shop/api/product", { withCredentials: true })).data;
 
-    setProducts(sortProducts(products.reverse()));
-  };
+  //   products = products.map((product: any) => {
+  //     return {
+  //       ...product,
+  //     };
+  //   });
 
-  useEffect(() => {
-    getProductsAPI();
-  }, []);
+  //   setProducts(sortProducts(products.reverse()));
+  // };
 
-  useEffect(() => {
-    searchObj.products(searchText, getProductsAPI, products, setSearchProducts);
-  }, [searchText]);
+  // useEffect(() => {
+  //   getProductsAPI();
+  // }, []);
+
+  // useEffect(() => {
+  //   searchObj.products(searchText, getProductsAPI, products, setSearchProducts);
+  // }, [searchText]);
 
   const showProducts = () => {
     if (searchProducts.length !== 0) {

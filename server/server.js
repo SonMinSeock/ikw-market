@@ -39,16 +39,16 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", RootRouter);
-app.use("/product", ProductRouter);
-app.use("/chats", ChatRouter);
+app.use("/api", RootRouter);
+app.use("/api/product", ProductRouter);
+app.use("/api/chats", ChatRouter);
 
 const port = 3002; // Node 서버가 사용할 포트 번호
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.get("*", function (req, res) {
-  req.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 // io.of() 채널 만들어주는 메서드, "/chat 채널"

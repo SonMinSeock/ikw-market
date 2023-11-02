@@ -50,7 +50,7 @@ const Chat = () => {
   // Socket connection logic
   useEffect(() => {
     const connectSocket = () => {
-      const socketServer = io("https://ikw-market.shop/api/chat");
+      const socketServer = io("https://ikw-market.shop/chat");
 
       socketServer.on("connect_error", (error) => {
         console.error("Socket connection failed:", error);
