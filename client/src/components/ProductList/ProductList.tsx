@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { searchProductsAtom, searchTextAtom } from "../../recoil/login/atoms";
 import { searchObj } from "../../controller/search";
 import { sortProducts } from "../../controller/sort";
-import { getProducts } from "../../api/api";
+import { getProducts } from "../../api/productData";
 import { useQuery } from "react-query";
 
 const ProductList = () => {

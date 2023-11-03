@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as S from "./Product.style";
 import Sold from "../Sold/Sold";
-import { IProduct } from "../../../api/type";
+import { IProduct } from "../../../api/productType";
 
 const Product = ({ product }: { product: IProduct }) => {
   const navigagte = useNavigate();

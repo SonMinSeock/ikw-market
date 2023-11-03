@@ -1,6 +1,6 @@
 import axios from "axios";
 import { sortProducts } from "../controller/sort";
-import { IProduct } from "./type";
+import { IProduct } from "./productType";
 
 export const getProducts = async () => {
   const res = await axios.get(`https://ikw-market.shop/api/product`);

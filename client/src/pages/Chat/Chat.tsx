@@ -7,12 +7,15 @@ import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
 import Message from "../../components/atoms/Message/Message";
 import axios from "axios";
+import { useMutation, useQuery } from "react-query";
+import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
+import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../api/chatType";
 
-interface IChatMessage {
-  send_user: any;
-  message: string;
-  send_date: string;
-}
+// interface IChatMessage {
+//   send_user: any;
+//   message: string;
+//   send_date: string;
+// }
 
 const Chat = () => {
   const inputRef = useRef(null);
@@ -25,32 +28,43 @@ const Chat = () => {
   const roomId = chatInfo._id;
 
   const [socket, setSocket] = useState<Socket | null>(null);
-  const [chat, setChat] = useState<IChatMessage[]>([]);
+
+  const [chat, setChat] = useState<IChatRoom>();
+  const [chatMessageLog, setChatMessageLog] = useState<IChatMessage[]>([]);
   const [messageInput, setMessageInput] = useState<string>("");
   const [connected, setConnected] = useState<boolean>(false);
 
+  const { mutate: mutateChaRoomMessageLog } = useMutation(({ message, roomId }: ISetChatRoomMessageLog) =>
+    setChatRoomMessageLog({ message, roomId })
+  );
+
   // message 기록해주는 함수.
-  const writeMessageLogAPI = async (message: IChatMessage) => {
-    const { state } = await (
-      await axios.post(`https://ikw-market.shop/api/chats/chat/${roomId}`, { message }, { withCredentials: true })
-    ).data;
-  };
+  // const writeMessageLogAPI = async (message: IChatMessage) => {
+  //   const { state } = await (
+  //     await axios.post(`https://ikw-market.shop/api/chats/chat/${roomId}`, { message }, { withCredentials: true })
+  //   ).data;
+  // };
 
-  const readChatRoomMessageAPI = async () => {
-    const { state, chatRoom } = await (
-      await axios.get(`https://ikw-market.shop/api/chats/${roomId}`, { withCredentials: true })
-    ).data;
+  const { isLoading: getChatRoomIsLoading, data } = useQuery(["GetChatRoom", roomId], () => getChatRoom(roomId), {
+    onSuccess: (chatRoom) => setChatMessageLog([...chatRoom.message_log]),
+  });
 
-    setChat([...chatRoom.message_log]);
-  };
+  // const readChatRoomMessageAPI = async () => {
+  //   const { state, chatRoom } = await (
+  //     await axios.get(`https://ikw-market.shop/api/chats/${roomId}`, { withCredentials: true })
+  //   ).data;
 
-  useEffect(() => {
-    readChatRoomMessageAPI();
-  }, []);
+  //   setChat([...chatRoom.message_log]);
+  // };
+
+  // useEffect(() => {
+  //   // readChatRoomMessageAPI();
+  // }, []);
+
   // Socket connection logic
   useEffect(() => {
     const connectSocket = () => {
-      const socketServer = io("https://ikw-market.shop/chat");
+      const socketServer = io(`${process.env.REACT_APP_EXPRESS_URL}/chat`);
 
       socketServer.on("connect_error", (error) => {
         console.error("Socket connection failed:", error);
@@ -79,7 +93,8 @@ const Chat = () => {
   useEffect(() => {
     if (socket) {
       socket?.on("message", (message) => {
-        setChat((prevChat) => [...prevChat, message]);
+        //setChat((prevChat) => [...prevChat, message]);
+        setChatMessageLog((prevChatMessageLog) => [...prevChatMessageLog, message]);
       });
     }
   }, [socket]);
@@ -107,7 +122,8 @@ const Chat = () => {
     }
 
     setMessageInput("");
-    writeMessageLogAPI(chatMessage);
+    mutateChaRoomMessageLog({ message: chatMessage, roomId });
+    // writeMessageLogAPI(chatMessage);
   };
 
   return (
@@ -117,7 +133,7 @@ const Chat = () => {
       </S.ChatHeaderBox>
       <S.ChatContentBox>
         <S.ChatLogBox ref={scrollRef as any}>
-          <Message chatMessages={chat} />
+          <Message chatMessages={chatMessageLog} />
         </S.ChatLogBox>
         <S.InputBox>
           <S.Input

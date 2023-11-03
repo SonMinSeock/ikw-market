@@ -5,6 +5,8 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
+import { useQuery } from "react-query";
+import { getUser } from "../../../api/userData";
 const Nav = () => {
   // recoil
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
@@ -23,30 +25,45 @@ const Nav = () => {
 
   const navigate = useNavigate();
 
-  const getUserAPI = async () => {
-    const res = await (await axios.get("https://ikw-market.shop/api/getUser", { withCredentials: true })).data;
-    if (res.state) {
-      setAccessToken(res.accessToken);
+  const { isLoading: getUserIsLoading, data } = useQuery("GetUser", getUser, {
+    onSuccess: ({ state, user }) => {
+      if (state) {
+        setUser(user);
+        setIsLogin(true);
+      } else {
+        setAccessToken("");
+        setUser({});
+        setIsLogin("");
+      }
+    },
+  });
 
-      setUser(res.user);
-      setIsLogin(true);
-    } else {
-      setAccessToken("");
-      setUser({});
-      setIsLogin(false);
-    }
-  };
+  // const getUserAPI = async () => {
+  //   const res = await (
+  //     await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/getUser`, { withCredentials: true })
+  //   ).data;
+  //   if (res.state) {
+  //     setAccessToken(res.accessToken);
+
+  //     setUser(res.user);
+  //     setIsLogin(true);
+  //   } else {
+  //     setAccessToken("");
+  //     setUser({});
+  //     setIsLogin(false);
+  //   }
+  // };
 
   const logOutAPI = async () => {
-    await axios.get("https://ikw-market.shop/api/logout", { withCredentials: true });
+    await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`, { withCredentials: true });
     localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);
   };
 
-  useEffect(() => {
-    getUserAPI();
-  }, [location]);
+  // useEffect(() => {
+  //   getUserAPI();
+  // }, [location]);
 
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {
