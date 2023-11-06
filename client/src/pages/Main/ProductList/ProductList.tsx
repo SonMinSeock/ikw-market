@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Product from "../atoms/Product/Product";
+import Product from "../../../components/atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
 import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { searchProductsAtom, searchTextAtom } from "../../recoil/login/atoms";
-import { searchObj } from "../../controller/search";
-import { sortProducts } from "../../controller/sort";
-import { getProducts } from "../../api/productData";
+import { searchProductsAtom, searchTextAtom } from "../../../recoil/login/atoms";
+import { searchObj } from "../../../controller/search";
+import { sortProducts } from "../../../controller/sort";
+import { getProducts } from "../../../api/productData";
 import { useQuery } from "react-query";
 
 const ProductList = () => {

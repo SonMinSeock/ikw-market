@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import * as S from "./Main.style";
 
-import ProductList from "../../components/ProductList/ProductList";
+import ProductList from "./ProductList/ProductList";
 
 const Main = () => {
   useEffect(() => {

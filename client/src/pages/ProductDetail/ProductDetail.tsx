@@ -6,7 +6,7 @@ import Slider from "../../components/Animation/Slider/Slider";
 import { useRecoilState } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
-import Sold from "../../components/atoms/Sold/Sold";
+import Sold from "../../components/atoms/Product/Sold/Sold";
 
 interface IProduct {
   description: string;

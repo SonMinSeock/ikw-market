@@ -5,7 +5,7 @@ import { io, Socket } from "socket.io-client";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
-import Message from "../../components/atoms/Message/Message";
+import Message from "./Message/Message";
 import axios from "axios";
 import { useMutation, useQuery } from "react-query";
 import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
