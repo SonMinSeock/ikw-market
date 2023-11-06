@@ -90,7 +90,7 @@ function Login() {
   // kakao api
   const [code, setCode] = useState();
   const REST_API_KEY = process.env.REACT_APP_KAKAO_REST_API_KEY;
-  const KAKAO_AUTH_URL = `${process.env.REACT_APP_KAKgoO_REST_API_URL}?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+  const KAKAO_AUTH_URL = `${process.env.REACT_APP_KAKAO_REST_API_URL}?client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 
   // kakao 버튼 클릭 핸들러
   const kakaoBtnOnClick = () => {
