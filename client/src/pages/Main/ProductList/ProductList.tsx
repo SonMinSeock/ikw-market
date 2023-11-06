@@ -12,7 +12,10 @@ import { useQuery } from "react-query";
 const ProductList = () => {
   const searchText = useRecoilValue(searchTextAtom);
   const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
-  const { isLoading, data } = useQuery(["Products"], getProducts);
+  const { isLoading, data } = useQuery(["Products"], getProducts, {
+    refetchInterval: 2000,
+    refetchIntervalInBackground: true,
+  });
   const products = data || [];
 
   // const getProductsAPI = async () => {

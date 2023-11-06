@@ -51,7 +51,7 @@ const ProductDetail = () => {
 
   const deleteProductAPI = async (id: any) => {
     const { state, updateUser } = await (
-      await axios.delete(`https://ikw-market.shop/api/product/${id}/delete`, { withCredentials: true })
+      await axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/delete`, { withCredentials: true })
     ).data;
 
     if (state) {
@@ -63,7 +63,7 @@ const ProductDetail = () => {
   const updateProductAPI = async (id: any) => {
     const { state } = await (
       await axios.post(
-        `https://ikw-market.shop/api/product/${id}/update`,
+        `${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/update`,
         { product_state: true },
         { withCredentials: true }
       )
