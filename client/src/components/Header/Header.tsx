@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import * as S from "./Header.style";
 import Logo from "../atoms/Logo/Logo";
-import Nav from "../atoms/Nav/Nav";
+import Nav from "./Nav/Nav";
 import { searchTextAtom } from "../../recoil/login/atoms";
 import { useRecoilState } from "recoil";
 const Header = () => {
