@@ -36,8 +36,8 @@ const Nav = () => {
         setIsLogin("");
       }
     },
-    refetchInterval: 1500,
-    refetchIntervalInBackground: true,
+    // refetchInterval: 1500,
+    // refetchIntervalInBackground: true,
   });
 
   // const getUserAPI = async () => {
