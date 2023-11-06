@@ -39,7 +39,7 @@ export const loginAxiosObj = {
 
             // kakao login POST request
             await axios.post(
-              `${process.env.REACT_APP_DOMAIN}/api/login`,
+              `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
               {
                 social_id: { value: user.id, social_name: "카카오 로그인" },
                 email: user["kakao_account"].email,

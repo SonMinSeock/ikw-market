@@ -17,7 +17,7 @@ function Login() {
   // naver api
   const { naver } = window;
   const navigate = useNavigate();
-  const REDIRECT_URI = `${process.env.REACT_APP_DOMAIN}/login`;
+  const REDIRECT_URI = `${process.env.REACT_APP_LOCAL_URL}/login`;
   const [naverToken, setNaverToken] = useState();
 
   const naverLogin = new naver.LoginWithNaverId({
