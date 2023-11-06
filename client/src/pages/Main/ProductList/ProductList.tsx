@@ -7,28 +7,17 @@ import { searchProductsAtom, searchTextAtom } from "../../../recoil/login/atoms"
 import { searchObj } from "../../../controller/search";
 import { sortProducts } from "../../../controller/sort";
 import { getProducts } from "../../../api/productData";
-import { useQuery } from "react-query";
+import { QueryClient, useQuery } from "react-query";
 
 const ProductList = () => {
   const searchText = useRecoilValue(searchTextAtom);
   const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
   const { isLoading, data } = useQuery(["Products"], getProducts, {
-    refetchInterval: 2000,
+    staleTime: 15000,
+    refetchInterval: 200000,
     refetchIntervalInBackground: true,
   });
   const products = data || [];
-
-  // const getProductsAPI = async () => {
-  //   let { products } = await (await axios.get("https://ikw-market.shop/api/product", { withCredentials: true })).data;
-
-  //   products = products.map((product: any) => {
-  //     return {
-  //       ...product,
-  //     };
-  //   });
-
-  //   setProducts(sortProducts(products.reverse()));
-  // };
 
   // useEffect(() => {
   //   getProductsAPI();
@@ -49,7 +38,7 @@ const ProductList = () => {
       });
     }
   };
-  return <ProductsLayout>{showProducts()}</ProductsLayout>;
+  return <ProductsLayout>{isLoading ? <div>Loading...</div> : showProducts()}</ProductsLayout>;
 };
 
 export default ProductList;
