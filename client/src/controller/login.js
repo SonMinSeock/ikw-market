@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const loginAxiosObj = {
   naverLoginPostAxios: async (user) => {
-    await axios.post(`${process.env.REACT_APP_DOMAIN}/api/login`, user, {
+    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/login`, user, {
       headers: {
         "Content-Type": "application/json",
       },
