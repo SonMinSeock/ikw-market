@@ -62,7 +62,6 @@ router.delete("/:id/delete", async (req, res) => {
       { new: true }
     );
 
-    // User.findByIdAndUpdate(deleteProduct.seller_info)
     res.json({ state: true, updateUser });
   } catch (error) {
     console.log("Delete Product Error : ", error);

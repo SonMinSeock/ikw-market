@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
 import * as S from "./ChatList.style";
-import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 const ChatList = () => {

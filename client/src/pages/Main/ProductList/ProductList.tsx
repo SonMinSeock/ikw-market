@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Product from "../../../components/atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
-import axios from "axios";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchProductsAtom, searchTextAtom } from "../../../recoil/login/atoms";
 import { searchObj } from "../../../controller/search";
-import { sortProducts } from "../../../controller/sort";
 import { getProducts } from "../../../api/productData";
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 const ProductList = () => {
   const searchText = useRecoilValue(searchTextAtom);
@@ -19,13 +17,9 @@ const ProductList = () => {
   });
   const products = data || [];
 
-  // useEffect(() => {
-  //   getProductsAPI();
-  // }, []);
-
-  // useEffect(() => {
-  //   searchObj.products(searchText, getProductsAPI, products, setSearchProducts);
-  // }, [searchText]);
+  useEffect(() => {
+    searchObj.products(searchText, getProducts, products, setSearchProducts);
+  }, [searchText]);
 
   const showProducts = () => {
     if (searchProducts.length !== 0) {

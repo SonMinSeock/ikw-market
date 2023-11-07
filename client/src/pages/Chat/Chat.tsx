@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef, useLayoutEffect } from "react";
+import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useRecoilValue } from "recoil";
 import { useLocation, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
@@ -6,16 +6,9 @@ import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
 import * as S from "./Chat.style";
 import Message from "./Message/Message";
-import axios from "axios";
 import { useMutation, useQuery } from "react-query";
 import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
 import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../api/chatType";
-
-// interface IChatMessage {
-//   send_user: any;
-//   message: string;
-//   send_date: string;
-// }
 
 const Chat = () => {
   const inputRef = useRef(null);
@@ -38,30 +31,10 @@ const Chat = () => {
     setChatRoomMessageLog({ message, roomId })
   );
 
-  // message 기록해주는 함수.
-  // const writeMessageLogAPI = async (message: IChatMessage) => {
-  //   const { state } = await (
-  //     await axios.post(`https://ikw-market.shop/api/chats/chat/${roomId}`, { message }, { withCredentials: true })
-  //   ).data;
-  // };
-
   const { isLoading: getChatRoomIsLoading, data } = useQuery(["GetChatRoom", roomId], () => getChatRoom(roomId), {
     onSuccess: (chatRoom) => setChatMessageLog([...chatRoom.message_log]),
   });
 
-  // const readChatRoomMessageAPI = async () => {
-  //   const { state, chatRoom } = await (
-  //     await axios.get(`https://ikw-market.shop/api/chats/${roomId}`, { withCredentials: true })
-  //   ).data;
-
-  //   setChat([...chatRoom.message_log]);
-  // };
-
-  // useEffect(() => {
-  //   // readChatRoomMessageAPI();
-  // }, []);
-
-  // Socket connection logic
   useEffect(() => {
     const connectSocket = () => {
       const socketServer = io(`${process.env.REACT_APP_EXPRESS_URL}/chat`);
@@ -93,7 +66,6 @@ const Chat = () => {
   useEffect(() => {
     if (socket) {
       socket?.on("message", (message) => {
-        //setChat((prevChat) => [...prevChat, message]);
         setChatMessageLog((prevChatMessageLog) => [...prevChatMessageLog, message]);
       });
     }
@@ -123,7 +95,6 @@ const Chat = () => {
 
     setMessageInput("");
     mutateChaRoomMessageLog({ message: chatMessage, roomId });
-    // writeMessageLogAPI(chatMessage);
   };
 
   return (

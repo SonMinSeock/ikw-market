@@ -78,7 +78,6 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   useEffect(() => {
-    // onChangeNameInput 함수를 호출하여 상품 정보가 변경될 때도 작동
     if (product) {
       onChangeNameInput({ target: { value: product.product_name, name: "name" } });
       onChangeNameInput({ target: { value: product.location, name: "location" } });

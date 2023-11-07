@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./ProductEdit.style";
 import { BiImageAdd } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
@@ -7,8 +7,8 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import Form from "../../components/Form/Form";
 
@@ -31,12 +31,7 @@ interface IProduct {
 }
 
 const ProductEdit = () => {
-  const uploadImgInput = useRef() as any;
-  const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const { register, handleSubmit, setValue } = useForm<IForm>();
+  const { setValue } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
@@ -44,6 +39,14 @@ const ProductEdit = () => {
   const [loading, setLoading] = useState(true);
   const isLogin = useRecoilValue(isLoginAtom);
   const [product, setProduct] = useState<IProduct | any>();
+  const uploadImgInput = useRef() as any;
+  const navigate = useNavigate();
+
+  const region = process.env.REACT_APP_REGION;
+  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
+  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
+  const { id } = useParams();
 
   const getProductAPI = async (id: any) => {
     const res = await (await axios.get(`https://ikw-market.shop/api/product/${id}`, { withCredentials: true })).data;
@@ -51,8 +54,6 @@ const ProductEdit = () => {
       setProduct(res.product);
     }
   };
-
-  // console.log("product 확인 : ", product?.product_name);
 
   useEffect(() => {
     if (isLogin) {
@@ -87,10 +88,6 @@ const ProductEdit = () => {
 
     // 기존 이미지가 있을 때 기본 이미지 렌더링 로직
   }, [product?.product_images]);
-
-  const region = process.env.REACT_APP_REGION;
-  const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
-  const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
 
   AWS.config.update({
     region: region,

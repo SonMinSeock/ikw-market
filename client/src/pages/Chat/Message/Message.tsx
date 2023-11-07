@@ -1,4 +1,3 @@
-import React from "react";
 import * as S from "./Message.style";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../../recoil/login/atoms";

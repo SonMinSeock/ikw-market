@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
 import { useQuery } from "react-query";
 import { getUser } from "../../../api/userData";
+
 const Nav = () => {
   // recoil
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
@@ -16,8 +17,6 @@ const Nav = () => {
   const [toogle, isToogle] = useState(false);
 
   const NAVER_LOGIN = "네이버 로그인";
-
-  const location = useLocation();
 
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
@@ -40,32 +39,12 @@ const Nav = () => {
     // refetchIntervalInBackground: true,
   });
 
-  // const getUserAPI = async () => {
-  //   const res = await (
-  //     await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/getUser`, { withCredentials: true })
-  //   ).data;
-  //   if (res.state) {
-  //     setAccessToken(res.accessToken);
-
-  //     setUser(res.user);
-  //     setIsLogin(true);
-  //   } else {
-  //     setAccessToken("");
-  //     setUser({});
-  //     setIsLogin(false);
-  //   }
-  // };
-
   const logOutAPI = async () => {
     await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`, { withCredentials: true });
     localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);
   };
-
-  // useEffect(() => {
-  //   getUserAPI();
-  // }, [location]);
 
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {

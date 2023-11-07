@@ -2,17 +2,15 @@ import * as S from "./Login.style";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../../components/atoms/Logo/Logo";
-import axios from "axios";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
-import { useRecoilState } from "recoil";
-import { accessTokenAtom, isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import { useSetRecoilState } from "recoil";
+import { accessTokenAtom, isLoginAtom } from "../../recoil/login/atoms";
 import { loginAxiosObj } from "../../controller/login";
 
 function Login() {
   // recoil
-  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
-  const [user, setUser] = useRecoilState(userAtom);
-  const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
+  const setIsLogin = useSetRecoilState(isLoginAtom);
+  const setAccessToken = useSetRecoilState(accessTokenAtom);
 
   // naver api
   const { naver } = window;
@@ -39,10 +37,7 @@ function Login() {
 
   const initializeNaverLogin = () => {
     naverLogin.getLoginStatus(async function (status) {
-      //console.log("status : ", status);
-
       if (status) {
-        //console.log(`user : `, naverLogin.user);
         const nickName = naverLogin.user.getNickName();
         const name = naverLogin.user.getName();
         const email = naverLogin.user.getEmail();
@@ -118,11 +113,7 @@ function Login() {
       <Logo />
       <S.LoginButtonBox>
         <img src={KakaoBtnImg} id="kakao" onClick={kakaoBtnOnClick} />
-        {/* <S.LoginButton id="kakao" onClick={kakaoBtnOnClick}>
-          카카오 로그인
-        </S.LoginButton> */}
         <div id="naverIdLogin" onClick={initializeNaverLogin} />
-        {/* <S.LoginButton id="naver">네이버 로그인</S.LoginButton> */}
       </S.LoginButtonBox>
     </S.LoginSection>
   );

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./Upload.style";
 import { BiImageAdd } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
@@ -20,17 +20,16 @@ interface IForm {
 }
 
 const Upload = () => {
-  const uploadImgInput = useRef() as any;
-  const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
   const isLogin = useRecoilValue(isLoginAtom);
-
-  const [productNameLength, setProductNameLength] = useState();
+  const uploadImgInput = useRef() as any;
   const region = process.env.REACT_APP_REGION;
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
   const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
+  useForm<IForm>();
 
   useEffect(() => {
     if (isLogin === false) navigate("/login");
@@ -50,20 +49,6 @@ const Upload = () => {
       alert("사진을 등록해주세요");
       return;
     }
-
-    // aws s3 서버 이미지 저장
-    // const upload = fileList.map((file, idx) => {
-    //   const params = {
-    //     Bucket: "ikw-market",
-    //     Key: `${Date.now()}.${idx}.webp`,
-    //     Body: file,
-    //   };
-    //   return new AWS.S3().upload(params).promise();
-    // });
-
-    // // 비동기로 upload 함수 실행 후 aws s3 이미지 링크 저장
-    // const uploadResults = await Promise.all(upload);
-    // const imageUrls = uploadResults.map((result) => result.Location);
 
     const formData = await axios
       .post(
