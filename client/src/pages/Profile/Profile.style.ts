@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileLayout = styled.div`
+export const ProfileLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -14,7 +14,7 @@ export const ProfileLayout = styled.div`
     padding-right: 10px;
   }
 `;
-export const UserHeader = styled.header`
+export const UserHeader = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
@@ -51,7 +51,7 @@ export const UserUpdateBtn = styled.button`
   font-size: 11px;
 `;
 
-export const UserProductList = styled.div`
+export const UserProductList = styled.section`
   //background-color: red;
   border-top: 0.3px solid #2f2f2f;
   display: flex;

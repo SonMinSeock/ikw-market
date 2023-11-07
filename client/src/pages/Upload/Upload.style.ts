@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const UploadLayout = styled.div`
+export const UploadLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -20,10 +20,10 @@ export const UploadTitle = styled.h2`
   border-bottom: solid 2px #ffaa22;
   padding: 18px 0px 10px 0px;
 `;
-export const UploadImgBox = styled.div`
+export const UploadImgBox = styled.section`
   overflow: hidden;
 `;
-export const UploadImgList = styled.div`
+export const UploadImgList = styled.article`
   display: flex;
   flex-wrap: no-wrap;
   overflow-x: auto;

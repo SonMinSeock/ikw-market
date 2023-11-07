@@ -7,6 +7,8 @@ import { useSetRecoilState, useRecoilState } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
 import Sold from "../../components/atoms/Product/Sold/Sold";
+import { useMutation } from "react-query";
+import { createdChatRoom } from "../../api/chatData";
 
 interface IProduct {
   description: string;
@@ -30,21 +32,23 @@ const ProductDetail = () => {
   const location = useLocation();
 
   const product: IProduct = location.state;
+
+  const productId = product?._id;
   const userId = userInfo?._id;
   const productSellerId = product.seller_info._id;
 
-  const createdChatAPI = async () => {
-    const { state, user } = await (
-      await axios.post(`https://ikw-market.shop/api/chats/${product._id}`, {}, { withCredentials: true })
-    ).data;
+  const { mutate: mutateCreatedChatRoom } = useMutation({
+    mutationFn: () => createdChatRoom({ productId }),
+    onSuccess: ({ state, user }) => {
+      setUser(user);
+      if (!state) {
+        navigate("/login");
+      }
+    },
+  });
 
-    setUser(user);
-    if (!state) {
-      navigate("/login");
-    }
-  };
   const onRedirectChat = async () => {
-    await createdChatAPI();
+    mutateCreatedChatRoom();
     await navigate("/chat");
   };
 
@@ -74,6 +78,7 @@ const ProductDetail = () => {
 
     if (state) navigate("/");
   };
+
   return (
     <S.ProductDetailBox>
       <S.ProductDetailLayout>

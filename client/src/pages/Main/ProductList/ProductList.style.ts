@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProductsLayout = styled.div`
+export const ProductsLayout = styled.section`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   flex-wrap: wrap;

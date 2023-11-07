@@ -1,3 +1,7 @@
+interface ICreatedChatRoom {
+  productId: object;
+}
+
 interface IChatMessage {
   send_user: any;
   message: string;
@@ -25,4 +29,4 @@ interface IChatRoom {
   __v: number;
 }
 
-export type { IChatMessage, ISetChatRoomMessageLog, IChatRoom };
+export type { ICreatedChatRoom, IChatMessage, ISetChatRoomMessageLog, IChatRoom };

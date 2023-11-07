@@ -1,10 +1,10 @@
 import styled from "styled-components";
 
-export const ProductLayout = styled.div`
+export const ProductLayout = styled.article`
   margin-bottom: 50px;
 `;
 
-export const ProductImgBox = styled.div`
+export const ProductImgBox = styled.section`
   position: relative;
   display: flex;
   height: 220px;
@@ -24,7 +24,7 @@ export const ProductImg = styled.img<{ type?: string }>`
     height: 100px;
   }
 `;
-export const ProductInfoBox = styled.div`
+export const ProductInfoBox = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;

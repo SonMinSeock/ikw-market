@@ -1,5 +1,13 @@
 import axios from "axios";
-import { ISetChatRoomMessageLog } from "./chatType";
+import { ICreatedChatRoom, ISetChatRoomMessageLog } from "./chatType";
+
+const createdChatRoom = async ({ productId }: ICreatedChatRoom) => {
+  const res = await (
+    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/chats/${productId}`, {}, { withCredentials: true })
+  ).data;
+
+  return res;
+};
 
 const setChatRoomMessageLog = async ({ message, roomId }: ISetChatRoomMessageLog) => {
   const { state } =
@@ -25,4 +33,4 @@ const getChatRoom = async (roomId: number) => {
   return chatRoom;
 };
 
-export { setChatRoomMessageLog, getChatRoom };
+export { setChatRoomMessageLog, getChatRoom, createdChatRoom };
