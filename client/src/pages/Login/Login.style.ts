@@ -16,7 +16,7 @@ export const LoginHeader = styled.header`
   margin-bottom: 1rem;
 `;
 
-export const LoginLogoBox = styled.div`
+export const LoginLogoBox = styled.section`
   display: flex;
   justify-content: flex-end;
   & img {
@@ -33,7 +33,7 @@ export const LoginLogoBox = styled.div`
   }
 `;
 
-export const LoginButtonBox = styled.div`
+export const LoginButtonBox = styled.section`
   border: 1px solid #c6c6c6;
   padding: 1.6rem;
   display: flex;

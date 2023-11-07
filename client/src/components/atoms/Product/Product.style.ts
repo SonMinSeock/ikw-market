@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProductLayout = styled.article`
+export const ProductLayout = styled.section`
   margin-bottom: 50px;
 `;
 

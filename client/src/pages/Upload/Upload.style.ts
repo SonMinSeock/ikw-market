@@ -23,7 +23,7 @@ export const UploadTitle = styled.h2`
 export const UploadImgBox = styled.section`
   overflow: hidden;
 `;
-export const UploadImgList = styled.article`
+export const UploadImgList = styled.section`
   display: flex;
   flex-wrap: no-wrap;
   overflow-x: auto;

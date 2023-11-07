@@ -17,7 +17,7 @@ export const ProductDetailLayout = styled.section`
     max-width: 290px;
   }
 `;
-export const ProductDetailImgbox = styled.article`
+export const ProductDetailImgbox = styled.section`
   position: relative;
   width: 680px;
   height: 450px;
@@ -30,7 +30,7 @@ export const ProductDetailImgbox = styled.article`
   }
 `;
 
-export const ProductDetailProfileBox = styled.article`
+export const ProductDetailProfileBox = styled.section`
   text-decoration: none;
   display: flex;
   margin-top: 25px;
@@ -58,7 +58,7 @@ export const ProductDetailText = styled.span`
   }
 `;
 
-export const ProductDetailInfoBox = styled.article`
+export const ProductDetailInfoBox = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -89,7 +89,7 @@ export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
   font-size: 0.8rem;
   color: gray;
 `;
-export const ButtonRow = styled.article`
+export const ButtonRow = styled.section`
   display: flex;
   gap: 15px;
   justify-content: center;
