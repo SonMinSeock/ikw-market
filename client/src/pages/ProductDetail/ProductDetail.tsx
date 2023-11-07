@@ -8,6 +8,7 @@ import { userAtom } from "../../recoil/login/atoms";
 import axios from "axios";
 import Sold from "../../components/atoms/Product/Sold/Sold";
 import { useMutation } from "react-query";
+import { deleteProduct, updateProduct } from "../../api/productData";
 import { createdChatRoom } from "../../api/chatData";
 
 interface IProduct {
@@ -56,28 +57,17 @@ const ProductDetail = () => {
     return navigate("edit", { state: product });
   };
 
-  const deleteProductAPI = async (id: any) => {
-    const { state, updateUser } = await (
-      await axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/delete`, { withCredentials: true })
-    ).data;
-
-    if (state) {
+  const deleteProductMutaion = useMutation((id: any) => deleteProduct(id), {
+    onSuccess: (updateUser: any) => {
       setUserInfo(updateUser);
       navigate("/");
-    }
-  };
-
-  const updateProductAPI = async (id: any) => {
-    const { state } = await (
-      await axios.post(
-        `${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/update`,
-        { product_state: true },
-        { withCredentials: true }
-      )
-    ).data;
-
-    if (state) navigate("/");
-  };
+    },
+  });
+  const updateProductMutaion = useMutation((id: any) => updateProduct(id), {
+    onSuccess: () => {
+      navigate("/");
+    },
+  });
 
   return (
     <S.ProductDetailBox>
@@ -102,8 +92,8 @@ const ProductDetail = () => {
         {userId === productSellerId ? (
           <S.ButtonRow>
             <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn onClick={() => deleteProductAPI(product._id)}>삭제하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn onClick={() => updateProductAPI(product._id)}>판매완료</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={() => deleteProductMutaion.mutate(product._id)}>삭제하기</S.ProductDetailBtn>
+            <S.ProductDetailBtn onClick={() => updateProductMutaion.mutate(product._id)}>판매완료</S.ProductDetailBtn>
           </S.ButtonRow>
         ) : (
           <S.ButtonRow>
