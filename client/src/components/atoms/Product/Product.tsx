@@ -14,12 +14,12 @@ const Product = ({ product }: { product: IProduct }) => {
       <S.ProductImgBox onClick={() => onRedirect(`/product/${product?._id}`)}>
         <S.ProductImg src={product.product_images[0]} type="thumbnail" />
         {product.product_state && <Sold />}
+        <S.ProductInfoBox>
+          <S.ProductTitle>{product.product_name}</S.ProductTitle>
+          <S.ProductPriceSpan>{product.product_price}원</S.ProductPriceSpan>
+          <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
+        </S.ProductInfoBox>
       </S.ProductImgBox>
-      <S.ProductInfoBox>
-        <S.ProductTitle>{product.product_name}</S.ProductTitle>
-        <S.ProductPriceSpan>{product.product_price}원</S.ProductPriceSpan>
-        <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
-      </S.ProductInfoBox>
     </S.ProductLayout>
   );
 };

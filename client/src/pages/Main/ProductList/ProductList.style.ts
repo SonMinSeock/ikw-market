@@ -6,6 +6,4 @@ export const ProductsLayout = styled.section`
   flex-wrap: wrap;
   margin-top: 42px;
   gap: 25px;
-  padding-left: 20px;
-  padding-right: 20px;
 `;

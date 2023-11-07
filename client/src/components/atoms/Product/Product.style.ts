@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
-export const ProductLayout = styled.section`
-  margin-bottom: 50px;
+export const ProductLayout = styled.article`
+  margin-bottom: 70px;
 `;
 
-export const ProductImgBox = styled.section`
+export const ProductImgBox = styled.figure`
   position: relative;
   display: flex;
   height: 220px;
   width: 220px;
+  flex-direction: column;
   @media screen and (max-width: 860px) {
     height: 100px;
     width: 100px;
@@ -24,7 +25,7 @@ export const ProductImg = styled.img<{ type?: string }>`
     height: 100px;
   }
 `;
-export const ProductInfoBox = styled.section`
+export const ProductInfoBox = styled.figcaption`
   display: flex;
   flex-direction: column;
   gap: 10px;
