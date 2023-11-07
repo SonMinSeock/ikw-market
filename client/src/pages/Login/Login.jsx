@@ -113,7 +113,7 @@ function Login() {
       <Logo />
       <S.LoginButtonBox>
         <img src={KakaoBtnImg} id="kakao" onClick={kakaoBtnOnClick} />
-        <digiv id="naverIdLogin" onClick={initializeNaverLogin} />
+        <div id="naverIdLogin" onClick={initializeNaverLogin} />
       </S.LoginButtonBox>
     </S.LoginSection>
   );
