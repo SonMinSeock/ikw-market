@@ -3,12 +3,25 @@ import { sortProducts } from "../controller/sort";
 import { IProduct } from "./productType";
 
 const getProducts = async () => {
-  // const res = await axios.get(`https://ikw-market.shop/api/product`);
   const res = await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/product`);
-
   const data: IProduct[] = sortProducts(res.data.products.reverse());
 
   return data;
 };
 
-export { getProducts };
+const deleteProduct = async (id: string) => {
+  const { updateUser } = await (
+    await axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/delete`, { withCredentials: true })
+  ).data;
+  return updateUser;
+};
+
+const updateProduct = async (id: any) => {
+  await axios.post(
+    `${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/update`,
+    { product_state: true },
+    { withCredentials: true }
+  );
+};
+
+export { getProducts, deleteProduct, updateProduct };

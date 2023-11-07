@@ -11,7 +11,7 @@ const ProductList = () => {
   const searchText = useRecoilValue(searchTextAtom);
   const [searchProducts, setSearchProducts] = useRecoilState(searchProductsAtom);
   const { isLoading, data } = useQuery(["Products"], getProducts, {
-    staleTime: 15000,
+    staleTime: 3000,
     refetchInterval: 200000,
     refetchIntervalInBackground: true,
   });
