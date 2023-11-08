@@ -1,11 +1,10 @@
 import * as S from "./ProductDetail.style";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { CiLocationOn } from "react-icons/ci";
 import Slider from "../../components/Animation/Slider/Slider";
-import { useSetRecoilState, useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
-import axios from "axios";
 import Sold from "../../components/atoms/Product/Sold/Sold";
 import { useMutation } from "react-query";
 import { deleteProduct, updateProduct } from "../../api/productData";
@@ -26,8 +25,7 @@ interface IProduct {
   _id: object;
 }
 const ProductDetail = () => {
-  const setUser = useSetRecoilState(userAtom);
-  const [userInfo, setUserInfo] = useRecoilState(userAtom);
+  const userInfo = useRecoilValue(userAtom);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -40,8 +38,7 @@ const ProductDetail = () => {
 
   const { mutate: mutateCreatedChatRoom } = useMutation({
     mutationFn: () => createdChatRoom({ productId }),
-    onSuccess: ({ state, user }) => {
-      setUser(user);
+    onSuccess: ({ state }) => {
       if (!state) {
         navigate("/login");
       }
@@ -58,8 +55,7 @@ const ProductDetail = () => {
   };
 
   const deleteProductMutaion = useMutation((id: any) => deleteProduct(id), {
-    onSuccess: (updateUser: any) => {
-      setUserInfo(updateUser);
+    onSuccess: () => {
       navigate("/");
     },
   });
