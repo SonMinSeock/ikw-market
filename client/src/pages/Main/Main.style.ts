@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const MainLayout = styled.div`
+export const MainLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;

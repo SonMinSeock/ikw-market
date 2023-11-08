@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as S from "./Upload.style";
 import { BiImageAdd } from "react-icons/bi";
 import { TiDelete } from "react-icons/ti";
@@ -7,31 +7,23 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import Form from "../../components/Form/Form";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../recoil/login/atoms";
-
-
-interface IForm {
-  name: string;
-  price: number;
-  location: string;
-  description: string;
-}
+import { IForm } from "../../types/formType";
 
 const Upload = () => {
-  const uploadImgInput = useRef() as any;
-  const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
   const [onModal, setOnModal] = useState(false);
   const [selectImg, setSelectImg] = useState<string>();
   const isLogin = useRecoilValue(isLoginAtom);
-
-  const [productNameLength, setProductNameLength] = useState();
+  const uploadImgInput = useRef() as any;
   const region = process.env.REACT_APP_REGION;
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
   const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
+
+  useForm<IForm>();
 
   useEffect(() => {
     if (isLogin === false) navigate("/login");
@@ -52,30 +44,16 @@ const Upload = () => {
       return;
     }
 
-    // aws s3 서버 이미지 저장
-    // const upload = fileList.map((file, idx) => {
-    //   const params = {
-    //     Bucket: "ikw-market",
-    //     Key: `${Date.now()}.${idx}.webp`,
-    //     Body: file,
-    //   };
-    //   return new AWS.S3().upload(params).promise();
-    // });
-
-    // // 비동기로 upload 함수 실행 후 aws s3 이미지 링크 저장
-    // const uploadResults = await Promise.all(upload);
-    // const imageUrls = uploadResults.map((result) => result.Location);
-
     const formData = await axios
       .post(
-        "http://localhost:3002/product/upload",
+        `${process.env.REACT_APP_EXPRESS_URL}/api/product/upload`,
         {
-          product_name: data.name,
-          product_images: fileList,
-          product_price: data.price,
+          name: data.name,
+          images: fileList,
+          price: data.price,
           location: data.location,
           description: data.description,
-          product_state: false,
+          state: false,
         },
         { withCredentials: true }
       )
@@ -132,35 +110,37 @@ const Upload = () => {
   };
 
   // 이미지 최적화, 미리보기
-  const onChangeImgInput = async (e: any) => {
+  const onChangeImgInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target.files;
     const newFileList: string[] = [];
 
-    if (files.length > 3) {
-      alert("사진은 최대 3개까지 첨부할 수 있습니다");
-      return;
+    if (files) {
+      if (files.length > 3) {
+        alert("사진은 최대 3개까지 첨부할 수 있습니다");
+        return;
+      }
+
+      for (let i = 0; i < files.length; i++) {
+        const resizedImage = await resizeImage(files[i]);
+        const params = {
+          Bucket: "ikw-market",
+          Key: `${Date.now()}.${i}.webp`,
+          Body: resizedImage,
+        };
+
+        await new AWS.S3().upload(params as any).promise();
+
+        // AWS S3 서버에 이미지를 업로드합니다.
+        const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
+        newFileList.push(awsImageUrl);
+      }
+      e.target.value = "";
+      setFileList([...fileList, ...newFileList]);
     }
-
-    for (let i = 0; i < files.length; i++) {
-      const resizedImage = await resizeImage(files[i]);
-      const params = {
-        Bucket: "ikw-market",
-        Key: `${Date.now()}.${i}.webp`,
-        Body: resizedImage,
-      };
-
-      await new AWS.S3().upload(params as any).promise();
-
-      // AWS S3 서버에 이미지를 업로드합니다.
-      const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
-      newFileList.push(awsImageUrl);
-    }
-    e.target.value = "";
-    setFileList([...fileList, ...newFileList]);
   };
 
-  const resizeImage = (file: any) => {
+  const resizeImage = (file: File) => {
     return new Promise((resolve, reject) => {
       Resizer.imageFileResizer(
         file,

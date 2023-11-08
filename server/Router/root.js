@@ -4,7 +4,6 @@ const router = express.Router();
 
 router.post("/login", async (req, res) => {
   req.session.user = req.body;
-  console.log(req.session.user);
   const isUser = await User.findOne({ social_id: req.body["social_id"] });
   req.session.save();
   if (!isUser) {
@@ -26,15 +25,16 @@ router.get("/login", async (req, res) => {
 router.get("/getUser", async (req, res) => {
   const sessionUser = req.session.user;
 
-  // console.log("get user api session user : ", sessionUser);
   if (req.session.user) {
     const user = await User.findOne({ social_id: sessionUser["social_id"] })
       .populate({
-        path: "products_on_sale",
+        path: "on_sale",
         populate: { path: "seller_info" },
       })
-      .populate({ path: "chat_room", populate: { path: "message_log", populate: { path: "send_user" } } })
-      .populate({ path: "chat_room", populate: { path: "member_list" } });
+      .populate({ path: "chat_rooms", populate: { path: "message_log", populate: { path: "send_user" } } })
+      .populate({ path: "chat_rooms", populate: { path: "consumer", populate: { path: "user" } } })
+      .populate({ path: "chat_rooms", populate: { path: "seller", populate: { path: "user" } } });
+
 
     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
       res.json({ state: true, user, accessToken: sessionUser["access_token"] });

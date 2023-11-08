@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProductEditLayout = styled.div`
+export const ProductEditLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -18,10 +18,10 @@ export const ProductEditTitle = styled.h2`
   font-size: 23px;
   margin-bottom: 10px;
 `;
-export const ProductEditImgBox = styled.div`
+export const ProductEditImgBox = styled.section`
   overflow: hidden;
 `;
-export const ProductEditImgList = styled.div`
+export const ProductEditImgList = styled.article`
   display: flex;
   flex-wrap: no-wrap;
   overflow-x: auto;
@@ -33,7 +33,7 @@ export const ProductEditImgList = styled.div`
     }
   }
 `;
-export const ProductEditImgBtn = styled.div`
+export const ProductEditImgBtn = styled.article`
   display: flex;
   flex-direction: column;
   cursor: pointer;
@@ -45,7 +45,7 @@ export const ProductEditImgBtn = styled.div`
   height: 200px;
   flex: 0 0 auto;
 `;
-export const ProductEditImgRow = styled.div`
+export const ProductEditImgRow = styled.article`
   display: flex;
   position: relative;
   div {

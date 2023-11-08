@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChatLayout = styled.div`
+export const ChatLayout = styled.main`
   display: flex;
   border: 1px solid #dfe1e2;
   position: relative;
@@ -17,7 +17,7 @@ export const ChatLayout = styled.div`
     width: 100%;
   }
 `;
-export const ChatHeaderBox = styled.div`
+export const ChatHeaderBox = styled.section`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #dfe1e2;
@@ -28,7 +28,7 @@ export const ChatHeaderBox = styled.div`
     font-weight: bold;
   }
 `;
-export const ChatContentBox = styled.div`
+export const ChatContentBox = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -39,12 +39,12 @@ export const ChatContentBox = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `;
-export const ChatLogBox = styled.div`
+export const ChatLogBox = styled.section`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 `;
-export const InputBox = styled.div`
+export const InputBox = styled.section`
   position: relative;
   border-top: 1px solid rgb(246, 246, 246);
   background-color: rgb(255, 255, 255);

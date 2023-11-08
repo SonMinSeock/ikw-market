@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChatListLayout = styled.div`
+export const ChatListLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -37,7 +37,7 @@ export const ChatListProfileImg = styled.img`
   /* ChatListProfileImg의 스타일을 원하는 대로 추가하세요 */
 `;
 
-export const ChatListInfoBox = styled.div`
+export const ChatListInfoBox = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -67,7 +67,7 @@ export const ChatListMessages = styled.div`
   }
 `;
 
-export const ChatListTime = styled.div`
+export const ChatListTime = styled.section`
   min-width: 60px;
   font-size: 12px;
   color: rgb(178, 178, 178);

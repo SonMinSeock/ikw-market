@@ -1,12 +1,12 @@
 import styled from "styled-components";
 
-export const ProductLayout = styled.div`
-  margin-bottom: 50px;
+export const ProductLayout = styled.article`
+  margin-bottom: 70px;
 `;
 
-export const ProductImgBox = styled.div`
+export const ProductImgBox = styled.figure`
   position: relative;
-  display: flex;
+
   height: 220px;
   width: 220px;
   @media screen and (max-width: 860px) {
@@ -17,6 +17,7 @@ export const ProductImgBox = styled.div`
 
 export const ProductImg = styled.img<{ type?: string }>`
   width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
+  height: 100%;
   border-radius: 10px;
   object-fit: cover;
   @media screen and (max-width: 860px) {
@@ -24,7 +25,7 @@ export const ProductImg = styled.img<{ type?: string }>`
     height: 100px;
   }
 `;
-export const ProductInfoBox = styled.div`
+export const ProductInfoBox = styled.figcaption`
   display: flex;
   flex-direction: column;
   gap: 10px;

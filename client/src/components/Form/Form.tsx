@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./Form.style";
 import { useForm } from "react-hook-form";
+import { IFormComponentProps, IForm } from "../../types/formType";
+import { IProduct } from "../../types/productType";
 
-interface IForm {
-  name: string;
-  price: number;
-  location: string;
-  description: string;
-}
-interface FormComponentProps {
-  onSubmit: (data: any) => void;
-  product: IProduct | null;
-}
-interface IProduct {
-  description: string;
-  location: string;
-  product_images: any;
-  product_name: string;
-  product_price: number;
-  seller_info: any;
-  __v: number;
-  _id: object;
+interface IOnChangeFunctionProps {
+  target: {
+    value: string;
+    name: string;
+  };
 }
 
-const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
+const Form: React.FC<IFormComponentProps> = ({ onSubmit, product }) => {
   const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
   const [nameLength, setNameLength] = useState(0);
   const [locationLength, setLocationLength] = useState(0);
@@ -34,7 +22,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   // 가격(price) input 콤마 및 최대 길이
-  const onChangePriceInput = (e: any) => {
+  const onChangePriceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const maxLength = 11; // 원하는 최대 길이로 설정
 
@@ -50,7 +38,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   // 입력한 글 길이 출력 함수
-  const onChangeNameInput = (e: any) => {
+  const onChangeNameInput = (e: IOnChangeFunctionProps) => {
     const value = e.target.value;
     const name = e.target.name;
 
@@ -78,9 +66,8 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   useEffect(() => {
-    // onChangeNameInput 함수를 호출하여 상품 정보가 변경될 때도 작동
     if (product) {
-      onChangeNameInput({ target: { value: product.product_name, name: "name" } });
+      onChangeNameInput({ target: { value: product.name, name: "name" } });
       onChangeNameInput({ target: { value: product.location, name: "location" } });
       onChangeNameInput({ target: { value: product.description, name: "description" } });
     }
@@ -92,7 +79,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
         <label>제목</label>
         <S.UploadInput
           {...register("name", {
-            value: product?.product_name,
+            value: product?.name,
             required: true,
             maxLength: 20,
           })}
@@ -105,7 +92,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
         <label>가격</label>
         <S.UploadInput
           {...register("price", {
-            value: product?.product_price,
+            value: product?.price,
             required: true,
           })}
           onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러

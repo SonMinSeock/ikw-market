@@ -8,6 +8,7 @@ import cors from "cors";
 import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
+import path from "path";
 
 const app = express();
 export const server = http.createServer(app);
@@ -38,11 +39,17 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", RootRouter);
-app.use("/product", ProductRouter);
-app.use("/chats", ChatRouter);
+app.use("/api", RootRouter);
+app.use("/api/product", ProductRouter);
+app.use("/api/chats", ChatRouter);
 
 const port = 3002; // Node 서버가 사용할 포트 번호
+
+const __dirname = path.resolve();
+app.use(express.static(path.join(__dirname, "../client/build")));
+app.get("*", function (req, res) {
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
+});
 
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
@@ -60,8 +67,7 @@ const chat = io.of("/chat").on("connection", (socket) => {
   socket.on("message", (message, { roomId }) => {
     //해당 채팅방으로 메시지를 보낸다.
     chat.to(roomId).emit("message", message);
-    console.log(message);
-    //io.emit("message", { name, message });
+    // io.emit("message", { name, message });
   });
 });
 

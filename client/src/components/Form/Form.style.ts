@@ -10,7 +10,7 @@ export const UploadForm = styled.form`
   gap: 20px;
   color: #000;
 `;
-export const UploadInputBox = styled.div`
+export const UploadInputBox = styled.article`
   display: flex;
   position: relative;
   align-items: center;
@@ -38,12 +38,12 @@ export const UploadInput = styled.input`
     border: none;
   }
 `;
-export const CharacterLength = styled.div`
+export const CharacterLength = styled.article`
   position: absolute;
   right: 0;
   margin-right: 10px;
 `;
-export const UploadTextAreaBox = styled.div`
+export const UploadTextAreaBox = styled.article`
   display: flex;
   flex-direction: column;
   position: relative;

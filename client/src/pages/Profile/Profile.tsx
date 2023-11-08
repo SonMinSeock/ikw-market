@@ -1,21 +1,10 @@
-import React, { useEffect, useId } from "react";
+import { useEffect } from "react";
 import * as S from "./Profile.style";
 import Product from "../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
-import { ProductsLayout } from "../../components/ProductList/ProductList.style";
+import { ProductsLayout } from "../Main/ProductList/ProductList.style";
 import { useNavigate } from "react-router-dom";
-
-// interface IProduct {
-//   description: string;
-//   location: string;
-//   product_images: any;
-//   product_name: string;
-//   product_price: string;
-//   seller_info: any;
-//   __v: number;
-//   _id: string;
-// }
 
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
@@ -26,7 +15,7 @@ const Profile = () => {
     if (isLogin === false) navigate("/login");
   }, []);
 
-  const products = userInfo?.products_on_sale;
+  const products = [...userInfo?.on_sale].reverse();
 
   return (
     <S.ProfileLayout>

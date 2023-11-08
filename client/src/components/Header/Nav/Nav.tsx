@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
+import { useQuery } from "react-query";
+import { getUser } from "../../../api/userData";
+
 const Nav = () => {
   // recoil
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
@@ -15,38 +18,38 @@ const Nav = () => {
 
   const NAVER_LOGIN = "네이버 로그인";
 
-  const location = useLocation();
-
   const onToogleBtnClick = () => {
     isToogle((prev) => !prev);
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const getUserAPI = async () => {
-    const res = await (await axios.get("http://localhost:3002/getUser", { withCredentials: true })).data;
-    if (res.state) {
-      setAccessToken(res.accessToken);
-
-      setUser(res.user);
-      setIsLogin(true);
-    } else {
-      setAccessToken("");
-      setUser({});
-      setIsLogin(false);
-    }
-  };
+  const {
+    isLoading: getUserIsLoading,
+    data,
+    refetch,
+  } = useQuery("GetUser", getUser, {
+    onSuccess: ({ state, user }) => {
+      if (state) {
+        setUser(user);
+        setIsLogin(true);
+      } else {
+        setAccessToken("");
+        setUser({});
+        setIsLogin("");
+      }
+    },
+    // refetchInterval: 1500,
+    // refetchIntervalInBackground: true,
+  });
 
   const logOutAPI = async () => {
-    await axios.get("http://localhost:3002/logout", { withCredentials: true });
+    await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`, { withCredentials: true });
     localStorage.removeItem("recoil-persist");
     setUser({});
     setIsLogin(false);
   };
-
-  useEffect(() => {
-    getUserAPI();
-  }, [location]);
 
   // 내 물건 팔기 페이지 리다이랙트
   const myProductNavigate = () => {
@@ -101,6 +104,11 @@ const Nav = () => {
       }
     }
   };
+
+  useEffect(() => {
+    refetch();
+  }, [location, refetch]);
+
   return (
     <S.Nav>
       <S.NavList>

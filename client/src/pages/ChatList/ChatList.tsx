@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
 import * as S from "./ChatList.style";
-import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
+import { IUser } from "../../types/userType";
+import { IChatRoom } from "../../types/chatType";
 const ChatList = () => {
-  const user = useRecoilValue<any>(userAtom);
+  const user = useRecoilValue<IUser>(userAtom);
   const navigate = useNavigate();
 
   const onRedirectProductEdit = (chat: any) => {
@@ -28,7 +28,7 @@ const ChatList = () => {
     <S.ChatListLayout>
       <S.ChatListTitle>대화 목록</S.ChatListTitle>
       <S.ChatList>
-        {user?.chat_room.map((chat: any) => (
+        {user?.chat_rooms.map((chat: IChatRoom) => (
           <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
             <S.ChatListProfileImg src={showProfileImgAndNickname(chat)[0]} alt="사진" />
             <S.ChatListInfoBox>

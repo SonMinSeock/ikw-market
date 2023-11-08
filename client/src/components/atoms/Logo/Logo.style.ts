@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const LogoBox = styled.div`
+export const LogoBox = styled.section`
   display: flex;
   margin-bottom: 1rem;
   & img {
