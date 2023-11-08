@@ -22,12 +22,12 @@ const ProductList = () => {
   }, [searchText]);
 
   const showProducts = () => {
-    if (searchProducts.length !== 0) {
-      return searchProducts.map((product, idx) => {
+    if (searchProducts?.length !== 0) {
+      return searchProducts?.map((product, idx) => {
         return <Product key={idx} product={product} />;
       });
     } else {
-      return products.map((product, idx) => {
+      return products?.map((product, idx) => {
         return <Product key={idx} product={product} />;
       });
     }

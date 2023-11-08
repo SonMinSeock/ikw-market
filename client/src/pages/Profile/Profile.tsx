@@ -15,7 +15,7 @@ const Profile = () => {
     if (isLogin === false) navigate("/login");
   }, []);
 
-  const products = userInfo?.on_sale;
+  const products = [...userInfo?.on_sale].reverse();
 
   return (
     <S.ProfileLayout>
