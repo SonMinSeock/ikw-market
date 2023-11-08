@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/atoms";
@@ -23,8 +23,13 @@ const Nav = () => {
   };
 
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const { isLoading: getUserIsLoading, data } = useQuery("GetUser", getUser, {
+  const {
+    isLoading: getUserIsLoading,
+    data,
+    refetch,
+  } = useQuery("GetUser", getUser, {
     onSuccess: ({ state, user }) => {
       if (state) {
         setUser(user);
@@ -35,7 +40,6 @@ const Nav = () => {
         setIsLogin("");
       }
     },
-
     // refetchInterval: 1500,
     // refetchIntervalInBackground: true,
   });
@@ -100,6 +104,10 @@ const Nav = () => {
       }
     }
   };
+
+  useEffect(() => {
+    refetch();
+  }, [location, refetch]);
 
   return (
     <S.Nav>
