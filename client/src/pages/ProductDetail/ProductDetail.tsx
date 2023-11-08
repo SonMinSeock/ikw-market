@@ -28,13 +28,14 @@ const ProductDetail = () => {
     onSuccess: ({ state }) => {
       if (!state) {
         navigate("/login");
+      } else {
+        navigate(`/chatList`);
       }
     },
   });
 
   const onRedirectChat = async () => {
     mutateCreatedChatRoom();
-    await navigate("/chat");
   };
 
   const onRedirectProductEdit = (product: IProduct) => {

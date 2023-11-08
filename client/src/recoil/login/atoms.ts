@@ -17,7 +17,7 @@ export const userAtom = atom<IUser>({
     email: "",
     nickname: "",
     on_sale: [],
-    profile_image: "",
+    image: "",
     social_id: { value: 0, social_name: "" },
     __v: 0,
     _id: "",

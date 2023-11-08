@@ -15,11 +15,16 @@ const ChatList = () => {
   // 상대방의 이미지, 닉네임 반환 해주는 함수
   const showProfileImgAndNickname = (chat: any): any => {
     let show;
-    chat?.member_list.forEach((userInfo: any) => {
-      if (userInfo._id !== user._id) {
-        show = [userInfo.profile_image, userInfo.nickname];
-      }
-    });
+    if (!chat) {
+      show = ["", ""];
+    }
+    if (chat) {
+      chat?.member_list.forEach((userInfo: any) => {
+        if (userInfo._id !== user._id) {
+          show = [userInfo.image, userInfo.nickname];
+        }
+      });
+    }
 
     return show;
   };
@@ -32,7 +37,6 @@ const ChatList = () => {
           <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
             <S.ChatListProfileImg src={showProfileImgAndNickname(chat)[0]} alt="사진" />
             <S.ChatListInfoBox>
-              <S.ChatListUserName>{showProfileImgAndNickname(chat)[1]}</S.ChatListUserName>
               <S.ChatListMessages>{chat?.message_log[chat?.message_log.length - 1]?.message}</S.ChatListMessages>
             </S.ChatListInfoBox>
             <S.ChatListTime>{chat?.message_log[chat?.message_log.length - 1]?.send_date}</S.ChatListTime>

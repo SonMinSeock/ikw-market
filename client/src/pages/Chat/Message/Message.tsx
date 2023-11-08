@@ -23,7 +23,7 @@ const Message = ({ chatMessages }: { chatMessages: IChatMessage[] }) => {
           <S.Chatting flexdirection="row" key={"_msg" + i}>
             <S.ChatContent>
               <S.ProfileImgBox>
-                <img src={`${chatMessage.send_user.profile_image}`} alt={"사진"} />
+                <img src={`${chatMessage.send_user.image}`} alt={"사진"} />
               </S.ProfileImgBox>
               <S.MessageInfoBox>
                 <S.NameBox>
