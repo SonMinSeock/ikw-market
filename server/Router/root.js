@@ -35,6 +35,7 @@ router.get("/getUser", async (req, res) => {
       .populate({ path: "chat_rooms", populate: { path: "consumer", populate: { path: "user" } } })
       .populate({ path: "chat_rooms", populate: { path: "seller", populate: { path: "user" } } });
 
+
     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
       res.json({ state: true, user, accessToken: sessionUser["access_token"] });
     } else {

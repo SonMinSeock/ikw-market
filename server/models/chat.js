@@ -31,30 +31,10 @@ const chatSchema = new Schema({
     },
   ],
 
-  // 소비자 필드.
-  consumer: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    // 메시지 읽은 상태 확인 하는 필드.
-    message_read_count: {
-      type: Number,
-      default: 0,
-    },
-  },
-
-  // 판매자 정보. 호스트라고 생각하면됨.
-  seller: {
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    // 메시지 읽은 상태 확인 하는 필드.
-    message_read_count: {
-      type: Number,
-      default: 1,
-    },
+  // 맴버 필드.
+  member_list: {
+    type: [Schema.Types.ObjectId],
+    ref: "User",
   },
 
   product: {
@@ -65,6 +45,32 @@ const chatSchema = new Schema({
   created_at: {
     type: String,
   },
+
+  // 소비자 필드.
+  // consumer: {
+  //   user: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // 메시지 읽은 상태 확인 하는 필드.
+  //   message_read_count: {
+  //     type: Number,
+  //     default: 0,
+  //   },
+  // },
+
+  // 판매자 정보. 호스트라고 생각하면됨.
+  // seller: {
+  //   user: {
+  //     type: Schema.Types.ObjectId,
+  //     ref: "User",
+  //   },
+  // 메시지 읽은 상태 확인 하는 필드.
+  //   message_read_count: {
+  //     type: Number,
+  //     default: 1,
+  //   },
+  // },
 });
 
 export const Chat = mongoose.model("Chat", chatSchema);

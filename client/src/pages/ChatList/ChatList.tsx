@@ -11,17 +11,28 @@ const ChatList = () => {
   const onRedirectProductEdit = (chat: any) => {
     return navigate(`../chat/${chat._id}`, { state: chat });
   };
+
+  // 상대방의 이미지, 닉네임 반환 해주는 함수
+  const showProfileImgAndNickname = (chat: any): any => {
+    let show;
+    chat?.member_list.forEach((userInfo: any) => {
+      if (userInfo._id !== user._id) {
+        show = [userInfo.profile_image, userInfo.nickname];
+      }
+    });
+
+    return show;
+  };
+
   return (
     <S.ChatListLayout>
       <S.ChatListTitle>대화 목록</S.ChatListTitle>
       <S.ChatList>
         {user?.chat_rooms.map((chat: IChatRoom) => (
           <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
-            <S.ChatListProfileImg src={chat?.message_log[chat?.message_log.length - 1]?.send_user?.profile_image} />
+            <S.ChatListProfileImg src={showProfileImgAndNickname(chat)[0]} alt="사진" />
             <S.ChatListInfoBox>
-              <S.ChatListUserName>
-                {chat?.message_log[chat?.message_log.length - 1]?.send_user?.nickname}
-              </S.ChatListUserName>
+              <S.ChatListUserName>{showProfileImgAndNickname(chat)[1]}</S.ChatListUserName>
               <S.ChatListMessages>{chat?.message_log[chat?.message_log.length - 1]?.message}</S.ChatListMessages>
             </S.ChatListInfoBox>
             <S.ChatListTime>{chat?.message_log[chat?.message_log.length - 1]?.send_date}</S.ChatListTime>
