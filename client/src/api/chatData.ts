@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ICreatedChatRoom, ISetChatRoomMessageLog } from "./chatType";
+import { ICreatedChatRoom, ISetChatRoomMessageLog } from "../types/chatType";
 
 const createdChatRoom = async ({ productId }: ICreatedChatRoom) => {
   const res = await (

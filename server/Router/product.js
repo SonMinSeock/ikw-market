@@ -17,7 +17,7 @@ router.post("/upload", async (req, res) => {
   const user = await User.findOne({ social_id: req.session.user["social_id"] });
 
   const product = new Product({ ...req.body, seller_info: user });
-  user["products_on_sale"].push(product);
+  user["on_sale"].push(product);
   await product.save();
   await user.save();
 
@@ -54,15 +54,15 @@ router.delete("/:id/delete", async (req, res) => {
     const deleteProduct = await Product.findByIdAndDelete(id);
 
     // 유저가 등록한 상품리스트를 삭제해준다.
-    const updateUser = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       deleteProduct.seller_info._id,
       {
-        $pull: { products_on_sale: { $in: [id] } },
+        $pull: { on_sale: { $in: [id] } },
       },
       { new: true }
     );
 
-    res.json({ state: true, updateUser });
+    res.json({ state: true });
   } catch (error) {
     console.log("Delete Product Error : ", error);
   }

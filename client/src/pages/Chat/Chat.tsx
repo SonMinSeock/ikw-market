@@ -8,7 +8,7 @@ import * as S from "./Chat.style";
 import Message from "./Message/Message";
 import { useMutation, useQuery } from "react-query";
 import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
-import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../api/chatType";
+import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../types/chatType";
 
 const Chat = () => {
   const inputRef = useRef(null);

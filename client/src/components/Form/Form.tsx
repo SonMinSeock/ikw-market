@@ -15,9 +15,9 @@ interface FormComponentProps {
 interface IProduct {
   description: string;
   location: string;
-  product_images: any;
-  product_name: string;
-  product_price: number;
+  images: any;
+  name: string;
+  price: number;
   seller_info: any;
   __v: number;
   _id: object;
@@ -79,7 +79,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
 
   useEffect(() => {
     if (product) {
-      onChangeNameInput({ target: { value: product.product_name, name: "name" } });
+      onChangeNameInput({ target: { value: product.name, name: "name" } });
       onChangeNameInput({ target: { value: product.location, name: "location" } });
       onChangeNameInput({ target: { value: product.description, name: "description" } });
     }
@@ -91,7 +91,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
         <label>제목</label>
         <S.UploadInput
           {...register("name", {
-            value: product?.product_name,
+            value: product?.name,
             required: true,
             maxLength: 20,
           })}
@@ -104,7 +104,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
         <label>가격</label>
         <S.UploadInput
           {...register("price", {
-            value: product?.product_price,
+            value: product?.price,
             required: true,
           })}
           onInput={onChangePriceInput} // 숫자만 입력을 위한 이벤트 핸들러

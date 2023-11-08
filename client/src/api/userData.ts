@@ -1,5 +1,5 @@
 import axios from "axios";
-import { IUser } from "./userType";
+import { IUser } from "../types/userType";
 
 const getUser = async () => {
   const { state, user }: { state: boolean; user: IUser } = await (

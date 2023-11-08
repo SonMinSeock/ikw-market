@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as S from "./Nav.style";
 import { AiOutlineMenu } from "react-icons/ai";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,6 +35,7 @@ const Nav = () => {
         setIsLogin("");
       }
     },
+
     // refetchInterval: 1500,
     // refetchIntervalInBackground: true,
   });
@@ -99,6 +100,7 @@ const Nav = () => {
       }
     }
   };
+
   return (
     <S.Nav>
       <S.NavList>

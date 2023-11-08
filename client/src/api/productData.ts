@@ -1,6 +1,6 @@
 import axios from "axios";
 import { sortProducts } from "../controller/sort";
-import { IProduct } from "./productType";
+import { IProduct } from "../types/productType";
 
 const getProducts = async () => {
   const res = await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/product`);
@@ -19,7 +19,7 @@ const deleteProduct = async (id: string) => {
 const updateProduct = async (id: any) => {
   await axios.post(
     `${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/update`,
-    { product_state: true },
+    { state: true },
     { withCredentials: true }
   );
 };

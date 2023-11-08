@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import Modal from "../../components/Modal/Modal";
 import AWS from "aws-sdk";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, redirect } from "react-router-dom";
 import Form from "../../components/Form/Form";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../recoil/login/atoms";
@@ -54,12 +54,12 @@ const Upload = () => {
       .post(
         `${process.env.REACT_APP_EXPRESS_URL}/api/product/upload`,
         {
-          product_name: data.name,
-          product_images: fileList,
-          product_price: data.price,
+          name: data.name,
+          images: fileList,
+          price: data.price,
           location: data.location,
           description: data.description,
-          product_state: false,
+          state: false,
         },
         { withCredentials: true }
       )

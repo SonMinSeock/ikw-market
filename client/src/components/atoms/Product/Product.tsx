@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import * as S from "./Product.style";
 import Sold from "./Sold/Sold";
-import { IProduct } from "../../../api/productType";
+import { IProduct } from "../../../types/productType";
 
 const Product = ({ product }: { product: IProduct }) => {
   const navigagte = useNavigate();
@@ -12,11 +12,11 @@ const Product = ({ product }: { product: IProduct }) => {
   return (
     <S.ProductLayout>
       <S.ProductImgBox onClick={() => onRedirect(`/product/${product?._id}`)}>
-        <S.ProductImg src={product.product_images[0]} type="thumbnail" />
-        {product.product_state && <Sold />}
+        <S.ProductImg src={product.images[0]} type="thumbnail" />
+        {product.state && <Sold />}
         <S.ProductInfoBox>
-          <S.ProductTitle>{product.product_name}</S.ProductTitle>
-          <S.ProductPriceSpan>{product.product_price}원</S.ProductPriceSpan>
+          <S.ProductTitle>{product.name}</S.ProductTitle>
+          <S.ProductPriceSpan>{product.price}원</S.ProductPriceSpan>
           <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
         </S.ProductInfoBox>
       </S.ProductImgBox>

@@ -16,10 +16,8 @@ interface IProduct {
   location: string;
   name: string;
   price: string;
-  product_images: [];
-  product_name: string;
-  product_price: string;
-  product_state: boolean;
+  images: [];
+  state: boolean;
   seller_info: any;
   __v: number;
   _id: object;
@@ -69,16 +67,16 @@ const ProductDetail = () => {
     <S.ProductDetailBox>
       <S.ProductDetailLayout>
         <S.ProductDetailImgbox>
-          <Slider images={product.product_images} />
-          {product.product_state && <Sold />}
+          <Slider images={product.images} />
+          {product.state && <Sold />}
         </S.ProductDetailImgbox>
         <S.ProductDetailProfileBox>
           <CgProfile size={28} />
           <S.ProductDetailText>{product?.seller_info.nickname}</S.ProductDetailText>
         </S.ProductDetailProfileBox>
         <S.ProductDetailInfoBox>
-          <S.ProductDetailName>{product?.product_name}</S.ProductDetailName>
-          <S.ProductDetailInfoText>{product?.product_price}원</S.ProductDetailInfoText>
+          <S.ProductDetailName>{product?.name}</S.ProductDetailName>
+          <S.ProductDetailInfoText>{product?.price}원</S.ProductDetailInfoText>
           <S.ProductDetailLocationBox>
             <CiLocationOn size={20} />
             <S.ProductDetailText>{product?.location}</S.ProductDetailText>

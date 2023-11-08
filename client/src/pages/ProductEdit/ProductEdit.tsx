@@ -22,9 +22,9 @@ interface IForm {
 interface IProduct {
   description: string;
   location: string;
-  product_images: any;
-  product_name: string;
-  product_price: number;
+  images: any;
+  name: string;
+  price: number;
   seller_info: any;
   __v: number;
   _id: string;
@@ -69,7 +69,7 @@ const ProductEdit = () => {
       if (isLogin === true) {
         if (Object.keys(product).length !== 0) {
           let pass = false;
-          userInfo.products_on_sale.forEach((product) => {
+          userInfo.on_sale.forEach((product) => {
             if (product._id === id) {
               pass = true;
             }
@@ -81,13 +81,13 @@ const ProductEdit = () => {
   }, [product]);
 
   useEffect(() => {
-    if (product?.product_images) {
+    if (product?.images) {
       // 제품 이미지가 있는 경우, fileList에 이미지 URL을 추가
-      setFileList(product?.product_images);
+      setFileList(product?.images);
     }
 
     // 기존 이미지가 있을 때 기본 이미지 렌더링 로직
-  }, [product?.product_images]);
+  }, [product?.images]);
 
   AWS.config.update({
     region: region,
@@ -106,9 +106,9 @@ const ProductEdit = () => {
       .post(
         `https://ikw-market.shop/api/product/${id}/update`,
         {
-          product_name: data.name,
-          product_images: fileList,
-          product_price: data.price,
+          name: data.name,
+          images: fileList,
+          price: data.price,
           location: data.location,
           description: data.description,
         },

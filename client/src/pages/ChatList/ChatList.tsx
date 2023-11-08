@@ -13,7 +13,7 @@ const ChatList = () => {
     <S.ChatListLayout>
       <S.ChatListTitle>대화 목록</S.ChatListTitle>
       <S.ChatList>
-        {user?.chat_room.map((chat: any) => (
+        {user?.chat_rooms.map((chat: any) => (
           <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
             <S.ChatListProfileImg src={chat?.message_log[chat?.message_log.length - 1]?.send_user?.profile_image} />
             <S.ChatListInfoBox>
