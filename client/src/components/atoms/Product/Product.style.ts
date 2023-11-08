@@ -9,7 +9,6 @@ export const ProductImgBox = styled.figure`
 
   height: 220px;
   width: 220px;
-
   @media screen and (max-width: 860px) {
     height: 100px;
     width: 100px;
