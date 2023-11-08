@@ -9,19 +9,8 @@ import Sold from "../../components/atoms/Product/Sold/Sold";
 import { useMutation } from "react-query";
 import { deleteProduct, updateProduct } from "../../api/productData";
 import { createdChatRoom } from "../../api/chatData";
+import { IProduct } from "../../types/productType";
 
-interface IProduct {
-  description: string;
-  img: string;
-  location: string;
-  name: string;
-  price: string;
-  images: [];
-  state: boolean;
-  seller_info: any;
-  __v: number;
-  _id: object;
-}
 const ProductDetail = () => {
   const userInfo = useRecoilValue(userAtom);
 
@@ -52,12 +41,12 @@ const ProductDetail = () => {
     return navigate("edit", { state: product });
   };
 
-  const deleteProductMutaion = useMutation((id: any) => deleteProduct(id), {
+  const deleteProductMutaion = useMutation((id: string) => deleteProduct(id), {
     onSuccess: () => {
       navigate("/");
     },
   });
-  const updateProductMutaion = useMutation((id: any) => updateProduct(id), {
+  const updateProductMutaion = useMutation((id: string) => updateProduct(id), {
     onSuccess: () => {
       navigate("/");
     },

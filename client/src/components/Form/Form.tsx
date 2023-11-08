@@ -1,29 +1,17 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./Form.style";
 import { useForm } from "react-hook-form";
+import { IFormComponentProps, IForm } from "../../types/formType";
+import { IProduct } from "../../types/productType";
 
-interface IForm {
-  name: string;
-  price: number;
-  location: string;
-  description: string;
-}
-interface FormComponentProps {
-  onSubmit: (data: any) => void;
-  product: IProduct | null;
-}
-interface IProduct {
-  description: string;
-  location: string;
-  images: any;
-  name: string;
-  price: number;
-  seller_info: any;
-  __v: number;
-  _id: object;
+interface IOnChangeFunctionProps {
+  target: {
+    value: string;
+    name: string;
+  };
 }
 
-const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
+const Form: React.FC<IFormComponentProps> = ({ onSubmit, product }) => {
   const { register, handleSubmit, setValue, getValues } = useForm<IForm>();
   const [nameLength, setNameLength] = useState(0);
   const [locationLength, setLocationLength] = useState(0);
@@ -34,7 +22,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   // 가격(price) input 콤마 및 최대 길이
-  const onChangePriceInput = (e: any) => {
+  const onChangePriceInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     const maxLength = 11; // 원하는 최대 길이로 설정
 
@@ -50,7 +38,7 @@ const Form: React.FC<FormComponentProps> = ({ onSubmit, product }) => {
   };
 
   // 입력한 글 길이 출력 함수
-  const onChangeNameInput = (e: any) => {
+  const onChangeNameInput = (e: IOnChangeFunctionProps) => {
     const value = e.target.value;
     const name = e.target.name;
 

@@ -11,24 +11,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import Form from "../../components/Form/Form";
-
-interface IForm {
-  name: string;
-  price: number;
-  location: string;
-  description: string;
-}
-
-interface IProduct {
-  description: string;
-  location: string;
-  images: any;
-  name: string;
-  price: number;
-  seller_info: any;
-  __v: number;
-  _id: string;
-}
+import { IForm } from "../../types/formType";
+import { IProduct } from "../../types/productType";
 
 const ProductEdit = () => {
   const { setValue } = useForm<IForm>();
@@ -48,8 +32,10 @@ const ProductEdit = () => {
 
   const { id } = useParams();
 
-  const getProductAPI = async (id: any) => {
-    const res = await (await axios.get(`https://ikw-market.shop/api/product/${id}`, { withCredentials: true })).data;
+  const getProductAPI = async (id: string | undefined) => {
+    const res = await (
+      await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}`, { withCredentials: true })
+    ).data;
     if (res.state) {
       setProduct(res.product);
     }
@@ -104,7 +90,7 @@ const ProductEdit = () => {
 
     const formData = await axios
       .post(
-        `https://ikw-market.shop/api/product/${id}/update`,
+        `${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/update`,
         {
           name: data.name,
           images: fileList,
@@ -165,35 +151,36 @@ const ProductEdit = () => {
   };
 
   // 이미지 최적화, 미리보기
-  const onChangeImgInput = async (e: any) => {
+  const onChangeImgInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target.files;
     const newFileList: string[] = [];
 
-    if (files.length > 3) {
-      alert("사진은 최대 3개까지 첨부할 수 있습니다");
-      return;
+    if (files) {
+      if (files.length > 3) {
+        alert("사진은 최대 3개까지 첨부할 수 있습니다");
+        return;
+      }
+      for (let i = 0; i < files.length; i++) {
+        const resizedImage = await resizeImage(files[i]);
+        const params = {
+          Bucket: "ikw-market",
+          Key: `${Date.now()}.${i}.webp`,
+          Body: resizedImage,
+        };
+
+        await new AWS.S3().upload(params as any).promise();
+
+        // AWS S3 서버에 이미지를 업로드합니다.
+        const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
+        newFileList.push(awsImageUrl);
+      }
+      e.target.value = "";
+      setFileList([...fileList, ...newFileList]);
     }
-
-    for (let i = 0; i < files.length; i++) {
-      const resizedImage = await resizeImage(files[i]);
-      const params = {
-        Bucket: "ikw-market",
-        Key: `${Date.now()}.${i}.webp`,
-        Body: resizedImage,
-      };
-
-      await new AWS.S3().upload(params as any).promise();
-
-      // AWS S3 서버에 이미지를 업로드합니다.
-      const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
-      newFileList.push(awsImageUrl);
-    }
-    e.target.value = "";
-    setFileList([...fileList, ...newFileList]);
   };
 
-  const resizeImage = (file: any) => {
+  const resizeImage = (file: File) => {
     return new Promise((resolve, reject) => {
       Resizer.imageFileResizer(
         file,

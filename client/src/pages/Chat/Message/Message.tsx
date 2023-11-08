@@ -1,19 +1,14 @@
 import * as S from "./Message.style";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../../recoil/login/atoms";
+import { IChatMessage } from "../../../types/chatType";
 
-interface IChatMessage {
-  send_user: any;
-  message: string;
-  send_date: string;
-}
-
-const Message = ({ chatMessages }: any) => {
+const Message = ({ chatMessages }: { chatMessages: IChatMessage[] }) => {
   const user = useRecoilValue(userAtom);
   return (
     <S.ChatMessageLayout>
-      {chatMessages?.map((chatMessage: IChatMessage, i: any) =>
-        chatMessage.send_user._id === user._id ? (
+      {chatMessages?.map((chatMessage: IChatMessage, i: number) =>
+        chatMessage.send_user?._id === user._id ? (
           <S.Chatting flexdirection="row-reverse" key={i}>
             <S.SendMessageInfoBox>
               <S.SendMessageBox>

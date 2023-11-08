@@ -11,13 +11,7 @@ import { useNavigate, redirect } from "react-router-dom";
 import Form from "../../components/Form/Form";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../recoil/login/atoms";
-
-interface IForm {
-  name: string;
-  price: number;
-  location: string;
-  description: string;
-}
+import { IForm } from "../../types/formType";
 
 const Upload = () => {
   const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
@@ -116,35 +110,37 @@ const Upload = () => {
   };
 
   // 이미지 최적화, 미리보기
-  const onChangeImgInput = async (e: any) => {
+  const onChangeImgInput = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     const files = e.target.files;
     const newFileList: string[] = [];
 
-    if (files.length > 3) {
-      alert("사진은 최대 3개까지 첨부할 수 있습니다");
-      return;
+    if (files) {
+      if (files.length > 3) {
+        alert("사진은 최대 3개까지 첨부할 수 있습니다");
+        return;
+      }
+
+      for (let i = 0; i < files.length; i++) {
+        const resizedImage = await resizeImage(files[i]);
+        const params = {
+          Bucket: "ikw-market",
+          Key: `${Date.now()}.${i}.webp`,
+          Body: resizedImage,
+        };
+
+        await new AWS.S3().upload(params as any).promise();
+
+        // AWS S3 서버에 이미지를 업로드합니다.
+        const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
+        newFileList.push(awsImageUrl);
+      }
+      e.target.value = "";
+      setFileList([...fileList, ...newFileList]);
     }
-
-    for (let i = 0; i < files.length; i++) {
-      const resizedImage = await resizeImage(files[i]);
-      const params = {
-        Bucket: "ikw-market",
-        Key: `${Date.now()}.${i}.webp`,
-        Body: resizedImage,
-      };
-
-      await new AWS.S3().upload(params as any).promise();
-
-      // AWS S3 서버에 이미지를 업로드합니다.
-      const awsImageUrl = `https://${params.Bucket}.s3.${region}.amazonaws.com/${params.Key}`;
-      newFileList.push(awsImageUrl);
-    }
-    e.target.value = "";
-    setFileList([...fileList, ...newFileList]);
   };
 
-  const resizeImage = (file: any) => {
+  const resizeImage = (file: File) => {
     return new Promise((resolve, reject) => {
       Resizer.imageFileResizer(
         file,

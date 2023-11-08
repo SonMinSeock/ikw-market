@@ -1,24 +1,16 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
+import { IUser } from "../../types/userType";
 
 const { persistAtom } = recoilPersist();
-interface IUserAtom {
-  chat_rooms: [];
-  email: string;
-  nickname: string;
-  on_sale: any[];
-  profile_image: string;
-  social_id: { value: number; social_name: string };
-  __v: number;
-  _id: string;
-}
+
 export const isLoginAtom = atom({
   key: "isLogin",
   default: false,
   effects_UNSTABLE: [persistAtom],
 });
 
-export const userAtom = atom<IUserAtom>({
+export const userAtom = atom<IUser>({
   key: "user",
   default: {
     chat_rooms: [],

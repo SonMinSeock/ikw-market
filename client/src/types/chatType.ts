@@ -1,9 +1,11 @@
+import { IUser } from "./userType";
+
 interface ICreatedChatRoom {
-  productId: object;
+  productId: string;
 }
 
 interface IChatMessage {
-  send_user: any;
+  send_user: IUser;
   message: string;
   send_date: string;
 }
@@ -20,10 +22,10 @@ interface IChatRoom {
   seller: {
     message_read_count: number;
   };
-  _id: object;
+  _id: string;
   title: string;
-  message_log: [IChatMessage];
-  member_list: [object];
+  message_log: IChatMessage[] | [];
+  member_list: object[];
   product: object;
   created_at: string;
   __v: number;

@@ -12,7 +12,7 @@ const Header = () => {
     setInputValue(event.target.value.trim());
   };
 
-  const activeEnter = (event: any) => {
+  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
       setSearchText(inputValue);
     }

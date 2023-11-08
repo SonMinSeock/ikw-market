@@ -2,8 +2,10 @@ import * as S from "./ChatList.style";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
+import { IUser } from "../../types/userType";
+import { IChatRoom } from "../../types/chatType";
 const ChatList = () => {
-  const user = useRecoilValue<any>(userAtom);
+  const user = useRecoilValue<IUser>(userAtom);
   const navigate = useNavigate();
 
   const onRedirectProductEdit = (chat: any) => {
@@ -13,7 +15,7 @@ const ChatList = () => {
     <S.ChatListLayout>
       <S.ChatListTitle>대화 목록</S.ChatListTitle>
       <S.ChatList>
-        {user?.chat_rooms.map((chat: any) => (
+        {user?.chat_rooms.map((chat: IChatRoom) => (
           <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
             <S.ChatListProfileImg src={chat?.message_log[chat?.message_log.length - 1]?.send_user?.profile_image} />
             <S.ChatListInfoBox>

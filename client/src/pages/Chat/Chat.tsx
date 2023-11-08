@@ -23,7 +23,7 @@ const Chat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const [chat, setChat] = useState<IChatRoom>();
-  const [chatMessageLog, setChatMessageLog] = useState<IChatMessage[]>([]);
+  const [chatMessageLog, setChatMessageLog] = useState<IChatMessage[] | []>([]);
   const [messageInput, setMessageInput] = useState<string>("");
   const [connected, setConnected] = useState<boolean>(false);
 
@@ -32,7 +32,7 @@ const Chat = () => {
   );
 
   const { isLoading: getChatRoomIsLoading, data } = useQuery(["GetChatRoom", roomId], () => getChatRoom(roomId), {
-    onSuccess: (chatRoom) => setChatMessageLog([...chatRoom.message_log]),
+    onSuccess: (chatRoom: IChatRoom) => setChatMessageLog([...chatRoom.message_log]),
   });
 
   useEffect(() => {
@@ -77,7 +77,7 @@ const Chat = () => {
     }
   }, [chat]);
 
-  const onMessageSubmit = (e: any) => {
+  const onMessageSubmit = (e: React.MouseEvent<HTMLButtonElement> | React.KeyboardEvent<HTMLInputElement>) => {
     e.preventDefault();
     const createdAt = new Date().toLocaleTimeString("ko-KR", {
       hour: "numeric",
