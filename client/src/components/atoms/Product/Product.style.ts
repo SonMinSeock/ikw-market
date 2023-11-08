@@ -6,10 +6,10 @@ export const ProductLayout = styled.article`
 
 export const ProductImgBox = styled.figure`
   position: relative;
-  display: flex;
+
   height: 220px;
   width: 220px;
-  flex-direction: column;
+
   @media screen and (max-width: 860px) {
     height: 100px;
     width: 100px;
@@ -18,6 +18,7 @@ export const ProductImgBox = styled.figure`
 
 export const ProductImg = styled.img<{ type?: string }>`
   width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
+  height: 100%;
   border-radius: 10px;
   object-fit: cover;
   @media screen and (max-width: 860px) {
