@@ -32,9 +32,8 @@ router.get("/getUser", async (req, res) => {
         populate: { path: "seller_info" },
       })
       .populate({ path: "chat_rooms", populate: { path: "message_log", populate: { path: "send_user" } } })
-      .populate({ path: "chat_rooms", populate: { path: "consumer", populate: { path: "user" } } })
-      .populate({ path: "chat_rooms", populate: { path: "seller", populate: { path: "user" } } });
-
+      .populate({ path: "chat_rooms", populate: { path: "member_list" } })
+      .populate({ path: "chat_rooms", populate: { path: "product" } });
 
     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
       res.json({ state: true, user, accessToken: sessionUser["access_token"] });

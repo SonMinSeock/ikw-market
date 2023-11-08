@@ -60,7 +60,7 @@ function Login() {
             email: naverLogin.user.email,
             social_id: { value: naverLogin.user.id, social_name: "네이버 로그인" },
             nickname: naverLogin.user.nickname,
-            profile_image: naverLogin.user.profile_image,
+            image: naverLogin.user.image,
           };
 
           // Naver Login POST Request

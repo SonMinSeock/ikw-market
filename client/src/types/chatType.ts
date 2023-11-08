@@ -1,3 +1,4 @@
+import { IProduct } from "./productType";
 import { IUser } from "./userType";
 
 interface ICreatedChatRoom {
@@ -16,17 +17,11 @@ interface ISetChatRoomMessageLog {
 }
 
 interface IChatRoom {
-  consumer: {
-    message_read_count: number;
-  };
-  seller: {
-    message_read_count: number;
-  };
+  member_list: IUser[];
+  product: IProduct;
   _id: string;
   title: string;
   message_log: IChatMessage[] | [];
-  member_list: object[];
-  product: object;
   created_at: string;
   __v: number;
 }

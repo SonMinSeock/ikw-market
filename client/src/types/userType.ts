@@ -6,7 +6,7 @@ interface IUser {
   email: string;
   nickname: string;
   on_sale: IProduct[];
-  profile_image: string;
+  image: string;
   social_id: { value: number; social_name: string };
   __v: number;
   _id: string;
