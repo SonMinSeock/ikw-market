@@ -8,18 +8,21 @@ import { accessTokenAtom, isLoginAtom, userAtom } from "../../../recoil/login/at
 import { useQuery } from "react-query";
 import { getUser } from "../../../api/userData";
 
-const Nav = () => {
+interface INavProp {
+  isToggle: boolean;
+  setIsToggle: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav = ({ isToggle, setIsToggle }: INavProp) => {
   // recoil
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
   const [user, setUser] = useRecoilState<any>(userAtom);
   const [accessToken, setAccessToken] = useRecoilState(accessTokenAtom);
 
-  const [toogle, isToogle] = useState(false);
-
   const NAVER_LOGIN = "네이버 로그인";
 
   const onToogleBtnClick = () => {
-    isToogle((prev) => !prev);
+    setIsToggle((prev) => !prev);
   };
 
   const navigate = useNavigate();
@@ -105,6 +108,7 @@ const Nav = () => {
 
   useEffect(() => {
     refetch();
+    setIsToggle(false);
   }, [location, refetch]);
 
   return (
@@ -151,7 +155,7 @@ const Nav = () => {
       <S.ToogleBtn onClick={onToogleBtnClick}>
         <AiOutlineMenu />
       </S.ToogleBtn>
-      <S.MenuBox $isMenu={toogle}>
+      <S.MenuBox $isMenu={isToggle}>
         <S.MenuList>
           <Link to={myProductNavigate()}>
             <S.MenuItem>

@@ -6,9 +6,11 @@ import { searchTextAtom } from "../../recoil/login/atoms";
 import { useSetRecoilState } from "recoil";
 const Header = () => {
   const setSearchText = useSetRecoilState(searchTextAtom);
+  const [isToggle, setIsToggle] = useState(false);
   const [inputValue, setInputValue] = useState("");
 
   const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    isToggle && setIsToggle(false);
     setInputValue(event.target.value.trim());
   };
 
@@ -22,7 +24,7 @@ const Header = () => {
     <S.Header>
       <Logo />
       <S.Input placeholder="물품 검색" onChange={onChangeSearchInput} onKeyDown={activeEnter} value={inputValue} />
-      <Nav />
+      <Nav isToggle={isToggle} setIsToggle={setIsToggle} />
     </S.Header>
   );
 };
