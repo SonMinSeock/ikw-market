@@ -57,19 +57,22 @@ export const Input = styled.input`
   overflow-y: auto;
   width: 100%;
   max-height: 120px;
-  border: 0 none;
+  border: none;
   font-size: 13px;
   line-height: 1.33em;
   background-color: #f5f6f8;
   font-family: Apple SD Gothic Neo, 맑은 고딕, Malgun Gothic, 돋움, dotum, sans-serif;
   resize: none;
-  outline: transparent;
   color: #000;
   vertical-align: top;
   border-radius: 20px;
   padding: 15px 70px 13px 10px;
   box-sizing: border-box;
   background-color: #f5f6f8;
+  &:focus,
+  &:active {
+    outline: 2px solid #ffc901;
+  }
 `;
 export const Button = styled.button`
   background-color: #fff;

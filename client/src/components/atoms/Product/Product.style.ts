@@ -2,11 +2,11 @@ import styled from "styled-components";
 
 export const ProductLayout = styled.article`
   margin-bottom: 70px;
+  cursor: pointer;
 `;
 
 export const ProductImgBox = styled.figure`
   position: relative;
-
   height: 220px;
   width: 220px;
   @media screen and (max-width: 860px) {

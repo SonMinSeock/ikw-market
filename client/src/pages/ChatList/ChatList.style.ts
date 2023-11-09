@@ -29,6 +29,13 @@ export const ChatListItem = styled.li`
   gap: 10px;
   height: 78px;
   padding: 0px 10px;
+  margin: 15px 0px;
+  background-color: rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 `;
 
 export const ChatListProfileImg = styled.img`
