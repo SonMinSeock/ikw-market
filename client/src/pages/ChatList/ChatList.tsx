@@ -23,6 +23,7 @@ const ChatList = () => {
           <S.ChatListItem onClick={() => onRedirectProductEdit(chatRoom)} key={chatRoom._id}>
             <S.ChatListProfileImg src={getOtherUserProfileInfo(chatRoom, user).profileImg} alt="사진" />
             <S.ChatListInfoBox>
+              <S.ChatListUserName>{getOtherUserProfileInfo(chatRoom, user).nickname}</S.ChatListUserName>
               <S.ChatListMessages>
                 {chatRoom?.message_log[chatRoom?.message_log.length - 1]?.message}
               </S.ChatListMessages>
