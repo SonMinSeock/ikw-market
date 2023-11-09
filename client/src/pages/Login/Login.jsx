@@ -32,7 +32,6 @@ function Login() {
   const getToken = () => {
     const token = window.location.href.split("=")[1].split("&")[0];
     setNaverToken(token);
-    console.log(token);
   };
 
   const initializeNaverLogin = () => {

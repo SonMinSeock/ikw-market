@@ -9,6 +9,7 @@ import Message from "./Message/Message";
 import { useMutation, useQuery } from "react-query";
 import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
 import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../types/chatType";
+import { getOtherUserProfileInfo } from "../../controller/chat";
 
 const Chat = () => {
   const inputRef = useRef(null);
@@ -23,6 +24,7 @@ const Chat = () => {
   const [socket, setSocket] = useState<Socket | null>(null);
 
   const [chat, setChat] = useState<IChatRoom>();
+  const [otherUserProfileNickname, setOtherUserProfileNickname] = useState({ profileImg: "", nickname: "" });
   const [chatMessageLog, setChatMessageLog] = useState<IChatMessage[] | []>([]);
   const [messageInput, setMessageInput] = useState<string>("");
   const [connected, setConnected] = useState<boolean>(false);
@@ -31,9 +33,20 @@ const Chat = () => {
     setChatRoomMessageLog({ message, roomId })
   );
 
-  const { isLoading: getChatRoomIsLoading, data } = useQuery(["GetChatRoom", roomId], () => getChatRoom(roomId), {
-    onSuccess: (chatRoom: IChatRoom) => setChatMessageLog([...chatRoom.message_log]),
+  const {
+    isLoading: getChatRoomIsLoading,
+    data,
+    refetch,
+  } = useQuery(["GetChatRoom", roomId], () => getChatRoom(roomId), {
+    onSuccess: (chatRoom: IChatRoom) => {
+      setOtherUserProfileNickname(getOtherUserProfileInfo(chatRoom, user));
+      setChatMessageLog([...chatRoom.message_log]);
+    },
   });
+
+  useEffect(() => {
+    refetch();
+  }, [refetch, user]);
 
   useEffect(() => {
     const connectSocket = () => {
@@ -99,35 +112,39 @@ const Chat = () => {
 
   return (
     <S.ChatLayout>
-      <S.ChatHeaderBox>
-        <h3>손민석(상대방 이름)</h3>
-      </S.ChatHeaderBox>
-      <S.ChatContentBox>
-        <S.ChatLogBox ref={scrollRef as any}>
-          <Message chatMessages={chatMessageLog} />
-        </S.ChatLogBox>
-        <S.InputBox>
-          <S.Input
-            placeholder="메시지를 입력하세요"
-            ref={inputRef}
-            type="text"
-            value={messageInput}
-            disabled={!connected}
-            onChange={(e) => {
-              setMessageInput(e.target.value);
-              (inputRef.current as any).focus();
-            }}
-            onKeyUp={(e) => {
-              if (e.key === "Enter" && messageInput) {
-                onMessageSubmit(e);
-              }
-            }}
-          />
-          <S.Button disabled={!messageInput} onClick={onMessageSubmit}>
-            <HiArrowCircleUp size={35} />
-          </S.Button>
-        </S.InputBox>
-      </S.ChatContentBox>
+      {user._id !== "" ? (
+        <>
+          <S.ChatHeaderBox>
+            <h3>{otherUserProfileNickname.nickname}</h3>
+          </S.ChatHeaderBox>
+          <S.ChatContentBox>
+            <S.ChatLogBox ref={scrollRef as any}>
+              <Message chatMessages={chatMessageLog} />
+            </S.ChatLogBox>
+            <S.InputBox>
+              <S.Input
+                placeholder="메시지를 입력하세요"
+                ref={inputRef}
+                type="text"
+                value={messageInput}
+                disabled={!connected}
+                onChange={(e) => {
+                  setMessageInput(e.target.value);
+                  (inputRef.current as any).focus();
+                }}
+                onKeyUp={(e) => {
+                  if (e.key === "Enter" && messageInput) {
+                    onMessageSubmit(e);
+                  }
+                }}
+              />
+              <S.Button disabled={!messageInput} onClick={onMessageSubmit}>
+                <HiArrowCircleUp size={35} />
+              </S.Button>
+            </S.InputBox>
+          </S.ChatContentBox>
+        </>
+      ) : null}
     </S.ChatLayout>
   );
 };

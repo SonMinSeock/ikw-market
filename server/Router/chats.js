@@ -10,12 +10,16 @@ router.get("/:chatId", async (req, res) => {
   try {
     const { chatId } = req.params;
 
-    const chat = await Chat.findById(chatId).populate({
-      path: "message_log",
-      populate: {
-        path: "send_user",
-      },
-    });
+    const chat = await Chat.findById(chatId)
+      .populate({
+        path: "message_log",
+        populate: {
+          path: "send_user",
+        },
+      })
+      .populate({
+        path: "member_list",
+      });
 
     return res.json({ state: true, chatRoom: chat });
   } catch (err) {

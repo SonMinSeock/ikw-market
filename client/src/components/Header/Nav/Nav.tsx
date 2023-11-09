@@ -35,9 +35,7 @@ const Nav = () => {
         setUser(user);
         setIsLogin(true);
       } else {
-        setAccessToken("");
-        setUser({});
-        setIsLogin("");
+        setIsLogin(false);
       }
     },
     // refetchInterval: 1500,

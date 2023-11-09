@@ -2,15 +2,7 @@ import React, { useEffect, useState } from "react";
 import * as S from "./Form.style";
 import { useForm } from "react-hook-form";
 import { IFormComponentProps, IForm } from "../../types/formType";
-import { IProduct } from "../../types/productType";
 import { useInput } from "../../hooks/useInput";
-
-interface IOnChangeFunctionProps {
-  target: {
-    value: string;
-    name: string;
-  };
-}
 
 const Form: React.FC<IFormComponentProps> = ({ onSubmit, product }) => {
   const { register, handleSubmit, setValue } = useForm<IForm>();

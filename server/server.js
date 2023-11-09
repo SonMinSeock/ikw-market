@@ -54,7 +54,7 @@ app.get("*", function (req, res) {
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
   console.log("Socket connected!");
-  //console.log("socket rooms : ", socket.rooms);
+
   socket.on("enter_room", ({ roomId }) => {
     // "socket join 메서드를 사용하면 인자로 전달한 방으로 연결."
     socket.join(roomId);

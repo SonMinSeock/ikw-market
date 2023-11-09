@@ -35,7 +35,6 @@ export const loginAxiosObj = {
           )
           .then(async (res) => {
             const user = res.data;
-            //console.log("카카오 유저 데이터 : ", user);
 
             // kakao login POST request
             await axios.post(
