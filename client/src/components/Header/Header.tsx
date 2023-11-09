@@ -10,7 +10,6 @@ const Header = () => {
   const [inputValue, setInputValue] = useState("");
 
   const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    isToggle && setIsToggle(false);
     setInputValue(event.target.value.trim());
   };
 
@@ -20,10 +19,20 @@ const Header = () => {
     }
   };
 
+  const onFocusHandler = () => {
+    isToggle && setIsToggle(false);
+  };
+
   return (
     <S.Header>
       <Logo />
-      <S.Input placeholder="물품 검색" onChange={onChangeSearchInput} onKeyDown={activeEnter} value={inputValue} />
+      <S.Input
+        placeholder="물품 검색"
+        onChange={onChangeSearchInput}
+        onKeyDown={activeEnter}
+        onFocus={onFocusHandler}
+        value={inputValue}
+      />
       <Nav isToggle={isToggle} setIsToggle={setIsToggle} />
     </S.Header>
   );
