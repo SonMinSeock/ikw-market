@@ -21,7 +21,8 @@ export const ChatHeaderBox = styled.section`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #dfe1e2;
-  /* color: #fff; */
+  color: #fff;
+  background-color: #ffaa22;
   height: 42px;
   h3 {
     margin-left: 10px;

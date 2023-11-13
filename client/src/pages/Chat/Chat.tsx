@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useLayoutEffect } from "react";
 import { useRecoilValue } from "recoil";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { io, Socket } from "socket.io-client";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
 import { HiArrowCircleUp } from "react-icons/hi";
@@ -10,6 +10,7 @@ import { useMutation, useQuery } from "react-query";
 import { getChatRoom, setChatRoomMessageLog } from "../../api/chatData";
 import { IChatMessage, IChatRoom, ISetChatRoomMessageLog } from "../../types/chatType";
 import { getOtherUserProfileInfo } from "../../controller/chat";
+import ProductInfoBar from "./ProductInfoBar/ProductInfoBar";
 
 const Chat = () => {
   const inputRef = useRef(null);
@@ -117,6 +118,9 @@ const Chat = () => {
           <S.ChatHeaderBox>
             <h3>{otherUserProfileNickname.nickname}</h3>
           </S.ChatHeaderBox>
+          {/* <Link to={`/product/${chatInfo.product._id}`}> */}
+          <ProductInfoBar product={chatInfo.product} />
+          {/* </Link> */}
           <S.ChatContentBox>
             <S.ChatLogBox ref={scrollRef as any}>
               <Message chatMessages={chatMessageLog} />
