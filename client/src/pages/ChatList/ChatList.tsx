@@ -21,7 +21,9 @@ const ChatList = () => {
       <S.ChatList>
         {user?.chat_rooms.map((chatRoom: IChatRoom) => (
           <S.ChatListItem onClick={() => onRedirectProductEdit(chatRoom)} key={chatRoom._id}>
-            <S.ChatListProfileImg src={getOtherUserProfileInfo(chatRoom, user).profileImg} alt="사진" />
+            <div>
+              <S.ChatListProfileImg src={getOtherUserProfileInfo(chatRoom, user).profileImg} alt="사진" />
+            </div>
             <S.ChatListInfoBox>
               <S.ChatListUserName>{getOtherUserProfileInfo(chatRoom, user).nickname}</S.ChatListUserName>
               <S.ChatListMessages>

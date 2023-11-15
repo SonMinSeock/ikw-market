@@ -20,7 +20,9 @@ const Profile = () => {
   return (
     <S.ProfileLayout>
       <S.UserHeader>
-        <S.UserImg src="https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png" />
+        <div>
+          <S.UserImg src={userInfo?.image} />
+        </div>
         <S.UserInfoBox>
           <S.UserNameSpan>{userInfo?.nickname}</S.UserNameSpan>
           <S.UserUpdateBtn>프로필 수정</S.UserUpdateBtn>

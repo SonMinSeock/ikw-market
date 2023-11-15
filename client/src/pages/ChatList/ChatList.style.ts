@@ -39,8 +39,10 @@ export const ChatListItem = styled.li`
 `;
 
 export const ChatListProfileImg = styled.img`
-  width: 50px;
-  border-radius: 25px;
+  width: 60px;
+  height: 60px;
+  border-radius: 30px;
+  object-fit: cover;
   /* ChatListProfileImg의 스타일을 원하는 대로 추가하세요 */
 `;
 

@@ -24,7 +24,9 @@ export const UserHeader = styled.section`
 `;
 export const UserImg = styled.img`
   width: 200px;
+  height: 200px;
   border-radius: 100px;
+  object-fit: cover;
   @media screen and (max-width: 860px) {
     width: 100px;
   }
