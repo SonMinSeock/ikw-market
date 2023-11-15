@@ -10,6 +10,7 @@ import ProductEdit from "./pages/ProductEdit/ProductEdit";
 import ChatList from "./pages/ChatList/ChatList";
 import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
+import ProfileUpdate from "./pages/Profile/ProfileUpdate/ProfileUpdate";
 function App() {
   // 모바일ver. 채팅페이지에서 스크롤 막기
   function setScreenSize() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<Layout />}>
             <Route path="" element={<Main />} />
             <Route path="profile" element={<Profile />} />
+            <Route path="profile/update" element={<ProfileUpdate />} />
             <Route path="product/:id" element={<ProductDetail />} />
             <Route path="chatlist" element={<ChatList />} />
             <Route path="chat/:id" element={<Chat />} />

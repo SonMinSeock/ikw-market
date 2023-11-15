@@ -5,7 +5,6 @@ interface ProductInfoBarProps {
   product: IProduct;
 }
 const ProductInfoBar = ({ product }: ProductInfoBarProps) => {
-  console.log(product);
   return (
     <S.ProductInfoBarLayout>
       <S.ProductInfoBarImg>
