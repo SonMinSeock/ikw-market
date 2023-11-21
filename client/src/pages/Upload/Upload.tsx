@@ -91,7 +91,7 @@ const Upload = () => {
     // AWS S3에서 이미지 삭제
     const deleteImageFromS3 = async (key: string) => {
       const params = {
-        Bucket: "ikw-market",
+        Bucket: "ikw-market-image",
         Key: key,
       };
       const s3 = new AWS.S3();
@@ -124,7 +124,7 @@ const Upload = () => {
       for (let i = 0; i < files.length; i++) {
         const resizedImage = await resizeImage(files[i]);
         const params = {
-          Bucket: "ikw-market",
+          Bucket: "ikw-market-image",
           Key: `${Date.now()}.${i}.webp`,
           Body: resizedImage,
         };
