@@ -8,6 +8,7 @@ export const ProfileLayout = styled.main`
   width: 780px;
   margin: 0 auto;
   gap: 10px;
+
   @media screen and (max-width: 860px) {
     width: 100vw;
     padding-left: 10px;
@@ -28,8 +29,18 @@ export const UserImg = styled.img`
   border-radius: 100px;
   object-fit: cover;
   @media screen and (max-width: 860px) {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (max-width: 420px) {
+    width: 58px;
+    height: 58px;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -40,7 +51,11 @@ export const UserInfoBox = styled.div`
   justify-content: center;
   width: 100%;
   gap: 30px;
-  @media screen and (max-width: 860px) {
+  @media screen and (max-width: 420px) {
+    font-size: 1.2rem;
+  }
+  @media screen and (max-width: 330px) {
+    font-size: 0.5rem;
   }
 `;
 export const UserNameSpan = styled.div``;

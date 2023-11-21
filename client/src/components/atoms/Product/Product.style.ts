@@ -16,13 +16,13 @@ export const ProductImg = styled.img<{ type?: string }>`
   border-radius: 10px;
   object-fit: cover;
   @media screen and (max-width: 860px) {
-    width: ${(props) => (props.type === "thumbnail" ? "100px" : "200px")};
-    height: 100px;
+    width: 100%;
+    height: 134px;
   }
-  @media screen and (max-width: 369px) {
+  /* @media screen and (max-width: 369px) {
     width: 86px;
     height: 86px;
-  }
+  } */
 `;
 export const ProductInfoBox = styled.figcaption`
   display: flex;

@@ -12,7 +12,11 @@ const Product = ({ product }: { product: IProduct }) => {
   return (
     <S.ProductLayout>
       <S.ProductImgBox onClick={() => onRedirect(`/product/${product?._id}`)}>
-        <S.ProductImg src={product.images[0]} type="thumbnail" />
+        {/* <S.ProductImg src={product.images[0]} type="thumbnail" /> */}
+        <S.ProductImg
+          src={"https://thumbs.dreamstime.com/b/stack-books-isolated-white-background-34637153.jpg"}
+          type="thumbnail"
+        />
         {product.state && <Sold />}
         <S.ProductInfoBox>
           <S.ProductTitle>{product.name}</S.ProductTitle>

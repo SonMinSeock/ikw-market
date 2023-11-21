@@ -9,7 +9,7 @@ export const ProfileUpdateLayout = styled.main`
   margin: 0 auto;
   gap: 10px;
   @media screen and (max-width: 860px) {
-    width: 100vw;
+    width: auto;
     padding-left: 10px;
     padding-right: 10px;
   }
@@ -18,18 +18,31 @@ export const UserHeader = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
-
-  @media screen and (max-width: 860px) {
-  }
 `;
 export const UserImg = styled.img`
   width: 200px;
   height: 200px;
   border-radius: 100px;
   object-fit: cover;
+
   @media screen and (max-width: 860px) {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (max-width: 640px) {
+    width: 90px;
+    height: 90px;
+  }
+
+  @media screen and (max-width: 420px) {
+    width: 58px;
+    height: 58px;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 20px;
+    height: 20px;
   }
 `;
 
@@ -46,8 +59,6 @@ export const UserInfoBox = styled.div`
   justify-content: center;
   width: 100%;
   gap: 30px;
-  @media screen and (max-width: 860px) {
-  }
 `;
 export const UserNameInput = styled.input`
   font-size: 30px;
@@ -57,6 +68,19 @@ export const UserNameInput = styled.input`
   &:focus,
   &:active {
     outline-color: #ffc901;
+  }
+
+  @media screen and (max-width: 640px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 420px) {
+    font-size: 0.68rem;
+  }
+  @media screen and (max-width: 330px) {
+    font-size: 0.5rem;
+    padding: 5px;
+    border-radius: 5px;
   }
 `;
 
@@ -72,6 +96,10 @@ export const UserUpdateBtn = styled.button`
   color: white;
   font-size: 11px;
   cursor: pointer;
+  @media screen and (max-width: 330px) {
+    padding: 0px 3px;
+    font-size: 0.4rem;
+  }
 `;
 
 export const UserProductList = styled.section`
