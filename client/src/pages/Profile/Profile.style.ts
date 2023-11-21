@@ -33,6 +33,10 @@ export const UserImg = styled.img`
     height: 120px;
   }
 
+  @media screen and (max-width: 545px) {
+    width: 95px;
+    height: 95px;
+  }
   @media screen and (max-width: 420px) {
     width: 58px;
     height: 58px;
@@ -51,6 +55,9 @@ export const UserInfoBox = styled.div`
   justify-content: center;
   width: 100%;
   gap: 30px;
+  @media screen and (max-width: 545px) {
+    font-size: 1.5rem;
+  }
   @media screen and (max-width: 420px) {
     font-size: 1.2rem;
   }
@@ -80,9 +87,13 @@ export const UserProductList = styled.section`
   margin-top: 23px;
 `;
 export const UserProductTitle = styled.h3`
-  display: flex;
   width: 100%;
   margin-top: 24px;
-  font-size: 16px;
+  font-size: 20px;
   font-family: "GmarketSansMedium";
+
+  @media screen and (max-width: 610px) {
+    text-align: center;
+    font-size: 18px;
+  }
 `;

@@ -37,20 +37,20 @@ const Product = ({ product }: { product: IProduct }) => {
           type="thumbnail"
           onClick={() => onRedirect(`/product/${product?._id}`)}
         />
-        {product.state && <Sold product={product} onRedirect={onRedirect} />}
         <S.ProductInfoBox onClick={() => onRedirect(`/product/${product?._id}`)}>
           <S.ProductTitle>{product.name}</S.ProductTitle>
           <S.ProductPriceSpan>{product.price}원</S.ProductPriceSpan>
           <S.ProductLocationSpan>{product.location}</S.ProductLocationSpan>
         </S.ProductInfoBox>
-        {location.pathname === "/profile" ? (
-          <S.ButtonRow>
-            <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn onClick={() => deleteProductMutaion.mutate(product._id)}>삭제하기</S.ProductDetailBtn>
-            <S.ProductDetailBtn onClick={() => updateProductMutaion.mutate(product._id)}>판매완료</S.ProductDetailBtn>
-          </S.ButtonRow>
-        ) : null}
       </S.ProductImgBox>
+      {location.pathname === "/profile" ? (
+        <S.ButtonRow>
+          <S.ProductDetailBtn onClick={() => onRedirectProductEdit(product)}>수정하기</S.ProductDetailBtn>
+          <S.ProductDetailBtn onClick={() => deleteProductMutaion.mutate(product._id)}>삭제하기</S.ProductDetailBtn>
+          <S.ProductDetailBtn onClick={() => updateProductMutaion.mutate(product._id)}>판매완료</S.ProductDetailBtn>
+        </S.ButtonRow>
+      ) : null}
+      {product.state && <Sold product={product} onRedirect={onRedirect} isClickHandler={true} />}
     </S.ProductLayout>
   );
 };

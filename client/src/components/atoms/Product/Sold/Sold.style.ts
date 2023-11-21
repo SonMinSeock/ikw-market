@@ -16,4 +16,5 @@ export const ProductSoldCover = styled.div`
   border-radius: 10px;
   font-family: "GmarketSansMedium";
   font-size: 18px;
+  cursor: pointer;
 `;

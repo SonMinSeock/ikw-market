@@ -2,6 +2,10 @@ import styled from "styled-components";
 
 export const ProductLayout = styled.article`
   /* cursor: pointer; */
+  position: relative;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  border-radius: 10px;
+  padding: 10px;
 `;
 
 export const ProductImgBox = styled.figure`
@@ -11,7 +15,7 @@ export const ProductImgBox = styled.figure`
 `;
 
 export const ProductImg = styled.img<{ type?: string }>`
-  width: ${(props) => (props.type === "thumbnail" ? "220px" : "320px")};
+  width: 100%;
   height: 230px;
   border-radius: 10px;
   object-fit: cover;
@@ -63,13 +67,16 @@ export const ProductDetailBtn = styled.button`
   cursor: pointer;
   width: 100%;
   background-color: #ffaa22;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid #ffaa22;
   padding: 0.5rem 0;
   cursor: pointer;
   color: #ffffff;
   font-family: Arial;
-  font-size: 13px;
+  font-size: 12px;
   font-family: GmarketSansMedium;
   text-decoration: none;
+  @media screen and (max-width: 768px) {
+    font-size: 10px;
+  }
 `;

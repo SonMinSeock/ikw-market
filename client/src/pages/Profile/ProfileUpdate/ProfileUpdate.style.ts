@@ -30,9 +30,9 @@ export const UserImg = styled.img`
     height: 120px;
   }
 
-  @media screen and (max-width: 640px) {
-    width: 90px;
-    height: 90px;
+  @media screen and (max-width: 545px) {
+    width: 95px;
+    height: 95px;
   }
 
   @media screen and (max-width: 420px) {
@@ -111,9 +111,12 @@ export const UserProductList = styled.section`
   margin-top: 23px;
 `;
 export const UserProductTitle = styled.h3`
-  display: flex;
   width: 100%;
   margin-top: 24px;
-  font-size: 16px;
+  font-size: 20px;
   font-family: "GmarketSansMedium";
+  @media screen and (max-width: 610px) {
+    text-align: center;
+    font-size: 18px;
+  }
 `;

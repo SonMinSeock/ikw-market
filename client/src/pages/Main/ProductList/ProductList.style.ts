@@ -6,8 +6,9 @@ export const ProductsLayout = styled.section`
   flex-wrap: wrap;
   margin-top: 42px;
   gap: 25px;
+  justify-content: center;
 
-  @media screen and (max-width: 860px) {
+  @media screen and (max-width: 610px) {
     grid-template-columns: repeat(1, 200px);
   }
 `;
