@@ -2,11 +2,16 @@ import styled from "styled-components";
 
 export const ProductLayout = styled.article`
   cursor: pointer;
+  @media screen and (max-width: 860px) {
+    display: flex;
+  }
 `;
 
 export const ProductImgBox = styled.figure`
   position: relative;
   @media screen and (max-width: 860px) {
+    display: flex;
+    gap: 10px;
   }
 `;
 
