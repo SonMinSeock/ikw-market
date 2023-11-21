@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
   const isLogin = useRecoilValue(isLoginAtom);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,6 +17,8 @@ const Profile = () => {
   }, []);
 
   const products = [...userInfo?.on_sale].reverse();
+
+  const onNavigate = () => navigate("/profile/update");
 
   return (
     <S.ProfileLayout>
@@ -25,7 +28,7 @@ const Profile = () => {
         </div>
         <S.UserInfoBox>
           <S.UserNameSpan>{userInfo?.nickname}</S.UserNameSpan>
-          <S.UserUpdateBtn>프로필 수정</S.UserUpdateBtn>
+          <S.UserUpdateBtn onClick={onNavigate}>프로필 수정</S.UserUpdateBtn>
         </S.UserInfoBox>
       </S.UserHeader>
       <S.UserProductList>

@@ -9,4 +9,14 @@ const getUser = async () => {
   return { state, user };
 };
 
-export { getUser };
+const updateUser = async ({ userId, nickname }: { userId: string; nickname: string }) => {
+  const { state } = await (
+    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/profile/${userId}/update`, {
+      nickname,
+    })
+  ).data;
+
+  return state;
+};
+
+export { getUser, updateUser };

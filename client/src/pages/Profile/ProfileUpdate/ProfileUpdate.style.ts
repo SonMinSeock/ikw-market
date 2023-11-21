@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileLayout = styled.main`
+export const ProfileUpdateLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -33,6 +33,12 @@ export const UserImg = styled.img`
   }
 `;
 
+export const ProfileUpdateForm = styled.form`
+  display: flex;
+  align-items: center;
+  width: 100%;
+`;
+
 export const UserInfoBox = styled.div`
   display: flex;
   align-items: center;
@@ -43,7 +49,17 @@ export const UserInfoBox = styled.div`
   @media screen and (max-width: 860px) {
   }
 `;
-export const UserNameSpan = styled.div``;
+export const UserNameInput = styled.input`
+  font-size: 30px;
+  border-radius: 10px;
+  border: 2px solid rgb(204, 204, 204);
+  padding: 10px;
+  &:focus,
+  &:active {
+    outline-color: #ffc901;
+  }
+`;
+
 export const UserUpdateBtn = styled.button`
   height: 20px;
   display: flex;
@@ -51,7 +67,9 @@ export const UserUpdateBtn = styled.button`
   align-items: center;
   padding: 0px 5px;
   color: rgb(136, 136, 136);
-  border: 1px solid rgb(238, 238, 238);
+  border: 1px solid #ffc901;
+  background-color: #ffc901;
+  color: white;
   font-size: 11px;
   cursor: pointer;
 `;

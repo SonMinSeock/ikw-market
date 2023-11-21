@@ -22,6 +22,9 @@ export const ProfileImgBox = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: skyblue;
+  & img {
+    width: 100%;
+  }
 `;
 
 export const MessageInfoBox = styled.div`
