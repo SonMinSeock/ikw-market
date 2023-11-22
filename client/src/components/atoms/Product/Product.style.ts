@@ -6,8 +6,10 @@ export const ProductLayout = styled.article`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 10px;
   padding: 10px;
+
   @media screen and (max-width: 860px) {
     display: flex;
+    height: 120px;
   }
 `;
 
@@ -21,13 +23,11 @@ export const ProductImgBox = styled.figure`
 
 export const ProductImg = styled.img<{ type?: string }>`
   width: 100%;
-  height: 230px;
   border-radius: 10px;
   object-fit: cover;
   cursor: pointer;
   @media screen and (max-width: 860px) {
     width: 100%;
-    height: 134px;
   }
   /* @media screen and (max-width: 369px) {
     width: 86px;
@@ -39,13 +39,13 @@ export const ProductInfoBox = styled.figcaption`
   flex-direction: column;
   gap: 10px;
   margin-top: 10px;
+  white-space: nowrap;
   cursor: pointer;
 `;
 
 export const ProductTitle = styled.h2`
   overflow: hidden;
   text-overflow: ellipsis;
-  white-space: nowrap;
   @media screen and (max-width: 860px) {
     font-size: 0.7rem;
   }
