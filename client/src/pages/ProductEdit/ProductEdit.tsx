@@ -164,7 +164,7 @@ const ProductEdit = () => {
       for (let i = 0; i < files.length; i++) {
         const resizedImage = await resizeImage(files[i]);
         const params = {
-          Bucket: "ikw-market",
+          Bucket: "ikw-market-image",
           Key: `${Date.now()}.${i}.webp`,
           Body: resizedImage,
         };

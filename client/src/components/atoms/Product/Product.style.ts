@@ -11,6 +11,8 @@ export const ProductLayout = styled.article`
 export const ProductImgBox = styled.figure`
   position: relative;
   @media screen and (max-width: 860px) {
+    display: flex;
+    gap: 10px;
   }
 `;
 
