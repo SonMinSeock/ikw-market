@@ -50,6 +50,9 @@ export const NameBox = styled.div`
   span {
     font-weight: bold;
   }
+  @media screen and (max-width: 425px) {
+    font-size: 11px;
+  }
 `;
 
 export const TimeBox = styled.div<{ left: string; right: string; textalign: string }>`
@@ -75,7 +78,7 @@ export const MessageBox = styled.div`
   overflow: hidden;
   position: relative;
   z-index: 0;
-  max-width: 100%;
+  max-width: 210px;
   font-size: 12px;
   border-radius: 3px 16px 16px;
   line-height: 1.33;
@@ -101,6 +104,14 @@ export const MessageBox = styled.div`
     border-top: 0;
     margin-top: -4px;
     margin-left: -8.5px;
+  }
+  @media screen and (max-width: 630px) {
+    font-size: 12px;
+    max-width: 155px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 9px;
+    max-width: 120px;
   }
 `;
 
