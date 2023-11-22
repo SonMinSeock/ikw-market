@@ -6,6 +6,9 @@ export const ProductLayout = styled.article`
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   border-radius: 10px;
   padding: 10px;
+  @media screen and (max-width: 860px) {
+    display: flex;
+  }
 `;
 
 export const ProductImgBox = styled.figure`

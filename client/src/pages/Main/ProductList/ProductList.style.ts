@@ -8,7 +8,9 @@ export const ProductsLayout = styled.section`
   gap: 25px;
   justify-content: center;
 
-  @media screen and (max-width: 610px) {
-    grid-template-columns: repeat(1, 200px);
+  @media screen and (max-width: 860px) {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    width: 100%;
   }
 `;
