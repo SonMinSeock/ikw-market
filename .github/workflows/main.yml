@@ -47,10 +47,8 @@ jobs:
         run : pwd
 
       - name: Ls
-        run : ls -la
-
-      - name: Cd
-        run : cd client
+        run : |
+          ls
         
       - name: Deploy to S3
         run: |
