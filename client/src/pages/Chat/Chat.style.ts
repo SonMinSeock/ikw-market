@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ChatLayout = styled.div`
+export const ChatLayout = styled.main`
   display: flex;
   border: 1px solid #dfe1e2;
   position: relative;
@@ -17,18 +17,19 @@ export const ChatLayout = styled.div`
     width: 100%;
   }
 `;
-export const ChatHeaderBox = styled.div`
+export const ChatHeaderBox = styled.section`
   display: flex;
   align-items: center;
   border-bottom: 1px solid #dfe1e2;
-  /* color: #fff; */
+  color: #fff;
+  background-color: #ffaa22;
   height: 42px;
   h3 {
     margin-left: 10px;
     font-weight: bold;
   }
 `;
-export const ChatContentBox = styled.div`
+export const ChatContentBox = styled.section`
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -39,12 +40,12 @@ export const ChatContentBox = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
 `;
-export const ChatLogBox = styled.div`
+export const ChatLogBox = styled.section`
   height: 100%;
   overflow-y: auto;
   overflow-x: hidden;
 `;
-export const InputBox = styled.div`
+export const InputBox = styled.section`
   position: relative;
   border-top: 1px solid rgb(246, 246, 246);
   background-color: rgb(255, 255, 255);
@@ -57,19 +58,22 @@ export const Input = styled.input`
   overflow-y: auto;
   width: 100%;
   max-height: 120px;
-  border: 0 none;
+  border: none;
   font-size: 13px;
   line-height: 1.33em;
   background-color: #f5f6f8;
   font-family: Apple SD Gothic Neo, 맑은 고딕, Malgun Gothic, 돋움, dotum, sans-serif;
   resize: none;
-  outline: transparent;
   color: #000;
   vertical-align: top;
   border-radius: 20px;
   padding: 15px 70px 13px 10px;
   box-sizing: border-box;
   background-color: #f5f6f8;
+  &:focus,
+  &:active {
+    outline: 2px solid #ffc901;
+  }
 `;
 export const Button = styled.button`
   background-color: #fff;

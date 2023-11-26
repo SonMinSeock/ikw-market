@@ -4,20 +4,20 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   // 상품 이름
-  product_name: {
+  name: {
     type: String,
     required: true,
   },
   // 상품 이미지들
-  product_images: {
+  images: {
     type: [String],
   },
-  product_price: {
+  price: {
     type: String,
     required: true,
   },
   // 상품 상태 -> 판매 상태 값 즉 판매 했으면 true 값이고 안했으면 false이다.
-  product_state: {
+  state: {
     type: Boolean,
   },
   // 거래위치

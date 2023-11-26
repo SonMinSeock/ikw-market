@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Button } from "../../components/Modal/Modal.style";
 
-export const ProductDetailBox = styled.div`
+export const ProductDetailBox = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -10,14 +10,14 @@ export const ProductDetailBox = styled.div`
   width: 100%;
 `;
 
-export const ProductDetailLayout = styled.div`
+export const ProductDetailLayout = styled.section`
   max-width: 680px;
   padding-top: 1rem;
   @media screen and (max-width: 860px) {
     max-width: 290px;
   }
 `;
-export const ProductDetailImgbox = styled.div`
+export const ProductDetailImgbox = styled.section`
   position: relative;
   width: 680px;
   height: 450px;
@@ -30,7 +30,7 @@ export const ProductDetailImgbox = styled.div`
   }
 `;
 
-export const ProductDetailProfileBox = styled.div`
+export const ProductDetailProfileBox = styled.section`
   text-decoration: none;
   display: flex;
   margin-top: 25px;
@@ -58,7 +58,7 @@ export const ProductDetailText = styled.span`
   }
 `;
 
-export const ProductDetailInfoBox = styled.div`
+export const ProductDetailInfoBox = styled.section`
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -89,7 +89,7 @@ export const ProductDetailViewBox = styled(ProductDetailProfileBox)`
   font-size: 0.8rem;
   color: gray;
 `;
-export const ButtonRow = styled.div`
+export const ButtonRow = styled.section`
   display: flex;
   gap: 15px;
   justify-content: center;

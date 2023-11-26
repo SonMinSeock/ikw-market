@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const ProfileLayout = styled.div`
+export const ProfileLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
@@ -8,13 +8,14 @@ export const ProfileLayout = styled.div`
   width: 780px;
   margin: 0 auto;
   gap: 10px;
+
   @media screen and (max-width: 860px) {
     width: 100vw;
     padding-left: 10px;
     padding-right: 10px;
   }
 `;
-export const UserHeader = styled.header`
+export const UserHeader = styled.section`
   display: flex;
   justify-content: space-between;
   margin-top: 40px;
@@ -24,11 +25,29 @@ export const UserHeader = styled.header`
 `;
 export const UserImg = styled.img`
   width: 200px;
+  height: 200px;
   border-radius: 100px;
+  object-fit: cover;
   @media screen and (max-width: 860px) {
-    width: 100px;
+    width: 120px;
+    height: 120px;
+  }
+
+  @media screen and (max-width: 545px) {
+    width: 95px;
+    height: 95px;
+  }
+  @media screen and (max-width: 420px) {
+    width: 58px;
+    height: 58px;
+  }
+
+  @media screen and (max-width: 330px) {
+    width: 20px;
+    height: 20px;
   }
 `;
+
 export const UserInfoBox = styled.div`
   display: flex;
   align-items: center;
@@ -36,7 +55,14 @@ export const UserInfoBox = styled.div`
   justify-content: center;
   width: 100%;
   gap: 30px;
-  @media screen and (max-width: 860px) {
+  @media screen and (max-width: 545px) {
+    font-size: 1.5rem;
+  }
+  @media screen and (max-width: 420px) {
+    font-size: 1.2rem;
+  }
+  @media screen and (max-width: 330px) {
+    font-size: 0.5rem;
   }
 `;
 export const UserNameSpan = styled.div``;
@@ -49,9 +75,10 @@ export const UserUpdateBtn = styled.button`
   color: rgb(136, 136, 136);
   border: 1px solid rgb(238, 238, 238);
   font-size: 11px;
+  cursor: pointer;
 `;
 
-export const UserProductList = styled.div`
+export const UserProductList = styled.section`
   //background-color: red;
   border-top: 0.3px solid #2f2f2f;
   display: flex;
@@ -60,9 +87,13 @@ export const UserProductList = styled.div`
   margin-top: 23px;
 `;
 export const UserProductTitle = styled.h3`
-  display: flex;
   width: 100%;
   margin-top: 24px;
-  font-size: 16px;
+  font-size: 20px;
   font-family: "GmarketSansMedium";
+
+  @media screen and (max-width: 610px) {
+    text-align: center;
+    font-size: 18px;
+  }
 `;

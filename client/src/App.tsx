@@ -9,7 +9,8 @@ import ProductDetail from "./pages/ProductDetail/ProductDetail";
 import ProductEdit from "./pages/ProductEdit/ProductEdit";
 import ChatList from "./pages/ChatList/ChatList";
 import { useEffect } from "react";
-
+import { ReactQueryDevtools } from "react-query/devtools";
+import ProfileUpdate from "./pages/Profile/ProfileUpdate/ProfileUpdate";
 function App() {
   // 모바일ver. 채팅페이지에서 스크롤 막기
   function setScreenSize() {
@@ -20,20 +21,24 @@ function App() {
     setScreenSize();
   });
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route path="" element={<Main />} />
-          <Route path="profile" element={<Profile />} />
-          <Route path="product/:id" element={<ProductDetail />} />
-          <Route path="chatlist" element={<ChatList />} />
-          <Route path="chat/:id" element={<Chat />} />
-          <Route path="upload" element={<Upload />} />
-          <Route path="product/:id/edit" element={<ProductEdit />} />
-        </Route>
-        <Route path="/login" element={<Login />} />
-      </Routes>
-    </Router>
+    <>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route path="" element={<Main />} />
+            <Route path="profile" element={<Profile />} />
+            <Route path="profile/update" element={<ProfileUpdate />} />
+            <Route path="product/:id" element={<ProductDetail />} />
+            <Route path="chatlist" element={<ChatList />} />
+            <Route path="chat/:id" element={<Chat />} />
+            <Route path="upload" element={<Upload />} />
+            <Route path="product/:id/edit" element={<ProductEdit />} />
+          </Route>
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </Router>
+      <ReactQueryDevtools />
+    </>
   );
 }
 

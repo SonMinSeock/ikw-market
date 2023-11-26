@@ -1,11 +1,19 @@
 import styled from "styled-components";
 
-export const MainLayout = styled.div`
+export const MainLayout = styled.main`
   display: flex;
   flex-direction: column;
   padding-top: 64px;
+  padding-bottom: 20px;
+  width: 768px;
+  margin: 0 auto;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 860px) {
+    width: auto;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 `;
 export const MainTitle = styled.h1`
   font-size: 32px;

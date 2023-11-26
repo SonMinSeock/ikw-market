@@ -29,6 +29,10 @@ export const Input = styled.input`
   height: 35px;
   border: none;
   padding-left: 10px;
+  &:focus,
+  &:active {
+    outline: 2px solid #ffc901;
+  }
   @media screen and (max-width: 860px) {
     display: flex;
   }

@@ -22,6 +22,9 @@ export const ProfileImgBox = styled.div`
   height: 40px;
   border-radius: 50%;
   background-color: skyblue;
+  & img {
+    width: 100%;
+  }
 `;
 
 export const MessageInfoBox = styled.div`
@@ -46,6 +49,9 @@ export const NameBox = styled.div`
   font-size: 14px;
   span {
     font-weight: bold;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 11px;
   }
 `;
 
@@ -72,7 +78,7 @@ export const MessageBox = styled.div`
   overflow: hidden;
   position: relative;
   z-index: 0;
-  max-width: 100%;
+  max-width: 210px;
   font-size: 12px;
   border-radius: 3px 16px 16px;
   line-height: 1.33;
@@ -98,6 +104,14 @@ export const MessageBox = styled.div`
     border-top: 0;
     margin-top: -4px;
     margin-left: -8.5px;
+  }
+  @media screen and (max-width: 630px) {
+    font-size: 12px;
+    max-width: 155px;
+  }
+  @media screen and (max-width: 425px) {
+    font-size: 9px;
+    max-width: 120px;
   }
 `;
 

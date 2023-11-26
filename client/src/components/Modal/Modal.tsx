@@ -1,4 +1,3 @@
-import React from "react";
 import ReactModal from "react-modal";
 import * as S from "./Modal.style";
 import ReactDOM from "react-dom";
@@ -32,7 +31,8 @@ const Modal = ({ isOpen, onRequestClose, selectImg }: any) => {
           padding: 0,
         },
       }}
-      shouldCloseOnOverlayClick={true}>
+      shouldCloseOnOverlayClick={true}
+    >
       <S.Button>
         <TiDelete onClick={onRequestClose} color="#ffc901" size={40} />
       </S.Button>

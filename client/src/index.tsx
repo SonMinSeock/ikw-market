@@ -5,6 +5,7 @@ import App from "./App";
 import { createGlobalStyle } from "styled-components";
 import ReactModal from "react-modal";
 import { RecoilRoot } from "recoil";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 const GlobalStyle = createGlobalStyle`
 
@@ -77,12 +78,15 @@ a {
 }
 `;
 ReactModal.setAppElement("#root");
+const queryClient = new QueryClient();
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
   <React.StrictMode>
     <GlobalStyle />
     <RecoilRoot>
-      <App />
+      <QueryClientProvider client={queryClient}>
+        <App />
+      </QueryClientProvider>
     </RecoilRoot>
   </React.StrictMode>
 );

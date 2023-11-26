@@ -8,6 +8,7 @@ import cors from "cors";
 import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
+import ProfileRouter from "./Router/profile.js";
 import path from "path";
 
 const app = express();
@@ -39,22 +40,23 @@ app.use(cors({ origin: true, credentials: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", RootRouter);
-app.use("/product", ProductRouter);
-app.use("/chats", ChatRouter);
+app.use("/api", RootRouter);
+app.use("/api/product", ProductRouter);
+app.use("/api/chats", ChatRouter);
+app.use("/api/profile", ProfileRouter);
 
 const port = 3002; // Node 서버가 사용할 포트 번호
 
 const __dirname = path.resolve();
 app.use(express.static(path.join(__dirname, "../client/build")));
 app.get("*", function (req, res) {
-  req.sendFile(path.join(__dirname, "../client/build/index.html"));
+  res.sendFile(path.join(__dirname, "../client/build/index.html"));
 });
 
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
   console.log("Socket connected!");
-  //console.log("socket rooms : ", socket.rooms);
+
   socket.on("enter_room", ({ roomId }) => {
     // "socket join 메서드를 사용하면 인자로 전달한 방으로 연결."
     socket.join(roomId);

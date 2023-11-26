@@ -1,40 +1,34 @@
-import React, { useEffect, useId } from "react";
+import { useEffect } from "react";
 import * as S from "./Profile.style";
 import Product from "../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
-import { ProductsLayout } from "../../components/ProductList/ProductList.style";
+import { ProductsLayout } from "../Main/ProductList/ProductList.style";
 import { useNavigate } from "react-router-dom";
-
-// interface IProduct {
-//   description: string;
-//   location: string;
-//   product_images: any;
-//   product_name: string;
-//   product_price: string;
-//   seller_info: any;
-//   __v: number;
-//   _id: string;
-// }
 
 const Profile = () => {
   const userInfo = useRecoilValue(userAtom);
   const isLogin = useRecoilValue(isLoginAtom);
+
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isLogin === false) navigate("/login");
   }, []);
 
-  const products = userInfo?.products_on_sale;
+  const products = [...userInfo?.on_sale].reverse();
+
+  const onNavigate = () => navigate("/profile/update");
 
   return (
     <S.ProfileLayout>
       <S.UserHeader>
-        <S.UserImg src="https://velog.velcdn.com/images/phjjj/post/012efe6b-b8d3-4c3a-968e-b0ce258801e6/image.png" />
+        <div>
+          <S.UserImg src={userInfo?.image} />
+        </div>
         <S.UserInfoBox>
           <S.UserNameSpan>{userInfo?.nickname}</S.UserNameSpan>
-          <S.UserUpdateBtn>프로필 수정</S.UserUpdateBtn>
+          <S.UserUpdateBtn onClick={onNavigate}>프로필 수정</S.UserUpdateBtn>
         </S.UserInfoBox>
       </S.UserHeader>
       <S.UserProductList>

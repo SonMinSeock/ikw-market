@@ -1,30 +1,36 @@
-import { useEffect, useState } from "react";
 import * as S from "./ChatList.style";
-import axios from "axios";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userAtom } from "../../recoil/login/atoms";
+import { IUser } from "../../types/userType";
+import { IChatRoom } from "../../types/chatType";
+import { getOtherUserProfileInfo } from "../../controller/chat";
+
 const ChatList = () => {
-  const user = useRecoilValue<any>(userAtom);
+  const user = useRecoilValue<IUser>(userAtom);
+
   const navigate = useNavigate();
 
   const onRedirectProductEdit = (chat: any) => {
     return navigate(`../chat/${chat._id}`, { state: chat });
   };
+
   return (
     <S.ChatListLayout>
       <S.ChatListTitle>대화 목록</S.ChatListTitle>
       <S.ChatList>
-        {user?.chat_room.map((chat: any) => (
-          <S.ChatListItem onClick={() => onRedirectProductEdit(chat)} key={chat._id}>
-            <S.ChatListProfileImg src={chat?.message_log[chat?.message_log.length - 1]?.send_user?.profile_image} />
+        {user?.chat_rooms.map((chatRoom: IChatRoom) => (
+          <S.ChatListItem onClick={() => onRedirectProductEdit(chatRoom)} key={chatRoom._id}>
+            <div>
+              <S.ChatListProfileImg src={getOtherUserProfileInfo(chatRoom, user).profileImg} alt="사진" />
+            </div>
             <S.ChatListInfoBox>
-              <S.ChatListUserName>
-                {chat?.message_log[chat?.message_log.length - 1]?.send_user?.nickname}
-              </S.ChatListUserName>
-              <S.ChatListMessages>{chat?.message_log[chat?.message_log.length - 1]?.message}</S.ChatListMessages>
+              <S.ChatListUserName>{getOtherUserProfileInfo(chatRoom, user).nickname}</S.ChatListUserName>
+              <S.ChatListMessages>
+                {chatRoom?.message_log[chatRoom?.message_log.length - 1]?.message}
+              </S.ChatListMessages>
             </S.ChatListInfoBox>
-            <S.ChatListTime>{chat?.message_log[chat?.message_log.length - 1]?.send_date}</S.ChatListTime>
+            <S.ChatListTime>{chatRoom?.message_log[chatRoom?.message_log.length - 1]?.send_date}</S.ChatListTime>
           </S.ChatListItem>
         ))}
       </S.ChatList>

@@ -10,12 +10,16 @@ router.get("/:chatId", async (req, res) => {
   try {
     const { chatId } = req.params;
 
-    const chat = await Chat.findById(chatId).populate({
-      path: "message_log",
-      populate: {
-        path: "send_user",
-      },
-    });
+    const chat = await Chat.findById(chatId)
+      .populate({
+        path: "message_log",
+        populate: {
+          path: "send_user",
+        },
+      })
+      .populate({
+        path: "member_list",
+      });
 
     return res.json({ state: true, chatRoom: chat });
   } catch (err) {
@@ -31,7 +35,7 @@ router.post("/:productId", async (req, res) => {
       const product = await Product.findById(productId).populate("seller_info");
 
       const sellerUser = await User.findById(product.seller_info._id).populate({
-        path: "chat_room",
+        path: "chat_rooms",
         populate: {
           path: "message_log",
           populate: {
@@ -40,7 +44,7 @@ router.post("/:productId", async (req, res) => {
         },
       });
       const user = await User.findOne({ social_id: sessionUser["social_id"] }).populate({
-        path: "chat_room",
+        path: "chat_rooms",
         populate: {
           path: "message_log",
           populate: {
@@ -52,13 +56,13 @@ router.post("/:productId", async (req, res) => {
       const created_at = currentDate();
       const send_date = currentDate("sendDate");
 
-      const chatRoom = { title: product.product_name, created_at: created_at };
+      const chatRoom = { title: product.name, created_at: created_at };
 
       let isChat = false;
 
       // 판매자 채팅방 참여하고 있는지 확인해주는 부분.
-      for (let x = 0; x < user.chat_room.length; x++) {
-        if (user.chat_room[x].product.equals(productId)) {
+      for (let x = 0; x < user.chat_rooms.length; x++) {
+        if (user.chat_rooms[x].product.equals(productId)) {
           isChat = true;
           break;
         }
@@ -74,18 +78,13 @@ router.post("/:productId", async (req, res) => {
         const createdChatRoom = new Chat({
           title: chatRoom.title,
           message_log: [firstMessageTemplate],
-          consumer: {
-            user,
-          },
-          seller: {
-            user: sellerUser,
-          },
+          member_list: [sellerUser, user],
           product,
           created_at: chatRoom.created_at,
         });
 
-        sellerUser.chat_room.push(createdChatRoom);
-        user.chat_room.push(createdChatRoom);
+        sellerUser.chat_rooms.push(createdChatRoom);
+        user.chat_rooms.push(createdChatRoom);
 
         await createdChatRoom.save();
         await sellerUser.save();

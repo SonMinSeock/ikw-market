@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const loginAxiosObj = {
   naverLoginPostAxios: async (user) => {
-    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/login`, user, {
+    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/login`, user, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -35,16 +35,15 @@ export const loginAxiosObj = {
           )
           .then(async (res) => {
             const user = res.data;
-            //console.log("카카오 유저 데이터 : ", user);
 
             // kakao login POST request
             await axios.post(
-              `${process.env.REACT_APP_EXPRESS_URL}/login`,
+              `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
               {
                 social_id: { value: user.id, social_name: "카카오 로그인" },
                 email: user["kakao_account"].email,
                 nickname: user["kakao_account"].profile.nickname,
-                profile_image: user["kakao_account"].profile["profile_image_url"],
+                image: user["kakao_account"].profile["profile_image_url"],
                 access_token,
               },
               {
