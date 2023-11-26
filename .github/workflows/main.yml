@@ -27,6 +27,31 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Create .env.production
+        run: |
+          echo "REACT_APP_NAVER_CLIENT_ID=$REACT_APP_NAVER_CLIENT_ID" >> .env.production
+          echo "REACT_APP_CALLBACK_URL=$REACT_APP_CALLBACK_URL" >> .env.production
+          echo "REACT_APP_LOCAL_URL=$REACT_APP_LOCAL_URL" >> .env.production
+          echo "REACT_APP_EXPRESS_URL=$REACT_APP_EXPRESS_URL" >> .env.production
+          echo "REACT_APP_DOMAIN=$REACT_APP_DOMAIN" >> .env.production
+          echo "REACT_APP_KAKAO_REST_API_KEY=$REACT_APP_KAKAO_REST_API_KEY" >> .env.production
+          echo "REACT_APP_KAKAO_REST_API_URL=$REACT_APP_KAKAO_REST_API_URL" >> .env.production
+          echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env.production
+          echo "REACT_APP_AWS_ACCESS_KEY=$REACT_APP_AWS_ACCESS_KEY" >> .env.production
+          echo "REACT_APP_AWS_SECRET_ACCESS_KEY=$REACT_APP_AWS_SECRET_ACCESS_KEY" >> .env.production
+        env:
+          REACT_APP_NAVER_CLIENT_ID: ${{ secrets.REACT_APP_NAVER_CLIENT_ID }}
+          REACT_APP_CALLBACK_URL: ${{ secrets.REACT_APP_CALLBACK_URL }}
+          REACT_APP_LOCAL_URL: ${{ secrets.REACT_APP_LOCAL_URL }}
+          REACT_APP_EXPRESS_URL: ${{ secrets.REACT_APP_EXPRESS_URL }}
+          REACT_APP_DOMAIN: ${{ secrets.REACT_APP_DOMAIN }}
+          REACT_APP_KAKAO_REST_API_KEY: ${{ secrets.REACT_APP_KAKAO_REST_API_KEY }}
+          REACT_APP_KAKAO_REST_API_URL: ${{ secrets.REACT_APP_KAKAO_REST_API_URL }}
+          REACT_APP_REGION: ${{ secrets.REACT_APP_REGION }}
+          REACT_APP_AWS_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
+          REACT_APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
+
         
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
