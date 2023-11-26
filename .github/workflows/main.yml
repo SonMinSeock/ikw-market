@@ -28,13 +28,15 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Test
-        run : pwd
+    
 
   deploy:
     needs: build
     runs-on: ubuntu-20.04
-
+    defaults:
+      run:
+        working-directory: client
+        
     steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
@@ -45,4 +47,4 @@ jobs:
         
       - name: Deploy to S3
         run: |
-          aws s3 cp --recursive --region ap-northeast-2 client/build s3://ikw-market.shop
+          aws s3 cp --recursive --region ap-northeast-2 build s3://ikw-market.shop
