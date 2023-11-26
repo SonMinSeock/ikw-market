@@ -46,10 +46,7 @@ jobs:
       - name: Pwd
         run : pwd
 
-      - name: Ls
-        run : |
-          ls
         
       - name: Deploy to S3
         run: |
-          aws s3 cp --recursive --region ap-northeast-2 build s3://test-eomttt.com
+          aws s3 cp --recursive --region ap-northeast-2 build s3://ikw-market.shop
