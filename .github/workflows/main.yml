@@ -42,11 +42,7 @@ jobs:
           aws-access-key-id: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
-      
-      - name: Pwd
-        run : pwd
-
         
       - name: Deploy to S3
         run: |
-          aws s3 cp --recursive --region ap-northeast-2 build s3://ikw-market.shop
+          aws s3 cp --recursive --region ap-northeast-2 client/build s3://ikw-market.shop
