@@ -33,7 +33,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
 
     steps:
       - name: Configure AWS credentials
@@ -47,7 +47,7 @@ jobs:
         run : pwd
 
       - name: Ls
-        run : ls
+        run : ls -la
 
       - name: Cd
         run : cd client
