@@ -43,8 +43,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-northeast-2
       
-      - name: Test
+      - name: Pwd
         run : pwd
+
+      - name: Ls
+        run : ls
+
+      - name: Cd
+        run : cd client
         
       - name: Deploy to S3
         run: |
