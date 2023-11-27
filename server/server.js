@@ -45,7 +45,7 @@ app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
 app.use("/api/profile", ProfileRouter);
 
-const port = 3003; // Node 서버가 사용할 포트 번호
+const port = 3002; // Node 서버가 사용할 포트 번호
 
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
