@@ -47,12 +47,6 @@ app.use("/api/profile", ProfileRouter);
 
 const port = 3002; // Node 서버가 사용할 포트 번호
 
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "../client/build")));
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
-
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
   console.log("Socket connected!");
