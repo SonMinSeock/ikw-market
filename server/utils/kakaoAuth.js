@@ -1,4 +1,3 @@
-const request = require("request");
 import axios from "axios";
 
 const getProfile = async (accessToken) => {
@@ -12,8 +11,6 @@ const getProfile = async (accessToken) => {
       },
     }
   );
-
-  console.log(res.data);
   return res.data;
 };
 
