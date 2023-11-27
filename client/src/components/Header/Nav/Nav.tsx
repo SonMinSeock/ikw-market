@@ -55,7 +55,7 @@ const Nav = ({ isToggle, setIsToggle }: INavProp) => {
   const logOutAPI = async () => {
     await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`, { withCredentials: true });
     localStorage.removeItem("recoil-persist");
-    localStorage.removeItem("token");
+    localStorage.removeItem("kakao_token");
     setUser({});
     setIsLogin(false);
   };

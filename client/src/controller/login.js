@@ -31,7 +31,7 @@ export const loginAxiosObj = {
         if (parseData.data.success) {
           setAccessToken(access_token);
           setIsLogin(true);
-          localStorage.setItem("token", parseData.data.jwt);
+          localStorage.setItem("kakao_token", parseData.data.jwt);
           navigate("/");
         }
 

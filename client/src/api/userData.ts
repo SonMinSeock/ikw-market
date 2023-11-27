@@ -6,7 +6,7 @@ const getUser = async () => {
     await axios.post(
       `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
       {},
-      { headers: { Authorization: localStorage.getItem("token") }, withCredentials: true }
+      { headers: { Authorization: localStorage.getItem("kakao_token") }, withCredentials: true }
     )
   ).data;
 
