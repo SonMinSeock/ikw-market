@@ -60,6 +60,7 @@ const ProfileUpdate = () => {
               {...register(NICKNAME, { required: true, minLength: 4, maxLength: 20 })}
               value={getNickname()}
               placeholder="닉네임"
+              maxLength={20}
             />
             <S.UserUpdateBtn>프로필 수정 하기</S.UserUpdateBtn>
           </S.UserInfoBox>
