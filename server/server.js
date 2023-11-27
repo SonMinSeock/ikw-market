@@ -9,7 +9,6 @@ import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
 import ProfileRouter from "./Router/profile.js";
-import path from "path";
 
 const app = express();
 export const server = http.createServer(app);
