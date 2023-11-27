@@ -41,8 +41,8 @@ export const UserImg = styled.img`
   }
 
   @media screen and (max-width: 330px) {
-    width: 20px;
-    height: 20px;
+    width: 41px;
+    height: 41px;
   }
 `;
 
@@ -78,7 +78,7 @@ export const UserNameInput = styled.input`
     font-size: 0.68rem;
   }
   @media screen and (max-width: 330px) {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
     padding: 5px;
     border-radius: 5px;
   }
@@ -116,7 +116,6 @@ export const UserProductTitle = styled.h3`
   font-size: 20px;
   font-family: "GmarketSansMedium";
   @media screen and (max-width: 610px) {
-    text-align: center;
     font-size: 18px;
   }
 `;
