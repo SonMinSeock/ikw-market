@@ -20,8 +20,22 @@ export const loginAxiosObj = {
           },
         }
       )
-      .then((res) => {
+      .then(async (res) => {
         const { access_token } = res.data;
+        const resData = JSON.stringify(
+          await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/login`, { access_token })
+        );
+
+        const parseData = JSON.parse(resData);
+
+        if (parseData.data.success) {
+          setAccessToken(access_token);
+          setIsLogin(true);
+          localStorage.setItem("token", parseData.data.jwt);
+          navigate("/");
+        }
+
+        /*
         axios
           .post(
             `https://kapi.kakao.com/v2/user/me`,
@@ -58,6 +72,7 @@ export const loginAxiosObj = {
             setIsLogin(true);
             navigate("/");
           });
+          */
       });
   },
 };

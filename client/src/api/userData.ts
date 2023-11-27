@@ -2,11 +2,15 @@ import axios from "axios";
 import { IUser } from "../types/userType";
 
 const getUser = async () => {
-  const { state, user }: { state: boolean; user: IUser } = await (
-    await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/getUser`, { withCredentials: true })
+  const { success, user }: { success: boolean; user: IUser } = await (
+    await axios.post(
+      `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
+      {},
+      { headers: { Authorization: localStorage.getItem("token") }, withCredentials: true }
+    )
   ).data;
 
-  return { state, user };
+  return { success, user };
 };
 
 const updateUser = async ({ userId, nickname }: { userId: string; nickname: string }) => {
