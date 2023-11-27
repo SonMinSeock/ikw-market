@@ -14,9 +14,9 @@ const Profile = () => {
 
   useEffect(() => {
     if (isLogin === false) navigate("/login");
-  }, []);
+  }, [isLogin]);
 
-  const products = [...userInfo?.on_sale].reverse();
+  const products = isLogin ? [...userInfo?.on_sale]?.reverse() : [];
 
   const onNavigate = () => navigate("/profile/update");
 
