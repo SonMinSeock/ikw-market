@@ -8,3 +8,6 @@ hooks:
     - location: scripts/setenv.sh
       timeout: 300
       runas: root
+
+    - location: scripts/initialize.sh
+      runas: root
