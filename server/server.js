@@ -9,7 +9,6 @@ import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
 import ProfileRouter from "./Router/profile.js";
-import path from "path";
 
 const app = express();
 export const server = http.createServer(app);
@@ -45,13 +44,7 @@ app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
 app.use("/api/profile", ProfileRouter);
 
-const port = 3002; // Node 서버가 사용할 포트 번호
-
-const __dirname = path.resolve();
-app.use(express.static(path.join(__dirname, "../client/build")));
-app.get("*", function (req, res) {
-  res.sendFile(path.join(__dirname, "../client/build/index.html"));
-});
+const port = 8080; // Node 서버가 사용할 포트 번호
 
 // io.of() 채널 만들어주는 메서드, "/chat 채널"
 const chat = io.of("/chat").on("connection", (socket) => {
