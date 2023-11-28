@@ -1,9 +1,10 @@
 #!/bin/bash
 
-filename="/server/.env"
+ENV_FILE="/home/ubuntu/build/server/.env"
 
-# .env 파일 생성
-touch $filename
+# 디렉토리와 파일 생성
+mkdir -p "$(dirname "$ENV_FILE")"
+touch "$ENV_FILE"
 
-# .env 파일에 덮어쓰기
-echo "MONGO_URI=$(aws ssm get-parameter --name MONGO_URI --query 'Parameter.Value' --output text)" >> $filename
+# 파일에 내용 추가
+echo "MONGO_URI=$(aws ssm get-parameter --name MONGO_URI --query 'Parameter.Value' --output text)" >> "$ENV_FILE"
