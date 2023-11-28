@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename="server/.env"
+filename=".env"
 
 # .env 파일 생성
 touch $filename
