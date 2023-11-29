@@ -37,7 +37,6 @@ jobs:
           echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env
           echo "REACT_APP_AWS_ACCESS_KEY=$REACT_APP_AWS_ACCESS_KEY" >> .env
           echo "REACT_APP_AWS_SECRET_ACCESS_KEY=$REACT_APP_AWS_SECRET_ACCESS_KEY" >> .env
-          cat .env
         env:
           REACT_APP_NAVER_CLIENT_ID: ${{ secrets.REACT_APP_NAVER_CLIENT_ID }}
           REACT_APP_CALLBACK_URL: ${{ secrets.REACT_APP_CALLBACK_URL }}
