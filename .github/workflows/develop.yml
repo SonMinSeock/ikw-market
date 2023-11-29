@@ -32,9 +32,9 @@ jobs:
         run: |
           echo "REACT_APP_NAVER_CLIENT_ID=$REACT_APP_NAVER_CLIENT_ID" >> .env
           echo "REACT_APP_CALLBACK_URL=$REACT_APP_CALLBACK_URL" >> .env
-          echo "REACT_APP_LOCAL_URL=$REACT_APP_LOCAL_URL" >> .en
+          echo "REACT_APP_LOCAL_URL=$REACT_APP_LOCAL_URL" >> .env
           echo "REACT_APP_EXPRESS_URL=$REACT_APP_EXPRESS_URL" >> .env
-          echo "REACT_APP_DOMAIN=$REACT_APP_DOMAIN" >> .env.production
+          echo "REACT_APP_DOMAIN=$REACT_APP_DOMAIN" >> .env
           echo "REACT_APP_KAKAO_REST_API_KEY=$REACT_APP_KAKAO_REST_API_KEY" >> .env
           echo "REACT_APP_KAKAO_REST_API_URL=$REACT_APP_KAKAO_REST_API_URL" >> .env
           echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env
