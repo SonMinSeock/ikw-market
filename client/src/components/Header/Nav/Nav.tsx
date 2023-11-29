@@ -33,13 +33,20 @@ const Nav = ({ isToggle, setIsToggle }: INavProp) => {
     data,
     refetch,
   } = useQuery("GetUser", getUser, {
-    onSuccess: ({ state, user }) => {
-      if (state) {
-        setUser(user);
-        setIsLogin(true);
+    onSuccess: ({ success, user }) => {
+      if (success) {
+        if (user) {
+          setUser(user);
+          setIsLogin(true);
+        } else {
+          setIsLogin(false);
+        }
       } else {
         setIsLogin(false);
       }
+    },
+    onError: () => {
+      setIsLogin(false);
     },
     // refetchInterval: 1500,
     // refetchIntervalInBackground: true,
@@ -48,6 +55,7 @@ const Nav = ({ isToggle, setIsToggle }: INavProp) => {
   const logOutAPI = async () => {
     await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`, { withCredentials: true });
     localStorage.removeItem("recoil-persist");
+    localStorage.removeItem("kakao_token");
     setUser({});
     setIsLogin(false);
   };
@@ -107,9 +115,12 @@ const Nav = ({ isToggle, setIsToggle }: INavProp) => {
   };
 
   useEffect(() => {
-    refetch();
+    if (localStorage.getItem("token")) {
+      //refetch();
+      getUser();
+    }
     setIsToggle(false);
-  }, [location, refetch]);
+  }, [location]);
 
   return (
     <S.Nav>
