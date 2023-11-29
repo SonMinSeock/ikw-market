@@ -25,10 +25,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build
-        run: npm run build
-
-      - name: Create .env.production
+      - name: Create .env
         run: |
           echo "REACT_APP_NAVER_CLIENT_ID=$REACT_APP_NAVER_CLIENT_ID" >> .env
           echo "REACT_APP_CALLBACK_URL=$REACT_APP_CALLBACK_URL" >> .env
@@ -52,6 +49,9 @@ jobs:
           REACT_APP_AWS_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
           REACT_APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
 
+      - name: Build
+        run: npm run build
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -62,3 +62,4 @@ jobs:
       - name: Deploy to S3
         run: |
           aws s3 cp --recursive --region ap-northeast-2 build s3://ikw-market-develop
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID_DEVELOP }} --paths "/*"

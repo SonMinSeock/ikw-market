@@ -35,7 +35,7 @@ app.use(
 app.use(bodyParser.json());
 
 // CORS 설정
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "*", credentials: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
