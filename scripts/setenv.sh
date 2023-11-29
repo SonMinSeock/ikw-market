@@ -8,3 +8,4 @@ touch "$ENV_FILE"
 
 # 파일에 내용 추가
 echo "MONGO_URI=$(aws ssm get-parameter --name MONGO_URI --query 'Parameter.Value' --output text)" >> "$ENV_FILE"
+echo "JWT_SECRET_KEY=$(aws ssm get-parameter --name JWT_SECRET_KEY --query 'Parameter.Value' --output text)" >> "$ENV_FILE"
