@@ -1,0 +1,64 @@
+name: ikw-market-test-CI
+on:
+  push:
+    branches: [develop]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: client
+    env:
+      CI: ""
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Create .env.production
+        run: |
+          echo "REACT_APP_NAVER_CLIENT_ID=$REACT_APP_NAVER_CLIENT_ID" >> .env.production
+          echo "REACT_APP_CALLBACK_URL=$REACT_APP_CALLBACK_URL" >> .env.production
+          echo "REACT_APP_LOCAL_URL=$REACT_APP_LOCAL_URL" >> .env.production
+          echo "REACT_APP_EXPRESS_URL=$REACT_APP_EXPRESS_URL" >> .env.production
+          echo "REACT_APP_DOMAIN=$REACT_APP_DOMAIN" >> .env.production
+          echo "REACT_APP_KAKAO_REST_API_KEY=$REACT_APP_KAKAO_REST_API_KEY" >> .env.production
+          echo "REACT_APP_KAKAO_REST_API_URL=$REACT_APP_KAKAO_REST_API_URL" >> .env.production
+          echo "REACT_APP_REGION=$REACT_APP_REGION" >> .env.production
+          echo "REACT_APP_AWS_ACCESS_KEY=$REACT_APP_AWS_ACCESS_KEY" >> .env.production
+          echo "REACT_APP_AWS_SECRET_ACCESS_KEY=$REACT_APP_AWS_SECRET_ACCESS_KEY" >> .env.production
+        env:
+          REACT_APP_NAVER_CLIENT_ID: ${{ secrets.REACT_APP_NAVER_CLIENT_ID }}
+          REACT_APP_CALLBACK_URL: ${{ secrets.REACT_APP_CALLBACK_URL }}
+          REACT_APP_LOCAL_URL: ${{ secrets.REACT_APP_LOCAL_URL }}
+          REACT_APP_EXPRESS_URL: ${{ secrets.REACT_APP_EXPRESS_URL }}
+          REACT_APP_DOMAIN: ${{ secrets.REACT_APP_DOMAIN }}
+          REACT_APP_KAKAO_REST_API_KEY: ${{ secrets.REACT_APP_KAKAO_REST_API_KEY }}
+          REACT_APP_KAKAO_REST_API_URL: ${{ secrets.REACT_APP_KAKAO_REST_API_URL }}
+          REACT_APP_REGION: ${{ secrets.REACT_APP_REGION }}
+          REACT_APP_AWS_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
+          REACT_APP_AWS_SECRET_ACCESS_KEY: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.REACT_APP_AWS_ACCESS_KEY }}
+          aws-secret-access-key: ${{ secrets.REACT_APP_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: Deploy to S3
+        run: |
+          aws s3 cp --recursive --region ap-northeast-2 build s3://ikw-market-develop
