@@ -15,7 +15,6 @@ router.post("/login", async (req, res) => {
       // 초기 로그인.
       const result = await kakaoAuth.getProfile(access_token);
 
-      console.log("카카오 로그인 유저 : ", result);
       const user = result;
       kakaoUser = {
         social_id: { value: user.id, social_name: "카카오 로그인" },
@@ -47,9 +46,6 @@ router.post("/login", async (req, res) => {
           {
             _id: sendUser._id,
             social_id: { ...sendUser.social_id },
-            // email: sendUser.email,
-            // nickname: sendUser.nickname,
-            // image: sendUser.image,
           },
           process.env.JWT_SECRET_KEY
         );
@@ -65,14 +61,6 @@ router.post("/login", async (req, res) => {
       const user = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY, {
         ignoreExpiration: true,
       });
-
-      console.log("jwt 인증 후 데이터 확인 : ", user);
-      // kakaoUser = {
-      //   social_id: { value: user.id, social_name: "카카오 로그인" },
-      //   email: user.kakao_account.email,
-      //   nickname: user.kakao_account.profile.nickname,
-      //   image: user.kakao_account.profile.profile_image_url,
-      // };
 
       const isUser = await User.findById(user._id)
         .populate({
@@ -106,36 +94,5 @@ router.get("/logout", async (req, res) => {
   }
   res.end();
 });
-
-// router.get("/login", async (req, res) => {
-//   if (req.session.user) {
-//     res.json({ state: true, user: req.session.user });
-//   } else {
-//     res.json({ state: false });
-//   }
-// });
-
-// router.get("/getUser", async (req, res) => {
-//   const sessionUser = req.session.user;
-
-//   if (req.session.user) {
-//     const user = await User.findOne({ social_id: sessionUser["social_id"] })
-//       .populate({
-//         path: "on_sale",
-//         populate: { path: "seller_info" },
-//       })
-//       .populate({ path: "chat_rooms", populate: { path: "message_log", populate: { path: "send_user" } } })
-//       .populate({ path: "chat_rooms", populate: { path: "member_list" } })
-//       .populate({ path: "chat_rooms", populate: { path: "product" } });
-
-//     if (sessionUser["social_id"]["social_name"] === "카카오 로그인") {
-//       res.json({ state: true, user, accessToken: sessionUser["access_token"] });
-//     } else {
-//       res.json({ state: true, user });
-//     }
-//   } else {
-//     res.json({ state: false });
-//   }
-// });
 
 export default router;
