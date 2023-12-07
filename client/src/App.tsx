@@ -13,6 +13,7 @@ import ProfileUpdate from "./pages/Profile/ProfileUpdate/ProfileUpdate";
 import PrivateLayout from "./components/Layout/PrivateLayout";
 import PublicLayout from "./components/Layout/PublicLayout";
 import Layout from "./components/Layout/Layout";
+import Header from "./components/Header/Header";
 
 function App() {
   // 모바일ver. 채팅페이지에서 스크롤 막기
@@ -27,6 +28,7 @@ function App() {
     <>
       <Router>
         <Routes>
+          <Route path="/test" element={<></>} />
           <Route path="/login" element={<Login />} />
           <Route element={<Layout />}>
             <Route element={<PublicLayout />}>
