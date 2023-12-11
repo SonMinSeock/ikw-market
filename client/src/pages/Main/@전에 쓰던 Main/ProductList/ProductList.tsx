@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import Product from "../../../components/atoms/Product/Product";
+import Product from "../../../../components/atoms/Product/Product";
 import { ProductsLayout } from "./ProductList.style";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { searchProductsAtom, searchTextAtom } from "../../../recoil/login/atoms";
-import { searchObj } from "../../../controller/search";
-import { getProducts } from "../../../api/productData";
+import { searchProductsAtom, searchTextAtom } from "../../../../recoil/login/atoms";
+import { searchObj } from "../../../../controller/search";
+import { getProducts } from "../../../../api/productData";
 import { useQuery } from "react-query";
 
 const ProductList = () => {
