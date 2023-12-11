@@ -3,15 +3,15 @@ import styled from "styled-components";
 
 type Props = {
   background?: string;
-  w?: string;
-  h?: string;
+  width?: string;
+  height?: string;
   border?: string;
   // onClick?: Function;
 };
 
 const InputLayout = styled.input<Props>`
-  width: ${(props) => props.w};
-  height: ${(props) => props.h};
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
   border: ${(props) => props.border};
   background-color: ${(props) => props.background}; // background prop을 사용하도록 추가
   &:focus,
@@ -20,8 +20,8 @@ const InputLayout = styled.input<Props>`
   }
 `;
 
-const Input = ({ background, w, h, border, ...props }: Props) => {
-  return <InputLayout type="text" background={background} w={w} h={h} border={border} {...props} />;
+const Input = ({ background, width, height, border, ...props }: Props) => {
+  return <InputLayout type="text" background={background} width={width} height={height} border={border} {...props} />;
 };
 
 export default Input;
