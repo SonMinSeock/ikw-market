@@ -1,9 +1,9 @@
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 
-interface Props {
+type Props = {
   // onClick: Function;
-}
+};
 
 const IconButtonLayout = styled.li`
   display: flex;

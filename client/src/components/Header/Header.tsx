@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Logo from "../common/atoms/Logo";
 import Input from "../common/atoms/Input";
-import Nav from "./molecules/Nav";
+import Nav from "./organism/Nav";
 import { Link } from "react-router-dom";
 
 const HeaderLayout = styled.header`
@@ -35,7 +35,7 @@ const Header = () => {
           <h2>경운마켓</h2>
         </Logo>
       </Link>
-      <Input background="#f2f2f2" w="13rem" h="35px" border="none" />
+      <Input background="#f2f2f2" width="13rem" height="35px" border="none" />
       <Nav />
     </HeaderLayout>
   );

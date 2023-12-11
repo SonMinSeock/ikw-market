@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import IconBtn from "../atoms/IconBtn";
 import { Link } from "react-router-dom";
+import IconBtn from "../../common/molecules/IconBtn";
 
 export const NavLayout = styled.ul`
   display: flex;

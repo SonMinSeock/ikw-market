@@ -1,6 +1,7 @@
 import Login from "./pages/Login/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main/Main";
+import Main2 from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
@@ -28,7 +29,7 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path="/test" element={<></>} />
+          {/* <Route path="/test" element={<Main2 />} /> */}
           <Route path="/login" element={<Login />} />
           <Route element={<Layout />}>
             <Route element={<PublicLayout />}>
