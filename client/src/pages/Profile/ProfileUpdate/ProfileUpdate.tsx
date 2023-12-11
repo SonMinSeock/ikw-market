@@ -3,7 +3,7 @@ import * as S from "./ProfileUpdate.style";
 import Product from "../../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../../recoil/login/atoms";
-import { ProductsLayout } from "../../Main/ProductList/ProductList.style";
+import { ProductsLayout } from "../../Main/@전에 쓰던 Main/ProductList/ProductList.style";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { updateUser } from "../../../api/userData";
