@@ -20,12 +20,8 @@ const InputLayout = styled.input<Props>`
   }
 `;
 
-const Input = ({ background, w, h, border, ...props }: React.PropsWithChildren<Props>) => {
-  return (
-    <InputLayout background={background} w={w} h={h} border={border} {...props}>
-      {props.children}
-    </InputLayout>
-  );
+const Input = ({ background, w, h, border, ...props }: Props) => {
+  return <InputLayout type="text" background={background} w={w} h={h} border={border} {...props} />;
 };
 
 export default Input;
