@@ -35,7 +35,7 @@ const Header = () => {
           <h2>경운마켓</h2>
         </Logo>
       </Link>
-      <Input background="#f2f2f2" width="13rem" height="35px" border="none" />
+      <Input style={{ background: "#f2f2f2", width: "13rem", height: "35px", border: "none" }} />
       <Nav />
     </HeaderLayout>
   );

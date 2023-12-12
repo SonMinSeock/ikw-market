@@ -33,7 +33,6 @@ const Form: React.FC<IFormComponentProps> = ({ onSubmit, product }) => {
         <S.UploadInput
           {...register("name", {
             required: true,
-            maxLength: 20,
           })}
           value={nameInput.value}
           onInput={nameInput.onInput}

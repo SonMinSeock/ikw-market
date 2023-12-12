@@ -52,7 +52,6 @@ export const UploadTextAreaBox = styled.article`
 export const UploadTextArea = styled.textarea`
   resize: none;
   border-radius: 10px;
-  border: 0.3px solid #000;
   height: 240px;
   border: 1px solid rgb(204, 204, 204);
   padding: 1rem;
