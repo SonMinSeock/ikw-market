@@ -4,7 +4,8 @@ import Image from "../../../components/common/atoms/Image";
 import { TiDelete } from "react-icons/ti";
 
 type Props = {
-  images: string[];
+  image: string;
+  onDelete: () => void;
 };
 
 const imageStyle = {
@@ -15,12 +16,10 @@ const imageStyle = {
   objectFit: "cover",
 };
 
-const Layout = styled.div``;
-
 const UploadImagesLayout = styled.div`
-  display: flex;
+  /* display: flex; */
   position: relative;
-
+  margin-right: 10px;
   svg {
     cursor: pointer;
     position: absolute;
@@ -28,16 +27,13 @@ const UploadImagesLayout = styled.div`
     right: -13px;
   }
 `;
-const UploadImagePreview = ({ images }: Props) => {
+
+const UploadImagePreview = ({ image, onDelete }: Props) => {
   return (
-    <>
-      {images.map((image, idx) => (
-        <UploadImagesLayout>
-          <Image style={imageStyle} key={idx} src={image} alt="이미지" />
-          <TiDelete fill="fill" size={35} />
-        </UploadImagesLayout>
-      ))}
-    </>
+    <UploadImagesLayout>
+      <Image style={imageStyle} src={image} alt="이미지" />
+      <TiDelete onClick={() => onDelete()} fill="fill" size={35} />
+    </UploadImagesLayout>
   );
 };
 

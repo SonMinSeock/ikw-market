@@ -31,7 +31,7 @@ const Main = () => {
 
   return (
     <MainLayout>
-      <Text style={{ fontSize: "32px", margin: "35px 0", fontFamily: "GmarketSansMedium" }}>최근 중고거래 매물</Text>
+      <Text style={{ fontSize: "32px", margin: "35px 0px", fontFamily: "GmarketSansMedium" }}>최근 중고거래 매물</Text>
       <ProductList products={products} />
     </MainLayout>
   );

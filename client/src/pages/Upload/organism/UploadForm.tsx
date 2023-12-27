@@ -50,7 +50,7 @@ const UploadForm = ({ product }: any) => {
   };
 
   const { value: name, onInput: onInputName, length: nameLength } = useInput(product?.name || "", 20, false);
-  const { value: price, onInput: onInputPrice, length: priceLength } = useInput(product?.price || "", 11, true);
+  const { value: price, onInput: onInputPrice } = useInput(product?.price || "", 11, true);
   const {
     value: location,
     onInput: onInputLocation,
