@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Image from "../common/atoms/Image";
 import ProductCardInfo from "./organism/\bProductCardInfo";
+import { Link } from "react-router-dom";
 type Props = { product: any };
 
 const ProductLayout = styled.div`
@@ -15,7 +16,7 @@ const ProductLayout = styled.div`
 const ProductCard = ({ product }: Props) => {
   return (
     <ProductLayout>
-      <>
+      <Link to={`/product/${product._id}`}>
         <Image
           src={product.images[0]}
           alt={"상품이미지"}
@@ -27,7 +28,7 @@ const ProductCard = ({ product }: Props) => {
             cursor: "pointer",
           }}
         />
-      </>
+      </Link>
       <ProductCardInfo name={product.name} price={product.price} location={product.location} />
     </ProductLayout>
   );

@@ -25,6 +25,9 @@ const ProductListLayout = styled.div`
 `;
 
 const ProductList = ({ products }: Props) => {
+  const onClick = (e: any) => {
+    return;
+  };
   return (
     <ProductListLayout>
       {products.map((product) => {

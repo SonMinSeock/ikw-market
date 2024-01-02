@@ -29,7 +29,7 @@ router.get("/:id", async (req, res) => {
     params: { id },
   } = req;
 
-  const product = await Product.findById(id);
+  const product = await Product.findById(id).populate("seller_info");
 
   res.json({ state: true, product });
 });

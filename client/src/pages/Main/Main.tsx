@@ -21,6 +21,12 @@ const MainLayout = styled.div`
   }
 `;
 
+const style = {
+  fontSize: "32px",
+  margin: "35px 0px",
+  fontFamily: "GmarketSansMedium",
+};
+
 const Main = () => {
   const { isLoading, data } = useQuery(["Products"], getProducts, {
     staleTime: 3000,
@@ -31,7 +37,7 @@ const Main = () => {
 
   return (
     <MainLayout>
-      <Text style={{ fontSize: "32px", marginTop: "35px", fontFamily: "GmarketSansMedium" }}>최근 중고거래 매물</Text>
+      <Text style={style}>최근 중고거래 매물</Text>
       <ProductList products={products} />
     </MainLayout>
   );

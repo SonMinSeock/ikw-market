@@ -5,8 +5,8 @@ import Main2 from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
+import Upload2 from "./pages/Upload/Upload";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
-import ProductEdit from "./pages/ProductEdit/ProductEdit";
 import ChatList from "./pages/ChatList/ChatList";
 import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -29,7 +29,6 @@ function App() {
     <>
       <Router>
         <Routes>
-          {/* <Route path="/test" element={<Main2 />} /> */}
           <Route path="/login" element={<Login />} />
           <Route element={<Layout />}>
             <Route element={<PublicLayout />}>
@@ -42,7 +41,7 @@ function App() {
               <Route path="/chatlist" element={<ChatList />} />
               <Route path="/chat/:id" element={<Chat />} />
               <Route path="/upload" element={<Upload />} />
-              <Route path="/product/:id/edit" element={<ProductEdit />} />
+              {/* <Route path="/product/:id/edit" element={<ProductEdit />} /> */}
             </Route>
           </Route>
         </Routes>

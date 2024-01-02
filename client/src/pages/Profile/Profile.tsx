@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import * as S from "./Profile.style";
-import Product from "../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
-import { ProductsLayout } from "../Main/@전에 쓰던 Main/ProductList/ProductList.style";
 import { useNavigate } from "react-router-dom";
 
 const Profile = () => {
@@ -35,11 +33,11 @@ const Profile = () => {
         <S.UserProductTitle>
           <span>내가 올린 물건</span>
         </S.UserProductTitle>
-        <ProductsLayout>
+        {/* <ProductsLayout>
           {products?.map((product, idx) => {
             return <Product key={idx} product={product} />;
           })}
-        </ProductsLayout>
+        </ProductsLayout> */}
       </S.UserProductList>
     </S.ProfileLayout>
   );
