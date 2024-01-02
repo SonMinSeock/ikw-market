@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import * as S from "./ProfileUpdate.style";
-import Product from "../../../components/atoms/Product/Product";
 import { useRecoilValue } from "recoil";
 import { isLoginAtom, userAtom } from "../../../recoil/login/atoms";
-import { ProductsLayout } from "../../Main/ProductList/ProductList.style";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "react-query";
 import { updateUser } from "../../../api/userData";
@@ -70,11 +68,11 @@ const ProfileUpdate = () => {
         <S.UserProductTitle>
           <span>내가 올린 물건</span>
         </S.UserProductTitle>
-        <ProductsLayout>
+        {/* <ProductsLayout>
           {products?.map((product, idx) => {
             return <Product key={idx} product={product} />;
           })}
-        </ProductsLayout>
+        </ProductsLayout> */}
       </S.UserProductList>
     </S.ProfileUpdateLayout>
   );

@@ -9,6 +9,7 @@ const ProductInfoBar = ({ product }: ProductInfoBarProps) => {
     <S.ProductInfoBarLayout>
       <S.ProductInfoBarImg>
         <img src={product.images[0]} alt="상품이미지" />
+        {/* <img /> */}
       </S.ProductInfoBarImg>
       <S.ProductInfoBarDetailBox>
         <S.ProductInfoBarName>

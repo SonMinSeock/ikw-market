@@ -1,11 +1,12 @@
 import Login from "./pages/Login/Login";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Main from "./pages/Main/Main";
+import Main2 from "./pages/Main/Main";
 import Profile from "./pages/Profile/Profile";
 import Chat from "./pages/Chat/Chat";
 import Upload from "./pages/Upload/Upload";
+import Upload2 from "./pages/Upload/Upload";
 import ProductDetail from "./pages/ProductDetail/ProductDetail";
-import ProductEdit from "./pages/ProductEdit/ProductEdit";
 import ChatList from "./pages/ChatList/ChatList";
 import { useEffect } from "react";
 import { ReactQueryDevtools } from "react-query/devtools";
@@ -13,6 +14,7 @@ import ProfileUpdate from "./pages/Profile/ProfileUpdate/ProfileUpdate";
 import PrivateLayout from "./components/Layout/PrivateLayout";
 import PublicLayout from "./components/Layout/PublicLayout";
 import Layout from "./components/Layout/Layout";
+import Header from "./components/Header/Header";
 
 function App() {
   // 모바일ver. 채팅페이지에서 스크롤 막기
@@ -39,7 +41,7 @@ function App() {
               <Route path="/chatlist" element={<ChatList />} />
               <Route path="/chat/:id" element={<Chat />} />
               <Route path="/upload" element={<Upload />} />
-              <Route path="/product/:id/edit" element={<ProductEdit />} />
+              {/* <Route path="/product/:id/edit" element={<ProductEdit />} /> */}
             </Route>
           </Route>
         </Routes>

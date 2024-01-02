@@ -9,6 +9,12 @@ const getProducts = async () => {
   return data;
 };
 
+const getProduct = async (id: string) => {
+  const res = await axios.get(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}`);
+  const data: IProduct = res.data.product;
+  return data;
+};
+
 const deleteProduct = async (id: string) => {
   const { updateUser } = await (
     await axios.delete(`${process.env.REACT_APP_EXPRESS_URL}/api/product/${id}/delete`, { withCredentials: true })
@@ -24,4 +30,4 @@ const updateProduct = async (id: any) => {
   );
 };
 
-export { getProducts, deleteProduct, updateProduct };
+export { getProducts, deleteProduct, updateProduct, getProduct };
