@@ -58,7 +58,7 @@ const ProductDetail = () => {
   if (isLoading || !product) {
     return <p>Loading...</p>;
   }
-  console.log(product);
+
   return (
     <ProductDetailLayout>
       <Image style={imageStyle} src={product.images[0]} alt="상품사진" />

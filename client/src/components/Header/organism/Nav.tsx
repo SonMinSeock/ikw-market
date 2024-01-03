@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import IconBtn from "../../common/molecules/IconBtn";
+import { useRecoilValue } from "recoil";
+import { isLoginAtom } from "../../../recoil/login/atoms";
 
 export const NavLayout = styled.ul`
   display: flex;
@@ -15,6 +17,8 @@ export const NavLayout = styled.ul`
   }
 `;
 const Nav = () => {
+  const isLogin = useRecoilValue(isLoginAtom);
+
   return (
     <NavLayout>
       <Link to={"/upload"}>
@@ -50,10 +54,8 @@ const Nav = () => {
           <span>채팅</span>
         </IconBtn>
       </Link>
-      <Link to={"/"}>
-        <IconBtn>
-          <span>로그아웃</span>
-        </IconBtn>
+      <Link to={isLogin ? "/" : "/login"}>
+        <IconBtn>{isLogin ? <span>로그아웃</span> : <span>로그인</span>}</IconBtn>
       </Link>
     </NavLayout>
   );
