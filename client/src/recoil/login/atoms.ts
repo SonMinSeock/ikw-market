@@ -27,7 +27,6 @@ export const userAtom = atom<IUser>({
 export const accessTokenAtom = atom({
   key: "kakaoToken",
   default: "",
-  effects_UNSTABLE: [persistAtom],
 });
 
 export const searchTextAtom = atom({

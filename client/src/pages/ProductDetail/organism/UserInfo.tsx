@@ -19,7 +19,6 @@ const UserInfoLayout = styled.div`
   }
 `;
 const UserInfo = ({ user }: { user: IProduct["seller_info"] }) => {
-  console.log(user);
   return (
     <UserInfoLayout>
       <CgProfile size={28} />
