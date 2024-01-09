@@ -1,6 +1,7 @@
 import express from "express";
 import { Product } from "../models/product";
 import { User } from "../models/user";
+import { tokenCheck } from "../token";
 
 const router = express.Router();
 
@@ -24,14 +25,14 @@ router.post("/upload", async (req, res) => {
   res.json({ state: true });
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", tokenCheck, async (req, res) => {
   const {
     params: { id },
   } = req;
 
   const product = await Product.findById(id).populate("seller_info");
 
-  res.json({ state: true, product });
+  res.status(200).json({ state: true, product });
 });
 
 // 해당 상품 수정해주는 API

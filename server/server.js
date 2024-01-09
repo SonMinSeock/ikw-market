@@ -9,10 +9,12 @@ import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
 import ProfileRouter from "./Router/profile.js";
+import { tokenCheck } from "./token.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 export const server = http.createServer(app);
-
+app.use(cookieParser());
 const io = socketIO(server, {
   cors: {
     origin: "*",
@@ -40,6 +42,8 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", RootRouter);
+
+// app.use(tokenCheck);
 app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
 app.use("/api/profile", ProfileRouter);
