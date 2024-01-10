@@ -27,6 +27,7 @@ type StyleProps = {
   padding?: string;
   textDecoration?: string;
   margin?: string;
+  hoverBackgroundColor?: string;
 };
 
 const ButtonLayout = styled.button<StyleProps>`
@@ -48,6 +49,9 @@ const ButtonLayout = styled.button<StyleProps>`
   padding: ${(props) => props.padding};
   text-decoration: ${(props) => props.textDecoration};
   margin: ${(props) => props.margin};
+  &:hover {
+    background-color: ${(props) => props.hoverBackgroundColor};
+  }
 `;
 
 const Button = ({ onClick, style, type, children }: React.PropsWithChildren<Props>) => {

@@ -102,12 +102,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
-  let session = req.session;
-  if (session.user) {
-    session.destroy();
+router.post("/logout", async (req, res) => {
+  try {
+    // 클라이언트에서 쿠키 삭제
+    res.clearCookie("accessToken", { secure: true, sameSite: "none" });
+    res.clearCookie("refreshToken", { secure: true, sameSite: "none" });
+
+    return res.status(200).json({ success: true, message: "Logout successful" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.toString() });
   }
-  res.end();
 });
 
 export default router;

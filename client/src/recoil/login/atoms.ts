@@ -6,7 +6,10 @@ const { persistAtom } = recoilPersist();
 
 export const isLoginAtom = atom({
   key: "isLogin",
-  default: false,
+  default: !!document.cookie
+    .split("; ")
+    .find((row) => row.startsWith("accessToken="))
+    ?.split("=")[1],
   effects_UNSTABLE: [persistAtom],
 });
 

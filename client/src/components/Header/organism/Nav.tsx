@@ -2,8 +2,10 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import IconBtn from "../../common/molecules/IconBtn";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { isLoginAtom } from "../../../recoil/login/atoms";
+import axios from "axios";
+import Button from "../../common/atoms/Button";
 
 export const NavLayout = styled.ul`
   display: flex;
@@ -16,8 +18,22 @@ export const NavLayout = styled.ul`
     display: none;
   }
 `;
+const buttonStyle = {
+  width: "100px",
+  height: "40px",
+  borderRadius: "10px",
+  border: "none",
+  fontSize: "16px",
+  hoverBackgroundColor: "rgb(255, 170, 34)",
+};
 const Nav = () => {
-  const isLogin = useRecoilValue(isLoginAtom);
+  const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
+
+  const onClickLogout = async () => {
+    await axios.post(`/api/logout`).then(() => setIsLogin(false));
+
+    return (window.location.href = `/`);
+  };
 
   return (
     <NavLayout>
@@ -55,7 +71,15 @@ const Nav = () => {
         </IconBtn>
       </Link>
       <Link to={isLogin ? "/" : "/login"}>
-        <IconBtn>{isLogin ? <span>로그아웃</span> : <span>로그인</span>}</IconBtn>
+        <IconBtn>
+          {isLogin ? (
+            <Button style={buttonStyle} onClick={onClickLogout}>
+              로그아웃
+            </Button>
+          ) : (
+            <Button style={buttonStyle}>로그인</Button>
+          )}
+        </IconBtn>
       </Link>
     </NavLayout>
   );

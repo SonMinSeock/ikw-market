@@ -25,13 +25,13 @@ const io = socketIO(server, {
 connectMongoDB();
 
 // 세션 설정
-app.use(
-  session({
-    secret: "ikwmarket123zy$ued5i7$bt3j2op24t4%3=tc+00^t^7jl+qbmpjn=7kcnsq@",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   session({
+//     secret: "ikwmarket123zy$ued5i7$bt3j2op24t4%3=tc+00^t^7jl+qbmpjn=7kcnsq@",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 
 // body-parser 미들웨어 사용
 app.use(bodyParser.json());
@@ -43,7 +43,6 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", RootRouter);
 
-// app.use(tokenCheck);
 app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
 app.use("/api/profile", ProfileRouter);

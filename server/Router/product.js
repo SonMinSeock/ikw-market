@@ -1,7 +1,7 @@
 import express from "express";
 import { Product } from "../models/product";
 import { User } from "../models/user";
-import { tokenCheck } from "../token";
+import { tokenCheckMiddleWare } from "../token";
 
 const router = express.Router();
 
@@ -25,7 +25,7 @@ router.post("/upload", async (req, res) => {
   res.json({ state: true });
 });
 
-router.get("/:id", tokenCheck, async (req, res) => {
+router.get("/:id", async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -36,7 +36,7 @@ router.get("/:id", tokenCheck, async (req, res) => {
 });
 
 // 해당 상품 수정해주는 API
-router.post("/:id/update", async (req, res) => {
+router.post("/:id/update", tokenCheckMiddleWare, async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -46,7 +46,7 @@ router.post("/:id/update", async (req, res) => {
   res.json({ state: true });
 });
 
-router.delete("/:id/delete", async (req, res) => {
+router.delete("/:id/delete", tokenCheckMiddleWare, async (req, res) => {
   try {
     const {
       params: { id },

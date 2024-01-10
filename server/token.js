@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "./models/user";
 
-export const tokenCheck = (req, res, next) => {
+export const tokenCheckMiddleWare = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 

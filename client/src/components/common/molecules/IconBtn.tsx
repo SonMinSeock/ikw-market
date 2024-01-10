@@ -2,7 +2,7 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 
 type Props = {
-  // onClick: Function;
+  onClick?: any;
 };
 
 const IconButtonLayout = styled.li`
