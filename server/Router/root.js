@@ -42,20 +42,36 @@ router.post("/login", async (req, res) => {
       responseData = { success: true, user: sendUser };
 
       if (access_token) {
-        const token = jwt.sign(
+        // 액세스 토큰
+        const accessToken = jwt.sign(
           {
-            _id: sendUser._id,
+            email: sendUser.email,
             social_id: { ...sendUser.social_id },
+            issuer: "ikw-market",
           },
-          process.env.JWT_SECRET_KEY
+          process.env.JWT_SECRET_KEY,
+          { expiresIn: "1m" }
+        );
+        // 리프레쉬 토큰
+        const refreshToken = jwt.sign(
+          {
+            email: sendUser.email,
+            issuer: "ikw-market",
+          },
+          process.env.JWT_SECRET_KEY,
+          { expiresIn: "24h" }
         );
 
-        responseData.jwt = token;
+        res.cookie("accessToken", accessToken, {
+          secure: true,
+          sameSite: "none",
+        });
+        res.cookie("refreshToken", refreshToken, {
+          secure: true,
+          sameSite: "none",
+        });
       }
-
-      req.session.user = sendUser;
-      req.session.save();
-      return res.status(201).json(responseData);
+      return res.status(200).json(responseData);
     } else if (req.headers.authorization) {
       // 자동 로그인.
       const user = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY, {
@@ -70,8 +86,7 @@ router.post("/login", async (req, res) => {
         .populate({ path: "chat_rooms", populate: { path: "message_log", populate: { path: "send_user" } } })
         .populate({ path: "chat_rooms", populate: { path: "member_list" } })
         .populate({ path: "chat_rooms", populate: { path: "product" } });
-      req.session.user = isUser;
-      req.session.save();
+
       responseData = { success: true, user: isUser };
 
       return res.json(responseData);
@@ -87,12 +102,16 @@ router.post("/login", async (req, res) => {
   }
 });
 
-router.get("/logout", async (req, res) => {
-  let session = req.session;
-  if (session.user) {
-    session.destroy();
+router.post("/logout", async (req, res) => {
+  try {
+    // 클라이언트에서 쿠키 삭제
+    res.clearCookie("accessToken", { secure: true, sameSite: "none" });
+    res.clearCookie("refreshToken", { secure: true, sameSite: "none" });
+
+    return res.status(200).json({ success: true, message: "Logout successful" });
+  } catch (error) {
+    return res.status(500).json({ success: false, error: error.toString() });
   }
-  res.end();
 });
 
 export default router;

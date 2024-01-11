@@ -1,8 +1,9 @@
 import express from "express";
 import { User } from "../models/user";
+import { tokenCheckMiddleWare } from "../token";
 const router = express.Router();
 
-router.post("/:userId/update", async (req, res) => {
+router.post("/:userId/update", tokenCheckMiddleWare, async (req, res) => {
   try {
     const {
       params: { userId },

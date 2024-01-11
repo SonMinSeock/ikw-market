@@ -1,6 +1,7 @@
 import express from "express";
 import { Product } from "../models/product";
 import { User } from "../models/user";
+import { tokenCheckMiddleWare } from "../token";
 
 const router = express.Router();
 
@@ -31,11 +32,11 @@ router.get("/:id", async (req, res) => {
 
   const product = await Product.findById(id).populate("seller_info");
 
-  res.json({ state: true, product });
+  res.status(200).json({ state: true, product });
 });
 
 // 해당 상품 수정해주는 API
-router.post("/:id/update", async (req, res) => {
+router.post("/:id/update", tokenCheckMiddleWare, async (req, res) => {
   const {
     params: { id },
   } = req;
@@ -45,7 +46,7 @@ router.post("/:id/update", async (req, res) => {
   res.json({ state: true });
 });
 
-router.delete("/:id/delete", async (req, res) => {
+router.delete("/:id/delete", tokenCheckMiddleWare, async (req, res) => {
   try {
     const {
       params: { id },

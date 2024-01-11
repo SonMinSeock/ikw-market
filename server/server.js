@@ -9,10 +9,12 @@ import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
 import ProfileRouter from "./Router/profile.js";
+import { tokenCheck } from "./token.js";
+import cookieParser from "cookie-parser";
 
 const app = express();
 export const server = http.createServer(app);
-
+app.use(cookieParser());
 const io = socketIO(server, {
   cors: {
     origin: "*",
@@ -23,13 +25,13 @@ const io = socketIO(server, {
 connectMongoDB();
 
 // 세션 설정
-app.use(
-  session({
-    secret: "ikwmarket123zy$ued5i7$bt3j2op24t4%3=tc+00^t^7jl+qbmpjn=7kcnsq@",
-    resave: false,
-    saveUninitialized: true,
-  })
-);
+// app.use(
+//   session({
+//     secret: "ikwmarket123zy$ued5i7$bt3j2op24t4%3=tc+00^t^7jl+qbmpjn=7kcnsq@",
+//     resave: false,
+//     saveUninitialized: true,
+//   })
+// );
 
 // body-parser 미들웨어 사용
 app.use(bodyParser.json());
@@ -40,6 +42,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", RootRouter);
+
 app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
 app.use("/api/profile", ProfileRouter);
