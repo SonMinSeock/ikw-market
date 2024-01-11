@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { User } from "./models/user";
+import { User } from "../models/user";
 
 export const tokenCheckMiddleWare = (req, res, next) => {
   const accessToken = req.cookies.accessToken;
