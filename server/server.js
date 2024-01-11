@@ -3,12 +3,10 @@ import connectMongoDB from "./db/config/index.js";
 import RootRouter from "./Router/root.js";
 import ProductRouter from "./Router/product.js";
 import bodyParser from "body-parser";
-import session from "express-session";
 import cors from "cors";
-import socketIO from "socket.io";
 import http from "http";
 import ChatRouter from "./Router/chats.js";
-import ProfileRouter from "./Router/profile.js";
+import UserRouter from "./Router/user.js";
 import cookieParser from "cookie-parser";
 import socketServer from "./socket.js";
 
@@ -38,7 +36,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", RootRouter);
 app.use("/api/product", ProductRouter);
 app.use("/api/chats", ChatRouter);
-app.use("/api/profile", ProfileRouter);
+app.use("/api/user", UserRouter);
 
 const port = 8080; // Node 서버가 사용할 포트 번호
 

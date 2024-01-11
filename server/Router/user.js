@@ -1,5 +1,4 @@
 import express from "express";
-import { User } from "../models/user";
 import { tokenCheckMiddleWare } from "../controller/tokenController";
 import { userInfo, edit } from "../controller/userController";
 
