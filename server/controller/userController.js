@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/user";
-import { kakaoAuth } from "../utils/kakaoAuth";
+import kakaoAuth from "../utils/kakaoAuth";
+
 export const login = async (req, res) => {
   try {
     const { access_token } = req.body;
@@ -31,7 +32,6 @@ export const login = async (req, res) => {
 
       responseData = {
         success: true,
-        user: { email: sendUser.email, nickname: sendUser.nickname, image: sendUser.image, _id: sendUser._id },
       };
 
       if (access_token) {
@@ -63,6 +63,8 @@ export const login = async (req, res) => {
           sameSite: "none",
         });
       }
+
+      return res.status(200).json(responseData);
     } else if (req.headers.authorization) {
       // Automatic login
       const user = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY, {
@@ -107,7 +109,7 @@ export const userInfo = async (req, res) => {
 
     return res.status(200).json({ user });
   } catch (error) {
-    return res.status(404).jsoin({ error: error.toString() });
+    return res.status(404).json({ error: error.toString() });
   }
 };
 // 수정할 닉네임을 받기
