@@ -110,14 +110,16 @@ export const userInfo = async (req, res) => {
     return res.status(404).jsoin({ error: error.toString() });
   }
 };
-
+// 수정할 닉네임을 받기
+// payload를 이용해 ID 얻기
 export const edit = async (req, res) => {
-  // 수정할 닉네임을 받기
-  // payload를 이용해 ID 얻기
-
-  const accessToken = req.cookies.accessToken;
   try {
-    const payload = await jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    const {
+      params: { userId },
+      body: { nickname },
+    } = req;
+
+    const updateData = { nickname };
 
     await User.findByIdAndUpdate(userId, updateData);
 
