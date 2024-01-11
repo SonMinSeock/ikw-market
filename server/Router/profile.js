@@ -1,9 +1,13 @@
 import express from "express";
 import { User } from "../models/user";
 import { tokenCheckMiddleWare } from "../token";
+import { userInfo } from "../controller/userController";
+
 const router = express.Router();
 
-router.post("/:userId/update", tokenCheckMiddleWare, async (req, res) => {
+router.all("/", tokenCheckMiddleWare);
+router.get("/", userInfo);
+router.post("/edit", async (req, res) => {
   try {
     const {
       params: { userId },
