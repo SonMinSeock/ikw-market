@@ -7,8 +7,6 @@ import Button from "../../components/common/atoms/Button";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getProduct } from "../../api/productData";
-import { jwtDecode } from "jwt-decode";
-import { useRecoilValue } from "recoil";
 
 const ProductDetailLayout = styled.div`
   display: flex;
