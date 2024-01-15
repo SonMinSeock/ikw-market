@@ -4,14 +4,12 @@ import { useNavigate } from "react-router-dom";
 import Logo from "../../components/common/atoms/Logo";
 import KakaoBtnImg from "../../assets/button/kakao_login_medium_narrow.png";
 import { useSetRecoilState } from "recoil";
-import { accessTokenAtom, isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import { isLoginAtom } from "../../recoil/login/atoms";
 import { loginAxiosObj } from "../../controller/login";
 
 function Login() {
   // recoil
   const setIsLogin = useSetRecoilState(isLoginAtom);
-  const setAccessToken = useSetRecoilState(accessTokenAtom);
-  const setUser = useSetRecoilState(userAtom);
 
   // naver api
   const { naver } = window;
@@ -104,7 +102,7 @@ function Login() {
     if (code) {
       let kakaoURL = `https://kauth.kakao.com/oauth/token?grant_type=${grantType}&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`;
       // kakao login POST Request
-      loginAxiosObj.kakaoLoginPostAxios(kakaoURL, setAccessToken, setIsLogin, navigate, setUser);
+      loginAxiosObj.kakaoLoginPostAxios(kakaoURL, setIsLogin, navigate);
     }
   }, [code]);
 
