@@ -10,6 +10,7 @@ type Props = {
   name: string;
   inputMode?: "search" | "text" | "none" | "tel" | "url" | "email" | "numeric" | "decimal";
   length?: string;
+  required?: boolean;
   style?: StyleProps;
 };
 
@@ -43,6 +44,7 @@ const InputGroup = ({
   label,
   placeholder,
   length,
+  required,
 }: React.PropsWithChildren<Props>) => {
   return (
     <InputGroupLayout {...style}>
@@ -55,6 +57,7 @@ const InputGroup = ({
         onInput={onInput}
         placeholder={placeholder}
         style={style}
+        required={required}
       />
       <LengthLayout>{length}</LengthLayout>
     </InputGroupLayout>

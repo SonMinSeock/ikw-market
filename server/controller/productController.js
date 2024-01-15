@@ -1,5 +1,6 @@
 import { Product } from "../models/product";
 import { User } from "../models/user";
+import jwt from "jsonwebtoken";
 
 export const getProducts = async (req, res) => {
   try {
@@ -10,15 +11,31 @@ export const getProducts = async (req, res) => {
   }
 };
 
+// 현재 유저의 세션에서 받아옴
+// 토큰의 _id를 통해 user 찾기
+// 미들웨어에서 액세스토큰을 갱신 후 갱신 된 액세스토큰을 사용하려고 했으나 불가능 한듯 (비동기 호출 순서가 잘못 됐나?)
+// 그래서 그냥 refreshToken을 사용하여 이메일로 사용자 찾기
 export const postUpload = async (req, res) => {
-  const user = await User.findOne({ social_id: req.session.user["social_id"] });
+  try {
+    const refreshToken = req.cookies.refreshToken;
+    const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
+    const user = await User.findOne({ email: payload.email });
 
-  const product = new Product({ ...req.body, seller_info: user });
-  user["on_sale"].push(product);
-  await product.save();
-  await user.save();
+    if (!user) {
+      return res.status(400).json({ err: "찾을 수 없는 사용자" });
+    }
 
-  res.json({ state: true });
+    const product = new Product({ ...req.body, seller_info: user });
+    user["on_sale"].push(product);
+    await product.save();
+    await user.save();
+
+    res.status(200).json({ state: true, status: "상품 업로드 성공" });
+  } catch (error) {
+    console.error("상품 업로드 중 에러 발생:", error);
+
+    return res.status(500).json({ error: "상품 업로드 중 에러가 발생했습니다." });
+  }
 };
 
 export const getProduct = async (req, res) => {
