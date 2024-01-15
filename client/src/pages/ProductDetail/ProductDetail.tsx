@@ -47,7 +47,10 @@ const buttonStyle = {
 
 const ProductDetail = () => {
   const { id } = useParams() as { id: string };
-
+  // console.log(useRecoilValue(userAtom));
+  // recoil에 중요한 데이터는 빼는게 좋을 듯 email, 닉네임, 소셜아이디? 나머지는 서버에 저장된걸로
+  // 근데 만약 클라이언트에서 서버로 요청할때는 어떻게? ex) 프로필
+  // jwt 토큰을 이용해서 데이터 요청 하면될듯!!
   const { isLoading, data: product } = useQuery(["Product", id], () => getProduct(id), {
     staleTime: 3000,
     refetchInterval: 200000,

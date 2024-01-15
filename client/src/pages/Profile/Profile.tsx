@@ -1,20 +1,22 @@
 import { useEffect } from "react";
 import * as S from "./Profile.style";
 import { useRecoilValue } from "recoil";
-import { isLoginAtom, userAtom } from "../../recoil/login/atoms";
+import { isLoginAtom } from "../../recoil/login/atoms";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import { getUser } from "../../api/userData";
 
 const Profile = () => {
-  const userInfo = useRecoilValue(userAtom);
   const isLogin = useRecoilValue(isLoginAtom);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (isLogin === false) navigate("/login");
-  }, [isLogin]);
-
-  const products = isLogin ? [...userInfo?.on_sale]?.reverse() : [];
+  // api 요청으로 수정 하기
+  const { isLoading, data: user } = useQuery(["User"], getUser, {
+    staleTime: 3000,
+    refetchInterval: 200000,
+    refetchIntervalInBackground: true,
+  });
 
   const onNavigate = () => navigate("/profile/update");
 
@@ -22,10 +24,10 @@ const Profile = () => {
     <S.ProfileLayout>
       <S.UserHeader>
         <div>
-          <S.UserImg src={userInfo?.image} />
+          <S.UserImg src={user?.image} />
         </div>
         <S.UserInfoBox>
-          <S.UserNameSpan>{userInfo?.nickname}</S.UserNameSpan>
+          <S.UserNameSpan>{user?.nickname}</S.UserNameSpan>
           <S.UserUpdateBtn onClick={onNavigate}>프로필 수정</S.UserUpdateBtn>
         </S.UserInfoBox>
       </S.UserHeader>

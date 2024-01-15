@@ -44,7 +44,6 @@ const paragraphStyle = {
   fontSize: "17px",
 };
 const ProductInfo = ({ product }: ProductType) => {
-  console.log(product);
   return (
     <ProductInfoLayout>
       <Text style={nameStyle}>{product.name}</Text>
