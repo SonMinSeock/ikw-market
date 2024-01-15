@@ -34,9 +34,7 @@ const buttonStyle = {
   flex: "0 0 auto",
 };
 
-const UploadImageInput = () => {
-  const [fileList, setFileList] = useState<string[]>([]); // 파일 URL을 저장하는 배열로 선언
-
+const UploadImageInput = ({ fileList, setFileList }: any) => {
   const region = process.env.REACT_APP_REGION;
   const accessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY;
   const secretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY;
@@ -126,7 +124,6 @@ const UploadImageInput = () => {
       console.error("AWS S3 이미지 삭제 오류:", error);
     }
   };
-
   return (
     <UploadImageInputLayout>
       <Input
@@ -141,7 +138,7 @@ const UploadImageInput = () => {
         상품 이미지 등록
       </Button>
       <div style={{ display: "flex" }}>
-        {fileList.map((image, idx) => (
+        {fileList.map((image: string, idx: number) => (
           <UploadImagePreview onDelete={() => onDeleteImage(idx)} key={idx} image={image} />
         ))}
       </div>

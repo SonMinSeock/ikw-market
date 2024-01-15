@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import InputGroup from "../../../components/common/molecules/InputGroup";
 import Button from "../../../components/common/atoms/Button";
 import { useInput } from "../../../hooks/useInput";
 import UploadImage from "../molecule/UploadImage";
+import { uploadProduct } from "../../../api/productData";
 
 const UploadFormLayout = styled.form`
   display: flex;
@@ -45,8 +46,19 @@ const buttonStyle = {
 };
 
 const UploadForm = ({ product }: any) => {
+  const [fileList, setFileList] = useState<string[]>([]);
+
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (!fileList.length) return alert("이미지가 없어요");
+    const data = {
+      images: fileList,
+      name,
+      price,
+      location,
+      description,
+    };
+    uploadProduct(data);
   };
 
   const { value: name, onInput: onInputName, length: nameLength } = useInput(product?.name || "", 20, false);
@@ -64,7 +76,7 @@ const UploadForm = ({ product }: any) => {
 
   return (
     <UploadFormLayout onSubmit={onSubmit}>
-      <UploadImage />
+      <UploadImage fileList={fileList} setFileList={setFileList} />
       <InputGroup
         name={name}
         label="제목"
@@ -73,6 +85,7 @@ const UploadForm = ({ product }: any) => {
         placeholder="상품명을 입력해주세요. 20자 이내"
         length={`${nameLength}/20`}
         style={inputStyle}
+        required={true}
       />
       <InputGroup
         name="가격"
@@ -81,6 +94,7 @@ const UploadForm = ({ product }: any) => {
         onInput={onInputPrice}
         inputMode="numeric"
         style={inputStyle}
+        required={true}
       />
       <InputGroup
         name={location}
@@ -90,6 +104,7 @@ const UploadForm = ({ product }: any) => {
         placeholder="거래장소를 입력해주세요. ex) 운동장.."
         length={`${locationLength}/10`}
         style={inputStyle}
+        required={true}
       />
       <InputGroup
         useTextArea={true}
@@ -100,6 +115,7 @@ const UploadForm = ({ product }: any) => {
         placeholder="구매시기, 제품상태, 하자 유무 등 물건 상태에 대한 정확한 설명을 작성해주세요. 10자 이상 300자 내"
         length={`${descriptionLength}/300`}
         style={textareaStyle}
+        required={true}
       />
       <Button style={buttonStyle}>등록하기</Button>
     </UploadFormLayout>

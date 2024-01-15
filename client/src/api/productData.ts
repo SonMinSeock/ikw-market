@@ -23,6 +23,19 @@ const getProduct = async (id: string) => {
   return data;
 };
 
+const uploadProduct = async (data: object) => {
+  await axios
+    .post(`/api/product/upload`, data, { withCredentials: true })
+    .then((res) => {
+      if (res.status === 200) {
+        window.location.href = `/`;
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
 const deleteProduct = async (id: string) => {
   const { updateUser } = await (await axios.delete(`/api/product/${id}/delete`, { withCredentials: true })).data;
   return updateUser;
@@ -32,4 +45,4 @@ const updateProduct = async (id: any) => {
   await axios.post(`/api/product/${id}/update`, { state: true }, { withCredentials: true });
 };
 
-export { getProducts, deleteProduct, updateProduct, getProduct };
+export { getProducts, uploadProduct, deleteProduct, updateProduct, getProduct };
