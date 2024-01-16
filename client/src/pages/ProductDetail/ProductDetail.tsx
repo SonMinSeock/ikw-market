@@ -7,6 +7,7 @@ import Button from "../../components/common/atoms/Button";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getProduct } from "../../api/productData";
+import { getUser } from "../../api/userData";
 
 const ProductDetailLayout = styled.div`
   display: flex;
@@ -16,6 +17,10 @@ const ProductDetailLayout = styled.div`
   @media screen and (max-width: 860px) {
     padding-left: 14px;
   }
+`;
+
+const ButtonGroup = styled.div`
+  display: flex;
 `;
 
 const imageStyle = {
@@ -56,6 +61,11 @@ const ProductDetail = () => {
     refetchInterval: 200000,
     refetchIntervalInBackground: true,
   });
+  const { data: user } = useQuery(["User"], getUser, {
+    staleTime: 3000,
+    refetchInterval: 200000,
+    refetchIntervalInBackground: true,
+  });
 
   // 로딩 스켈레톤 로딩바 추가 해야 할듯
   if (isLoading || !product) {
@@ -67,7 +77,16 @@ const ProductDetail = () => {
       <Image style={imageStyle} src={product.images[0]} alt="상품사진" />
       <UserInfo user={product.seller_info} />
       <ProductInfo product={product} />
-      <Button style={buttonStyle}>채팅하기</Button>
+
+      {product?.seller_info._id === user?._id ? (
+        <ButtonGroup>
+          <Button style={buttonStyle}>삭제하기</Button>
+          <Button style={buttonStyle}>수정하기</Button>
+          <Button style={buttonStyle}>판매완료</Button>
+        </ButtonGroup>
+      ) : (
+        <Button style={buttonStyle}>채팅하기</Button>
+      )}
     </ProductDetailLayout>
   );
 };
