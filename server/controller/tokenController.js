@@ -1,60 +1,50 @@
 import jwt from "jsonwebtoken";
-import { User } from "../models/user";
 
-export const tokenCheckMiddleWare = (req, res, next) => {
+export const tokenCheckMiddleWare = async (req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 
   if (!accessToken) return res.status(401).json({ error: "토큰이 없습니다" });
   if (!refreshToken) return res.status(401).json({ error: "토큰이 없습니다" });
 
-  // 액세스 토큰 체크하는 함수
-  const accessTokenCheck = async () => {
-    try {
-      jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-      return next();
-    } catch (error) {
-      // 액세스 토큰 체크 후 리프레시 토큰 체크
-      await refreshTokenCheck();
-    }
-  };
+  try {
+    // 액세스 토큰 체크
+    jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
+    // 액세스 토큰이 유효하면 다음 미들웨어로 이동
+    return next();
+  } catch (error) {
+    // 액세스 토큰이 만료된 경우 리프레시 토큰으로 갱신 시도
+    await refreshTokenCheck();
+  }
 
-  // 리프레시 토큰 체크하는 함수
-  const refreshTokenCheck = async () => {
+  async function refreshTokenCheck() {
     try {
-      // 유효한지 검사
-      const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
-      const accessToken = await createAccesToken(payload.email);
+      // 리프레시 토큰이 유효한지 검사
+      jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
+      const decoded = jwt.decode(accessToken);
 
-      res.cookie("accessToken", accessToken, {
+      // 사용자 정보에서 _id를 추출하여 새로운 액세스 토큰 생성
+      const newAccessToken = jwt.sign(
+        {
+          _id: decoded._id,
+          issuer: "ikw-market",
+        },
+        process.env.JWT_SECRET_KEY,
+        { expiresIn: "1m" }
+      );
+
+      // 생성한 액세스 토큰을 쿠키에 설정
+      res.cookie("accessToken", newAccessToken, {
         secure: true,
         sameSite: "none",
       });
+
+      // 다음 미들웨어로 이동
       return next();
     } catch (error) {
+      // 리프레시 토큰도 만료되었거나 검증에 실패한 경우
       console.error("리프레시 토큰 검사 실패:", error);
-
       return res.status(401).json({ error: "Unauthorized" });
     }
-  };
-  accessTokenCheck();
-};
-
-// 액세스토큰 생성
-export const createAccesToken = async (email) => {
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(400).json({ err: "찾을수 없는 사용자" });
   }
-
-  const accessToken = await jwt.sign(
-    {
-      _id: user._id,
-      issuer: "ikw-market",
-    },
-    process.env.JWT_SECRET_KEY,
-    { expiresIn: "1m" }
-  );
-  return accessToken;
 };
