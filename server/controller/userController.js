@@ -98,17 +98,21 @@ export const logout = async (req, res) => {
     return res.status(500).json({ success: false, error: error.toString() });
   }
 };
+// 쿠키에 있는 토큰을 받아와서 토큰의 ID로 유저 정보를 찾고 필요한 정보를 반환
+// 그전에 미들웨어로 토큰이 유효성 확인
+// 미들웨어를 거쳐서 엔드포인트로 올 경우, 갱신된 액세스토큰으로 바뀌지 않는다
+// 그래서 리프레쉬 토큰을 통해 사용자 정보에 접근한여야 한다.
 
+// 위에서 바보짓을 했다 jwt.decode()을 사용하면 페이로드에 접근 할 수 있다.
+// 그럼 토큰의 보호를 더 강하게 해야겠다
 export const userInfo = async (req, res) => {
-  // 쿠키에 있는 토큰을 받아와서 토큰의 ID로 유저 정보를 찾고 필요한 정보를 반환
-  // 그전에 미들웨어로 토큰이 유효성 확인
-  const accessToken = req.cookies.accessToken;
   try {
-    const payload = await jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-    const user = await User.findOne({ _id: payload._id });
+    const payload = jwt.decode(req.cookies.accessToken);
+    const user = await User.findById(payload._id);
 
     return res.status(200).json({ user });
   } catch (error) {
+    console.log(error);
     return res.status(404).json({ error: error.toString() });
   }
 };
