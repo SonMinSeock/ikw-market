@@ -29,6 +29,7 @@ export const loginAxiosObj = {
           setIsLogin(true);
           navigate("/");
         }
-      });
+      })
+      .catch((err) => console.log(err.response.data.error));
   },
 };

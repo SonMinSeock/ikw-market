@@ -8,7 +8,7 @@ export const isLoginAtom = atom({
   key: "isLogin",
   default: !!document.cookie
     .split("; ")
-    .find((row) => row.startsWith("accessToken="))
+    .find((row) => row.startsWith("refreshToken="))
     ?.split("=")[1],
   effects_UNSTABLE: [persistAtom],
 });

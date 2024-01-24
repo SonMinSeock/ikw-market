@@ -7,6 +7,7 @@ const getUser = async () => {
     .then((res) => res.data.user)
     .catch((err) => {
       if (err.response.status === 401) {
+        console.log(err.response);
         window.location.href = "/login";
       }
     });
