@@ -1,7 +1,7 @@
-import jwt from "jsonwebtoken";
+import jwt from "../utils/jwt-util";
 import { User } from "../models/user";
 import kakaoAuth from "../utils/kakaoAuth";
-
+import redisClient from "../redis";
 export const login = async (req, res) => {
   try {
     const { access_token } = req.body;
@@ -22,7 +22,6 @@ export const login = async (req, res) => {
       };
 
       const isUser = await User.findOne({ email: kakaoUser.email });
-
       if (!isUser) {
         sendUser = new User(kakaoUser);
         await sendUser.save();
@@ -36,30 +35,24 @@ export const login = async (req, res) => {
 
       if (access_token) {
         // Access token
-        const accessToken = jwt.sign(
-          {
-            _id: sendUser._id,
-            issuer: "ikw-market",
-          },
-          process.env.JWT_SECRET_KEY,
-          { expiresIn: "1m" }
-        );
+        const accessToken = jwt.accessTokenSign(sendUser._id);
         // Refresh token
-        const refreshToken = jwt.sign(
-          {
-            email: sendUser.email,
-            issuer: "ikw-market",
-          },
-          process.env.JWT_SECRET_KEY,
-          { expiresIn: "24h" }
-        );
+        const refreshToken = jwt.refreshTokenSign();
+
+        // redis에 id,refreshToken 을 key,value 형으로 저장
+        // string 타입이어야 해서 id를 string으로
+        redisClient.set(String(sendUser._id), refreshToken);
+        // 24시간뒤 redis에서 파기
+        redisClient.expire(String(sendUser._id), refreshToken, 86400);
 
         res.cookie("accessToken", accessToken, {
           secure: true,
+          httpOnly: true,
           sameSite: "none",
         });
         res.cookie("refreshToken", refreshToken, {
           secure: true,
+          httpOnly: true,
           sameSite: "none",
         });
       }
@@ -67,9 +60,9 @@ export const login = async (req, res) => {
       return res.status(200).json(responseData);
     } else if (req.headers.authorization) {
       // Automatic login
-      const user = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY, {
-        ignoreExpiration: true,
-      });
+      // const user = jwt.verify(req.headers.authorization, process.env.JWT_SECRET_KEY, {
+      //   ignoreExpiration: true,
+      // });
 
       const isUser = await User.findById(user._id);
 
@@ -108,7 +101,7 @@ export const logout = async (req, res) => {
 export const userInfo = async (req, res) => {
   try {
     const payload = jwt.decode(req.cookies.accessToken);
-    const user = await User.findById(payload._id);
+    const user = await User.findById(payload.id);
 
     return res.status(200).json({ user });
   } catch (error) {
