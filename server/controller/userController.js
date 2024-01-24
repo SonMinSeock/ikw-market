@@ -49,14 +49,14 @@ export const login = async (req, res) => {
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          domain: ".ikw-market.shop",
+          domain: "ikw-market.shop", // 클라이언트 도메인
         });
 
         res.cookie("refreshToken", refreshToken, {
           secure: true,
           httpOnly: true,
           sameSite: "none",
-          domain: ".ikw-market.shop",
+          domain: "ikw-market.shop", // 클라이언트 도메인
         });
       }
 
