@@ -49,11 +49,14 @@ export const login = async (req, res) => {
           secure: true,
           httpOnly: true,
           sameSite: "none",
+          domain: ".ikw-market.shop",
         });
+
         res.cookie("refreshToken", refreshToken, {
           secure: true,
           httpOnly: true,
           sameSite: "none",
+          domain: ".ikw-market.shop",
         });
       }
 
