@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         // string 타입이어야 해서 id를 string으로
         redisClient.set(String(sendUser._id), refreshToken);
         // 24시간뒤 redis에서 파기
-        redisClient.expire(String(sendUser._id), refreshToken, 86400);
+        redisClient.expire(String(sendUser._id), 86400);
 
         res.cookie("accessToken", accessToken, {
           secure: true,
