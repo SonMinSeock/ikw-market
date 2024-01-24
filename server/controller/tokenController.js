@@ -1,60 +1,35 @@
-import jwt from "jsonwebtoken";
-import { User } from "../models/user";
-
-export const tokenCheckMiddleWare = (req, res, next) => {
+import { accessTokenVerify, refreshTokenVerify, accessTokenSign, decode } from "../utils/jwt-util";
+export const tokenCheckMiddleWare = async (req, res, next) => {
   const accessToken = req.cookies.accessToken;
   const refreshToken = req.cookies.refreshToken;
 
   if (!accessToken) return res.status(401).json({ error: "토큰이 없습니다" });
   if (!refreshToken) return res.status(401).json({ error: "토큰이 없습니다" });
+  if (!decode(accessToken)) return res.status(401).json({ error: "올바르지 않은 토큰" });
 
-  // 액세스 토큰 체크하는 함수
-  const accessTokenCheck = async () => {
-    try {
-      jwt.verify(accessToken, process.env.JWT_SECRET_KEY);
-      return next();
-    } catch (error) {
-      // 액세스 토큰 체크 후 리프레시 토큰 체크
-      await refreshTokenCheck();
-    }
-  };
+  const decoded = decode(accessToken);
+  // 액세스토큰 검증
 
-  // 리프레시 토큰 체크하는 함수
-  const refreshTokenCheck = async () => {
-    try {
-      // 유효한지 검사
-      const payload = await jwt.verify(refreshToken, process.env.JWT_SECRET_KEY);
-      const accessToken = await createAccesToken(payload.email);
+  if (accessTokenVerify(accessToken)) {
+    return next();
+  } else {
+    // 만료되었다면 리프레시토큰 검증
 
-      res.cookie("accessToken", accessToken, {
+    if (refreshTokenVerify(refreshToken, decoded.id)) {
+      const newAccessToken = accessTokenSign(decoded.id);
+
+      // 액세스토큰 갱신 후 쿠키에 저장
+      res.cookie("accessToken", newAccessToken, {
         secure: true,
+        httpOnly: true,
         sameSite: "none",
       });
+
       return next();
-    } catch (error) {
-      console.error("리프레시 토큰 검사 실패:", error);
-
-      return res.status(401).json({ error: "Unauthorized" });
+      // 리프레시 토큰이 없다면 재로그인
+    } else {
+      console.log("리프레시 토큰 만료", error);
+      return res.status(401).json({ error: "토큰 만료 재로그인" });
     }
-  };
-  accessTokenCheck();
-};
-
-// 액세스토큰 생성
-export const createAccesToken = async (email) => {
-  const user = await User.findOne({ email });
-
-  if (!user) {
-    return res.status(400).json({ err: "찾을수 없는 사용자" });
   }
-
-  const accessToken = await jwt.sign(
-    {
-      _id: user._id,
-      issuer: "ikw-market",
-    },
-    process.env.JWT_SECRET_KEY,
-    { expiresIn: "1m" }
-  );
-  return accessToken;
 };
