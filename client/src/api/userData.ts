@@ -2,20 +2,22 @@ import axios from "axios";
 import { IUser } from "../types/userType";
 
 const getUser = async () => {
-  const { success, user }: { success: boolean; user: IUser } = await (
-    await axios.post(
-      `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
-      {},
-      { headers: { Authorization: localStorage.getItem("kakao_token") }, withCredentials: true }
-    )
-  ).data;
+  const data: IUser = await axios
+    .get(`/api/user`)
+    .then((res) => res.data.user)
+    .catch((err) => {
+      if (err.response.status === 401) {
+        console.log(err.response);
+        window.location.href = "/login";
+      }
+    });
 
-  return { success, user };
+  return data;
 };
 
 const updateUser = async ({ userId, nickname }: { userId: string; nickname: string }) => {
   const { state } = await (
-    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/profile/${userId}/update`, {
+    await axios.post(`/api/profile/${userId}/update`, {
       nickname,
     })
   ).data;

@@ -1,40 +1,43 @@
-import React, { useState } from "react";
-import * as S from "./Header.style";
-import Logo from "../atoms/Logo/Logo";
-import Nav from "./Nav/Nav";
-import { searchTextAtom } from "../../recoil/login/atoms";
-import { useSetRecoilState } from "recoil";
-const Header = () => {
-  const setSearchText = useSetRecoilState(searchTextAtom);
-  const [isToggle, setIsToggle] = useState(false);
-  const [inputValue, setInputValue] = useState("");
+import React from "react";
+import styled from "styled-components";
+import Logo from "../common/atoms/Logo";
+import Input from "../common/atoms/Input";
+import Nav from "./organism/Nav";
+import { Link } from "react-router-dom";
 
-  const onChangeSearchInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(event.target.value.trim());
-  };
+const HeaderLayout = styled.header`
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  padding: 10px 23px 0px 10px;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 80rem;
+  margin: 0 auto;
+  z-index: 999;
+  background-color: #fff;
+  h2 {
+    margin-bottom: 15px;
 
-  const activeEnter = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === "Enter") {
-      setSearchText(inputValue);
+    @media screen and (max-width: 860px) {
+      display: none;
     }
-  };
-
-  const onFocusHandler = () => {
-    isToggle && setIsToggle(false);
-  };
-
+  }
+`;
+const Header = () => {
   return (
-    <S.Header>
-      <Logo />
-      <S.Input
-        placeholder="물품 검색"
-        onChange={onChangeSearchInput}
-        onKeyDown={activeEnter}
-        onFocus={onFocusHandler}
-        value={inputValue}
-      />
-      <Nav isToggle={isToggle} setIsToggle={setIsToggle} />
-    </S.Header>
+    <HeaderLayout>
+      <Link to={"/"}>
+        <Logo>
+          <h2>경운마켓</h2>
+        </Logo>
+      </Link>
+      <Input style={{ background: "#f2f2f2", width: "13rem", height: "35px", border: "none" }} />
+      <Nav />
+    </HeaderLayout>
   );
 };
 
