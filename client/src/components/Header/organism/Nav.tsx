@@ -30,7 +30,7 @@ const Nav = () => {
   const [isLogin, setIsLogin] = useRecoilState(isLoginAtom);
 
   const onClickLogout = async () => {
-    await axios.post(`/api/logout`).then(() => setIsLogin(false));
+    await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/logout`).then(() => setIsLogin(false));
 
     return (window.location.href = `/`);
   };
