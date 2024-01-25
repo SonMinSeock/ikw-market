@@ -23,7 +23,7 @@ export const tokenCheckMiddleWare = async (req, res, next) => {
         secure: true,
         httpOnly: true,
         sameSite: "none",
-        domain: "ikw-market.shop", // 클라이언트 도메인
+        // domain: "ikw-market.shop", // 클라이언트 도메인
       });
 
       return next();

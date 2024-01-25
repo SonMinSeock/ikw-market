@@ -29,7 +29,21 @@ connectMongoDB();
 app.use(bodyParser.json());
 
 // CORS 설정
-app.use(cors({ origin: "https://ikw-market.shop" || "http://localhost:3000", credentials: true }));
+const allowedOrigins = ["https://ikw-market.shop", "http://localhost:3000"];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      // origin이 허용된 도메인 중 하나인지 확인
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  })
+);
 
 app.use(express.urlencoded({ extended: true }));
 
