@@ -29,7 +29,7 @@ connectMongoDB();
 app.use(bodyParser.json());
 
 // CORS 설정
-app.use(cors({ origin: true, credentials: true }));
+app.use(cors({ origin: "https://ikw-market.shop" || "http://localhost:3000", credentials: true }));
 
 app.use(express.urlencoded({ extended: true }));
 
