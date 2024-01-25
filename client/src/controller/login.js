@@ -23,7 +23,11 @@ export const loginAxiosObj = {
       .then(async (res) => {
         const { access_token } = res.data;
         const resData = JSON.stringify(
-          await axios.post(`${process.env.REACT_APP_EXPRESS_URL}/api/login`, { access_token })
+          await axios.post(
+            `${process.env.REACT_APP_EXPRESS_URL}/api/login`,
+            { access_token },
+            { withCredentials: true }
+          )
         );
         const parseData = JSON.parse(resData);
 
