@@ -15,9 +15,7 @@ import PrivateLayout from "./components/Layout/PrivateLayout";
 import PublicLayout from "./components/Layout/PublicLayout";
 import Layout from "./components/Layout/Layout";
 import Header from "./components/Header/Header";
-import axios from "axios";
 
-// axios.defaults.withCredentials = true;
 function App() {
   // 모바일ver. 채팅페이지에서 스크롤 막기
   function setScreenSize() {

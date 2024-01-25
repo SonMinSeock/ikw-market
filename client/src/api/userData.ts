@@ -3,7 +3,7 @@ import { IUser } from "../types/userType";
 
 const getUser = async () => {
   const data: IUser = await axios
-    .get(`${process.env.REACT_APP_EXPRESS_URL}/api/user`)
+    .get(`${process.env.REACT_APP_EXPRESS_URL}/api/user`, { withCredentials: true })
     .then((res) => res.data.user)
     .catch((err) => {
       if (err.response.status === 401) {
